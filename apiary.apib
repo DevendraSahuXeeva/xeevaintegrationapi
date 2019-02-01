@@ -1,0 +1,6134 @@
+FORMAT: 1A
+HOST: http://polls.apiblueprint.org/
+# Xeeva Integration Services
+
+At Xeeva, Our vision is to harmonize business commerce. We believe passionately in delivering immediate and sustainable results to our clients. We’re excited to build a relationship with you, learn about your procurement and sourcing challenges, and provide you with a solution that will actually drive results for your business. In the same regards, Xeeva Integration service is implemented on Integration platform as a service (iPaaS) to provide phenomenal flexibility. 
+
+## Overview
+
+### Basics
+
+Xeeva can integrate with limitless types of software applications, from financial and ERP to HR, to inventory management.        
+ 
+So, if you've got a preference or standard, we can leverage our Web API to hook directly into your existing tools. If you don't, we can recommend best practices based on your environment and integration points. Either way, we keep it simple.  
+
+You can use either the Xeeva API (SOAP, Rest), flat files, custom code, or any integration provider to make seamless connections between Xeeva and your ERP. 
+
+At Xeeva, we understand the complexities of integrating multiple applications and can help you integrate Xeeva with your application ecosystem. To make integrating with Xeeva easier, we offer both flat file and Web API to manage the simplest to highly complex integrations. Hundreds of thousands of API transactions run through our platform each day.
+        
+### Format
+Xeeva Integration service is capable to integrate data through synchronous (sync) and asynchronous (async) methodologies for various integration points (interfaces) web (sync/async),XML and CSV Flat file (SFTP async) and EDI(SFTP async).
+
+At Xeeva, Integration data is bifurcated in categories master (reference) and transactional data. Example: Supplier is master data on the other hand PO, Receiving are transactional data.
+
+Below examples of "master data" and "transactional data" are covered in more detail below.
+
+#### Master Data InBound :
+<table style="width:100%" border="1">
+    <tr>       
+        <th>Integration Objects</th>
+        <th>Connector ( Interface Type)</th>
+        <th>Xeeva Pull</th>
+        <th>Connector ( Interface Type)</th>
+    </tr>   
+    <tr>
+        <td>Supplier</td>
+        <td>Web, Flatfile</td>
+        <td>Not Available</td>
+        <td>Not Available</td>       
+    </tr>   
+</table>
+
+#### Master Data OutBound :
+<table style="width:100%" border="1">
+    <tr>
+        <th>Integration Objects</th>
+        <th>Connector ( Interface Type)</th>
+        <th>Customer Pull</th>
+        <th>Connector ( Interface Type)</th>
+    </tr>
+    <tr>
+        <td>Supplier</td>
+        <td>Web, Flatfile</td>
+        <td>YES</td>
+        <td>Web, Flatfile*</td>
+    </tr>
+    <tr>
+        <td>Item</td>
+        <td>Web, Flatfile</td>
+        <td>YES</td>
+        <td>Web, Flatfile*</td>
+    </tr>
+</table>
+
+#### Transaction Data InBound :
+<table style="width:100%" border="1">
+    <tr>       
+        <th>Integration Objects</th>
+        <th>Connector ( Interface Type)</th>
+        <th>Xeeva Pull</th>
+        <th>Connector ( Interface Type)</th>
+    </tr>   
+    <tr>
+        <td>Receiving</td>
+        <td>Web, Flatfile</td>
+        <td>Not Available</td>
+        <td>Not Available</td>       
+    </tr>   
+</table>
+
+#### Transaction Data OutBound :
+<table style="width:100%" border="1">
+    <tr>
+        <th>Integration Objects</th>
+        <th>Connector ( Interface Type)</th>
+        <th>Customer Pull</th>
+        <th>Connector ( Interface Type)</th>
+    </tr>
+    <tr>
+        <td>Receiving</td>
+        <td>Web, Flatfile</td>
+        <td>YES</td>
+        <td>Web, Flatfile*</td>
+    </tr>
+    <tr>
+        <td>Purchase Order</td>
+        <td>Web, Flatfile</td>
+        <td>YES</td>
+        <td>Web, Flatfile*,EDI</td>
+    </tr>
+    <tr>
+        <td>Ok To Pay</td>
+        <td>Web, Flatfile</td>
+        <td>YES</td>
+        <td>Web, Flatfile*</td>
+    </tr>
+</table>
+
+### Upcoming changes
+
+   Roadmap is planned for:
+   
+   Various master data for example, users, locations, payment terms etc.
+   Transactional data for example : voucher, Inventory JV, Replenishment Order etc.
+
+## Environments
+The Web API is accessible from:
+
+https://int-**{customer code}**-stag.xeeva.com/-  **sandbox**
+
+https://int-**{customer code}**.xeeva.com/ - **production**
+    
+## Authentication
+
+To use Web API, API needs to be authenticated. Users authenticate themselves through the HTTP Header Authorization: Basic token provided by Xeeva Integration Service. If the HTTP Header is missing or if the API Key is invalid, the HTTP Response will be 401 Unauthorized.
+
+To use SFTP: Xeeva Integration Service will provide credentials if SFTP server of Xeeva would be used. 
+
+## Errors
+    
+The Web API communicates errors through standard HTTP status codes paired with error objects. 
+
+Generally, the following pattern will apply:
+
+ - 2xx - The request was successfully received, understood, and accepted.
+ 
+ - 4xx - An error in the request. Usually a bad parameter.
+ 
+ - 5xx - The request is fine, but something is wrong on Xeeva's end.
+
+#### HTTP status code
+
+ - 200 success
+ 
+ - 201 created
+ 
+ - 202 accepted
+ 
+ - 204 no_content
+ 
+ - 400 bad_request
+ 
+ - 401 unauthorized
+ 
+ - 403 forbidden
+ 
+ - 404 not_found
+ 
+ - 405 method_not_allowed
+ 
+ - 409 conflict
+ 
+ - 415 unsupported_media_type
+ 
+ - 500 internal_server_error
+ 
+ - 502 bad_gateway
+ 
+ - 503 unavailable
+ 
+ - 504 gateway_timeout
+    
+## File  (SFTP) Based Integration
+
+#### File Based InBound Integration Process Flow 
+
+1.  External System will be source of Business entity records.
+
+2.  External System  will push entire data one time (at the time of first data push) to Xeeva in file to SFTP (Configured Request  Folder).
+
+3.  Later on, External System will push only new /update Business entity records to Xeeva, incremental / delta of Business entity records transactions only.
+
+4.  External System will send Business entity records in batches.
+
+5.  Xeeva System will Check file format and structure of fields if not found correct, it will discard whole file.
+
+6.  Xeeva System Performs data validation and if failed it will write failed transaction with reason in Response file.
+
+7.  Records which are successfully validated sent for next process and failed transaction are discarded.
+
+8.  Performs business validation and if fails, it writes failed transaction in Response file.
+
+9.  Records which are passed successfully in business validation sent for next process and failed transaction are discarded. 
+
+10.  Performs synchronization of data and if failed it is logged in Response file. 
+
+11.  Xeeva System write all Response file to SFTP (Configured Response Folder).
+
+#### File Based OutBound Integration Process Flow 
+
+1. Xeeva System will be source of Business entity records.
+
+2. Xeeva System  will push entire data one time (at the time of first data push) to External System  in file to SFTP (Configured Request  Folder).
+
+3. Later on, Xeeva System  will push only new /update Business entity records to External System, incremental / delta of Business entity records transactions only.
+
+4. Xeeva System will send Business entity records in batch.
+
+5. External System write all Response file to SFTP (Configured Response Folder).
+
+#### File (SFTP) Based Integration Assumptions
+
+1. Business Entites (Supplier/Purchase Order/Receiving/Item/OkToPay)
+
+2. SFTP (Can be setup in Xeeva internal enviornment or in External Systems enviornment.)
+
+3. Inbound and Outbound folder structure for Request and Response files will be configured at the time of New File based integration.
+
+## EDI (SFTP) Based  Integration
+
+The Xeeva Dell Boomi platform Support EDI X12 standards tightly define how documents are transferred by prescribing formats, character sets, and data elements for specific industries or countries. 
+
+The Xeeva Dell Boomi platform perform below Major tasks in EDI based integration.
+
+1. Validating data against EDI standards
+
+2. Acknowledging receipt and submissions of documents
+
+3. Tracking document information for guaranteed delivery using common, secured, communication protocols.
+
+The Xeeva Dell Boomi platform adheres to EDI industry standards while providing flexibility for B2B processes to meet the needs of your company and trading partners.
+
+(ASC, HL7, and UN/EDIFACT not currently supported)
+
+## Group Web Integration Objects 
+
+### XeevaResponse (object)
+A XeevaResponse object have the following attributes:
++ TransactionID
+
+    Unique Value Generated by Xeeva against a request for tracking purpose.
+
+    Data Type: string(100)  
+
+    Mandatory: Yes
++ Summary 
+    
+    Summary of Success/Failed Record along with the Reason
+   
+    Data Type: Summary  
+    
+    Mandatory: Yes
++ IdentifierList
+   
+    List of Individual objects received in payload and status for each object (Success/Fail/Validation information)
+    
+    DataType: (array[Identifier])
+    
+    Mandatory: Yes
+    
+###  Summary (object)
+    Summary object have the following attributes:
+    
++ Description
+
+    Over All summary of payload 
+    
+    Data Type: string(1000)  
+    
+    Mandatory: Yes
+    
++ TotalRecordCount
+
+    Number of Record count in Request payload
+    
+    Data Type: Number
+    
+    Mandatory: Yes
+    
++ SuccessRecordCount
+
+    Number of Success Record count in Request payload
+    
+    Data Type: Number  
+    
+    Mandatory: Yes
+    
++ FailedRecordCount
+
+    Number of Failed Record count in Request payload
+    
+    Data Type: Number
+    
+    Mandatory: Yes
+    
++ DataValidationRecordCount
+
+    Number of Records with Data Validation in Request payload
+    
+    Data Type: Number  
+    
+    Mandatory: Yes
+    
++ BusinessValidationRecordCount
+
+    Number of Records with Business Validation in Request payload
+    
+    Data Type: Number  
+    
+    Mandatory: Yes
+    
++ SystemExceptionRecordCount
+
+    Number of Records with System Exception  in Request payload
+    
+    Data Type: Number  
+    
+    Mandatory: Yes
+    
+###  Identifier (object) 
+    This will be genric objects exposed by Xeeva for Importing different entities like Supplier/Purchase Order.
+    Based on the Importing entities some fileds may have null value in Identifier object.
+    In case of Import supplier POID will be null while importing Purchase orders supplierID will be null.
+    Identifier object have the following attributes:
+    
++ IdentifierValue
+
+    It will be Unique ID of individual object in Request payload
+    
+    Data Type: string(1000)  
+    
+    Mandatory: Yes
+    
++ Status
+
+    Status information about Success/Failed
+    
+    Data Type: Number
+    
+    Mandatory: Yes
+    
++ SupplierID
+
+    Generated ID for a supplier object
+    
+    Data Type: Number  
+    
+    Mandatory: No
+    
++ POID
+
+    PO ID in case of xeeva pull purchase order and generate unique id for purchase order object
+    Data Type: Number  
+    
+    Mandatory: No
+    
++ Description
+
+    Information about individual object (Created/Failed)
+    
+    Data Type: Number
+    
+    Mandatory: Yes
+    
++  DataValidationExceptionList
+
+    This is the list of possible data validations for a object
+    
+    Data Type: (array[DataValidationException])  
+    
+    Mandatory: No
+    
++ BusinessValidationExceptionList
+
+    This is the list of possible Business validations for a object
+    
+    Data Type: (array[BusinessValidationException])  
+    
+    Mandatory: No
+    
++ SystemExceptions
+
+    This is the information about System exception while processing individual object
+    
+    Data Type: SystemExceptions  
+    
+    Mandatory: No
+    
+###  DataValidationException (object)
+    DataValidationException object have the following attributes:
+    
++ ExceptionType
+
+    Data Validaion information Required/length/Data type mismatch etc.
+    
+    Data Type: string(50)  
+    
+    Mandatory: Yes
+    
++ ExceptionCode
+
+    Unique Exception code for each Data validation exception
+    
+    Data Type: string(50)
+    
+    Mandatory: Yes
+    
++  ExceptionDescription
+    
+    Detail information about data validation
+    
+    Data Type: string(500)  
+    
+    Mandatory: No
+    
++ LineNo
+
+    Line no is optional (May be used in Header-Detail kind of object structure)
+    
+    Data Type: Number  
+    
+    Mandatory: No
+    
+    **Data Validation Error Format**
+        
+            <DataValidationException>
+            <ExceptionType>exception type</ExceptionType>
+            <ExceptionCode>exception code</ExceptionCode>
+            <ExceptionDescription>exception description</ExceptionDescription>
+            <LineNo>999</LineNo>
+            </DataValidationException>
+
+    
+###  BusinessValidationException (object)
+    BusinessValidationException object have the following attributes:
+    
++ ExceptionType
+
+    Business Validaion information (Master data not found, Not Active etc.)
+    
+    Data Type: string(50)  
+    
+    Mandatory: Yes
+    
++ ExceptionCode
+
+    Unique Exception code for each Business validation exception
+    
+    Data Type: string(50)
+    
+    Mandatory: Yes
+    
++  ExceptionDescription
+
+    Detail information about Business validation
+    
+    Data Type: string(500)  
+    
+    Mandatory: No
+    
++ LineNo
+    
+    Line no is optional (May be used in Header-Detail kind of object structure)
+    
+    Data Type: Number  
+    
+    Mandatory: No
+    
+    **Business Validation Error Format**
+        
+            <DataValidationException>
+            <ExceptionType>exception type</ExceptionType>
+            <ExceptionCode>exception code</ExceptionCode>
+            <ExceptionDescription>exception description</ExceptionDescription>
+            <LineNo>999</LineNo>
+            </DataValidationException>
+    
+    
+    
+###  SystemExceptions (object)
+    SystemExceptions object have the following attributes:
++ ExceptionType
+    
+    System Exception information (Netowrk / Database connection time out etc.)
+    
+    Data Type: string(50)  
+    
+    Mandatory: Yes
+    
++ ExceptionCode
+    
+    Unique Exception code for each System exception
+    
+    Data Type: string(50)
+    
+    Mandatory: Yes
+    
++  ExceptionDescription
+    
+    Detail information about BusinessSystem exception
+    
+    Data Type: string(500)  
+    
+    Mandatory: No
+    
++ LineNo
+
+    Line no is optional (May be used in Header-Detail kind of object structure)
+    
+    Data Type: Number  
+    
+    Mandatory: No
+
+## Group Supplier
+
+## Supplier (object)
+A Supplier object has the following attributes:
+
++ SupplierCode
+
+    This field is for Supplier Code, XEEVA will use this in all key transactions such as Item Price agreement, RFQs, POs, Invoice etc.
+    
+    Data Type: string(50)  
+    
+    Mandatory: Yes
+    
+
+    **Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-11</td>
+        <td>SupplierCode Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-01</td>
+        <td>SupplierCode Length: The field length is 60 and is invalid.  It must be greater than or equal to 0 and less then or equal to 50.</td>       
+        </tr>   
+        </table>
+    
+    
+    
++ SupplierType 
+
+    This field is for supplier type which is meant to store supplier type which can be a “PRODUCTION / DIRECT” or “NON PRODUCTION / INDIRECT” Supplier. XEEVA expects ONLY NON PRODUCTION Suppliers
+    
+    Data Type: string(50)  
+    
+    Mandatory: Yes
+    
+    **Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-02</td>
+        <td>SupplierType Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-02</td>
+        <td>SupplierType Length: The field length is 60 and is invalid.  It must be greater than or equal to 0 and less then or equal to 50.</td>       
+        </tr>   
+        </table>
+
++ ShipPoint
+
+    This field is for identifying supplier uniquely for a plant / location when the supplier master in ERP is the single supplier master data used by all locations
+  
+    Data Type: string(50)  
+  
+    Mandatory: Yes
+    
+   **Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-03</td>
+        <td>ShipPoint Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-03</td>
+        <td>ShipPoint Length: The field length is 60 and is invalid.  It must be greater than or equal to 0 and less then or equal to 50.</td>       
+        </tr>   
+        </table>
+        
++ SupplierName
+
+    This field is for Supplier Name. This info will be use in publishing supplier name on PO.
+  
+    Data Type: string(200)  
+  
+    Mandatory: Yes
+    
+    **Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-04</td>
+        <td>SupplierName Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-04</td>
+        <td>SupplierName Length: The field length is 210 and is invalid.  It must be greater than or equal to 0 and less then or equal to 200.</td>       
+        </tr>   
+        </table>
+        
++ Address1 
+
+    This field is for Supplier address. This info will be use in publishing supplier address on PO.
+    
+    Data Type: string(500)  
+    
+    Mandatory: Yes
+    
+    **Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-05</td>
+        <td>Address1 Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-05</td>
+        <td>Address1 Length: The field length is 210 and is invalid.  It must be greater than or equal to 0 and less then or equal to 500.</td>       
+        </tr>   
+        </table>
+        
++ Address2 
+
+    This field is for additional Supplier Address (if exist). This (if available) info will be part of supplier address on PO.
+
+    Data Type: string(500)  
+    
+    Mandatory: Yes
+    
+    **Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-06</td>
+        <td>Address2 Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-06</td>
+        <td>Address2 Length: The field length is 210 and is invalid.  It must be greater than or equal to 0 and less then or equal to 500.</td>       
+        </tr>   
+        </table>
+            
++ City 
+
+    This field is for Supplier's City. This info will be use in publishing supplier complete address PO.
+
+    Data Type: string(50)  
+    
+    Mandatory: Yes
+    
+    **Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-07</td>
+        <td>City Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-07</td>
+        <td>City Length: The field length is 55 and is invalid.  It must be greater than or equal to 0 and less then or equal to 50.</td>       
+        </tr>   
+        </table>
+        
++ State 
+
+    This field is for Supplier's State. This info will be use in publishing supplier complete address PO
+
+    Data Type: string(50)  
+    
+    Mandatory: Yes
+    
+    **Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-08</td>
+        <td>State Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-08</td>
+        <td>State Length: The field length is 55 and is invalid.  It must be greater than or equal to 0 and less then or equal to 50.</td>       
+        </tr>   
+        </table>
+
++ Zip 
+
+    This field is for Supplier's Zip / Postal Code. This info will be use in publishing supplier complete address PO.
+
+    Data Type: string(50)  
+    
+    Mandatory: Yes
+    
+    **Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-09</td>
+        <td>Zip Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-09</td>
+        <td>Zip Length: The field length is 55 and is invalid.  It must be greater than or equal to 0 and less then or equal to 50.</td>       
+        </tr>   
+        </table>
+
++ Country 
+
+    This field is for Supplier's Country. This info will be use in publishing supplier complete address PO
+
+    Data Type: string(3)  
+    
+    Mandatory: Yes
+    
+    **Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-10</td>
+        <td>Country Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-10</td>
+        <td>Country Length: The field length is 4 and is invalid.  It must be greater than or equal to 0 and less then or equal to 3.</td>       
+        </tr>   
+        </table>
+
++ PaymentTermsCode 
+
+    This field is for Supplier's Payment Term code associated with a Supplier
+
+    Data Type: string(50)  
+    
+    Mandatory: Yes
+    
+    **Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-11</td>
+        <td>PaymentTermsCode Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-11</td>
+        <td>PaymentTermsCode Length: The field length is 55 and is invalid.  It must be greater than or equal to 0 and less then or equal to 50.</td>       
+        </tr> 
+        <tr>
+        <td>3</td>
+        <td>Error</td>
+        <td></td>
+        <td>Payment Term -{PaymentTermsCodeValue} does not exist.</td>       
+        </tr> 
+        <tr>
+        <td>4</td>
+        <td>Error</td>
+        <td></td>
+        <td>Payment Term -{PaymentTermsCodeValue} is not active.</td>       
+        </tr> 
+        </table>
+        
++ CurrencyCode 
+
+    This field is for Supplier's Currency. This data is a significant data, Xeeva system will generate the PO in Supplier's currency based on this.
+
+    Data Type: string(3)  
+    
+    Mandatory: Yes
+    
+    **Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-12</td>
+        <td>CurrencyCode Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-12</td>
+        <td>CurrencyCode Length: The field length is 4 and is invalid.  It must be greater than or equal to 0 and less then or equal to 3.</td>       
+        </tr> 
+        <tr>
+        <td>3</td>
+        <td>Error</td>
+        <td></td>
+        <td>Currency Code must be 3 char ISO Code, Received Value -{CurrencyCodeValue}.</td>       
+        </tr> 
+        <tr>
+        <td>4</td>
+        <td>Error</td>
+        <td></td>
+        <td>Currency Code -{CurrencyCodeValue} does not exist.</td>       
+        </tr> 
+        </table>
+
++ Phone 
+
+    This field is for capturing Phone # for the Supplier
+
+    Data Type: string(50)  
+    
+    Mandatory: Yes
+    
+    **Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-13</td>
+        <td>Phone Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-13</td>
+        <td>Phone Length: The field length is 55 and is invalid.  It must be greater than or equal to 0 and less then or equal to 50.</td>       
+        </tr>
+        </table>
+
++ Fax 
+
+    This field is for capturing Fax # for the Supplier
+
+    Data Type: string(50) 
+    
+    Mandatory: Yes
+    
+   **Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-14</td>
+        <td>Fax Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-14</td>
+        <td>Fax Length: The field length is 55 and is invalid.  It must be greater than or equal to 0 and less then or equal to 50.</td>       
+        </tr>
+        </table>
+
++ ContactPerson 
+
+    This is for holding Supplier contact person for the Supplier This data will be used to publish as supplier contact on the PO
+
+    Data Type: string(50)  
+    
+    Mandatory: Yes
+    
+    **Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-15</td>
+        <td>ContactPerson Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-15</td>
+        <td>ContactPerson Length: The field length is 55 and is invalid.  It must be greater than or equal to 0 and less then or equal to 50.</td>       
+        </tr>
+        </table>
+
++ Email 
+
+    This is for holding Supplier primary email.
+
+    Data Type: string(100)  
+    
+    **Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-16</td>
+        <td>Email Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-16</td>
+        <td>Email Length: The field length is 105 and is invalid.  It must be greater than or equal to 0 and less then or equal to 100.</td>       
+        </tr>
+        </table>
+
++ Active
+
+    This is a flag which holds values “Y” or “N”. "Y" - Supplier is active in ERP "N" - Supplier is in-active / disabled / discontinued in ERP
+
+    Data Type: string(1)  
+    
+   **Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-17</td>
+        <td>Active Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-17</td>
+        <td>Active Length: The field length is 5 and is invalid.  It must be greater than or equal to 0 and less then or equal to 1.</td>       
+        </tr>
+        </table>
+
++ LocationCode 
+
+    This is for storing the unique division / location / plant code for which the supplier is setup in ERP.
+
+    Data Type: string(50)  
+    
+    Mandatory: Yes
+    
+    **Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-18</td>
+        <td>LocationCode Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-18</td>
+        <td>LocationCode Length: The field length is 55 and is invalid.  It must be greater than or equal to 0 and less then or equal to 50.</td>       
+        </tr> 
+        <tr>
+        <td>3</td>
+        <td>Error</td>
+        <td></td>
+        <td>Location Code  -{LocationCodeValue} does not exist.</td>       
+        </tr> 
+        <tr>
+        <td>4</td>
+        <td>Error</td>
+        <td></td>
+        <td>Location Code  -{LocationCodeValue} is not active.</td>       
+        </tr> 
+        </table>
+
++ TaxId 
+
+    This is for holding Supplier Tax code linked with a Supplier This data can be used for TAX computation, depending on the business rule for Tax computation.
+
+    Data Type: string(50)  
+    
+    Mandatory: Yes
+    
+    **Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-19</td>
+        <td>TaxId Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-19</td>
+        <td>TaxId Length: The field length is 55 and is invalid.  It must be greater than or equal to 0 and less then or equal to 50.</td>       
+        </tr>
+        </table>
+
++ DunsNumber 
+
+    This is for holding Supplier Duns Number of a Supplier.
+
+    Data Type: string(50) 
+    
+    Mandatory: Yes
+    
+    **Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-20</td>
+        <td>DunsNumber Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-20</td>
+        <td>DunsNumber Length: The field length is 55 and is invalid.  It must be greater than or equal to 0 and less then or equal to 50.</td>       
+        </tr>
+        </table>
+
++ ReferenceID 
+
+    This is for holding refernce information in incoming request for a single supplier.
+
+    Data Type: string(50)  
+    
+    Mandatory: Yes
+    
+    **Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-23</td>
+        <td>ReferenceID Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-23</td>
+        <td>ReferenceID Length: The field length is 55 and is invalid.  It must be greater than or equal to 0 and less then or equal to 50.</td>       
+        </tr>
+        </table>
+            
++ CustomField1    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField2    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField3    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField4    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField5    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
+**Supplier Columns and Sequence information in Flat File Request**
+<table style="width:100%" border="1">
+    <tr>
+        <th>Element</th>
+        <th>Sequence</th>
+        <th>Required</th>
+    </tr>
+    <tr>
+        <td>SupplierCode</td>
+        <td>1</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>SupplierType</td>
+        <td>2</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>ShipPoint</td>
+        <td>3</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>SupplierName</td>
+        <td>4</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>Address1</td>
+        <td>5</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>Address2</td>
+        <td>6</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>City</td>
+        <td>7</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>State</td>
+        <td>8</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>Zip</td>
+        <td>9</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>Country</td>
+        <td>10</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>PaymentTermsCode</td>
+        <td>11</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>CurrencyCode</td>
+        <td>12</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>Phone</td>
+        <td>13</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>Fax</td>
+        <td>14</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>ContactPerson</td>
+        <td>15</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>Email</td>
+        <td>16</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>Active</td>
+        <td>17</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>LocationCode</td>
+        <td>18</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>TaxId</td>
+        <td>19</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>DunsNumber</td>
+        <td>20</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>ReferenceID</td>
+        <td>21</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>CustomField1</td>
+        <td>22</td>
+        <td>No</td>
+    </tr>
+     <tr>
+        <td>CustomField2</td>
+        <td>22</td>
+        <td>No</td>
+    </tr>
+     <tr>
+        <td>CustomField3</td>
+        <td>23</td>
+        <td>No</td>
+    </tr>
+     <tr>
+        <td>CustomField4</td>
+        <td>24</td>
+        <td>No</td>
+    </tr>
+     <tr>
+        <td>CustomField5</td>
+        <td>25</td>
+        <td>No</td>
+    </tr>
+</table>
+
+## Supplier [/Supplier]
+Supplier entity integration is supported through web and Flat file methods.
+Customer may send one or more than One supplier Objects to Xeeva through web interface or through Flat file.
+
+Click to try now 
+### Add or Import Supplier Payload (Try Now)[POST] 
++ Request Single Supplier with Success status (application/json)
+
+        [
+            {
+                "SupplierCode": "Mgcln_001",
+                "SupplierType": "N",
+                "ShipPoint": "18",
+                "SupplierName": "Test1 Supplier",
+                "Address1": "Address1",
+                "Address2": "Address2",
+                "City": "Magna Clone City",
+                "State": "AK",
+                "Zip": "12345",
+                "Country": "MEX",
+                "PaymentTermsCode": "60",
+                "CurrencyCode": "EUR",
+                "Phone": "9300876101",
+                "Fax": "121312",
+                "ContactPerson": "Magna Clone1 Supplieruser01",
+                "Email": "magnaclone01@supplier.com",
+                "Active": "Y",
+                "LocationCode": "LOC01",
+                "TaxId": "121",
+                "DunsNumber": "DUNS001111",
+                "ReferenceID": "1",
+                "CustomField1": "",
+                "CustomField2": "",
+                "CustomField3": "",
+                "CustomField4": "",
+                "CustomField5": "",
+            }
+        ]
+
++ Response 200 (application/json)
+            
+            {
+                    "TransactionID":"ahx-123-fgh-fge-1212121",
+                    "Summary":
+                                {
+                                    "Description" : "Supplier Mgcln_001 Created Successfully.",
+                                    "TotalRecordCount" : 1,
+                                    "SuccessRecordCount" : 1,
+                                    "FailedRecordCount" : 0,
+                                    "DataValidationRecordCount" : 0,
+                                    "BusinessValidationRecordCount" : 0,
+                                    "SystemExceptionRecordCount" : 0,
+                                },
+                    "IdentifierList":   [
+                                            {
+                                                "IdentifierValue": "1",
+                                                "Status": "SUCCESS",
+                                                "SupplierID" : "1001",
+                                                "Description": "Supplier Mgcln_001  Created Successfully.",
+                                                "DataValidationExceptionList": [],
+                                                "BusinessValidationExceptionList": [],
+                                                "SystemExceptions": [],
+                                            }
+                                        ]
+            }
++ Request Two Supplier One with Success and One with data Validation Failure  Status(application/json)
+
+        [
+            {
+                "SupplierCode": "Mgcln_002",
+                "SupplierType": "N",
+                "ShipPoint": "18",
+                "SupplierName": "Test2 Supplier",
+                "Address1": "Address1",
+                "Address2": "Address2",
+                "City": "Magna Clone City",
+                "State": "AK",
+                "Zip": "12345",
+                "Country": "MEX",
+                "PaymentTermsCode": "60",
+                "CurrencyCode": "EUR",
+                "Phone": "9300876101",
+                "Fax": "121312",
+                "ContactPerson": "Magna Supplieruser02",
+                "Email": "magnaclone02@supplier.com",
+                "Active": "Y",
+                "LocationCode": "LOC01",
+                "TaxId": "121",
+                "DunsNumber": "DUNS001111",
+                "ReferenceID": "2",
+                "CustomField1": "",
+                "CustomField2": "",
+                "CustomField3": "",
+                "CustomField4": "",
+                "CustomField5": "",
+            },{
+                "SupplierCode": "Mgcln_003",
+                "SupplierType": "",
+                "ShipPoint": "18",
+                "SupplierName": "Test3 Supplier",
+                "Address1": "Address1",
+                "Address2": "Address2",
+                "City": "Magna Clone City",
+                "State": "AK",
+                "Zip": "12345",
+                "Country": "MEX",
+                "PaymentTermsCode": "60",
+                "CurrencyCode": "EUR",
+                "Phone": "9300876101",
+                "Fax": "121312",
+                "ContactPerson": "Magna Supplieruser03",
+                "Email": "magnaclone03@supplier.com",
+                "Active": "Y",
+                "LocationCode": "LOC01",
+                "TaxId": "121",
+                "DunsNumber": "DUNS002222",
+                "ReferenceID": "3",
+                "CustomField1": "",
+                "CustomField2": "",
+                "CustomField3": "",
+                "CustomField4": "",
+                "CustomField5": "",
+            },
+        ]
+
++ Response 200 (application/json)
+            
+            {
+                    "TransactionID":"ahx-123-fgh-fge-1212121",
+                    "Summary":
+                                {
+                                    "Description" : "Supplier Mgcln_002 Created Successfully.",
+                                    "TotalRecordCount" : 2,
+                                    "SuccessRecordCount" : 1,
+                                    "FailedRecordCount" : 1,
+                                    "DataValidationRecordCount" : 1,
+                                    "BusinessValidationRecordCount" : 0,
+                                    "SystemExceptionRecordCount" : 0,
+                                },
+                    "IdentifierList":   [
+                                            {
+                                                "IdentifierValue": "2",
+                                                "Status": "SUCCESS",
+                                                "SupplierID" : "1002",
+                                                "Description": "Supplier Mgcln_002  Created Successfully.",
+                                                "DataValidationExceptionList": [],
+                                                "BusinessValidationExceptionList": [],
+                                                "SystemExceptions": [],
+                                            },{
+                                                "IdentifierValue": "3",
+                                                "Status": "FAILED",
+                                                "SupplierID" : "0",
+                                                "Description": "Mgcln_003 Failed.",
+                                                "DataValidationExceptionList": [
+                                                                                 {
+                                                                                    "ExceptionType": "Required",
+                                                                                    "ExceptionCode": "EX-RQ-02",
+                                                                                    "ExceptionDescription": "SupplierType Required: The field is required.",
+                                                                                    "LineNo": "1",
+                                                                                 }
+                                                ],
+                                                "BusinessValidationExceptionList": [],
+                                                "SystemExceptions": [],
+                                            },
+                                        ]
+            }
+
++ Request Three Supplier Two Success and One with Business Validation Failed status (application/json)
+
+        [
+            {
+                "SupplierCode": "Mgcln_004",
+                "SupplierType": "N",
+                "ShipPoint": "18",
+                "SupplierName": "Test4 Supplier",
+                "Address1": "Address1",
+                "Address2": "Address2",
+                "City": "Magna Clone City",
+                "State": "AK",
+                "Zip": "12345",
+                "Country": "MEX",
+                "PaymentTermsCode": "60",
+                "CurrencyCode": "EUR",
+                "Phone": "9300876101",
+                "Fax": "121312",
+                "ContactPerson": "Magna Supplieruser04",
+                "Email": "magnaclone04@supplier.com",
+                "Active": "Y",
+                "LocationCode": "LOC01",
+                "TaxId": "121",
+                "DunsNumber": "DUNS001111",
+                "ReferenceID": "4",
+                "CustomField1": "",
+                "CustomField2": "",
+                "CustomField3": "",
+                "CustomField4": "",
+                "CustomField5": "",
+            },{
+                "SupplierCode": "Mgcln_005",
+                "SupplierType": "N",
+                "ShipPoint": "18",
+                "SupplierName": "Test5 Supplier",
+                "Address1": "Address1",
+                "Address2": "Address2",
+                "City": "Magna Clone City",
+                "State": "AK",
+                "Zip": "12345",
+                "Country": "MEX",
+                "PaymentTermsCode": "60",
+                "CurrencyCode": "EUR",
+                "Phone": "9300876101",
+                "Fax": "121312",
+                "ContactPerson": "Magna Supplieruser05",
+                "Email": "magnaclone05@supplier.com",
+                "Active": "Y",
+                "LocationCode": "LOC01",
+                "TaxId": "121",
+                "DunsNumber": "DUNS002222",
+                "ReferenceID": "5",
+                "CustomField1": "",
+                "CustomField2": "",
+                "CustomField3": "",
+                "CustomField4": "",
+                "CustomField5": "",
+            },{
+                "SupplierCode": "Mgcln_006",
+                "SupplierType": "",
+                "ShipPoint": "18",
+                "SupplierName": "Test6 Supplier",
+                "Address1": "Address1",
+                "Address2": "Address2",
+                "City": "Magna Clone City",
+                "State": "AK",
+                "Zip": "12345",
+                "Country": "MEX",
+                "PaymentTermsCode": "1000",
+                "CurrencyCode": "EUR",
+                "Phone": "9300876101",
+                "Fax": "121312",
+                "ContactPerson": "Magna Supplieruser06",
+                "Email": "magnaclone06@supplier.com",
+                "Active": "Y",
+                "LocationCode": "LOC01",
+                "TaxId": "121",
+                "DunsNumber": "DUNS002222",
+                "ReferenceID": "6",
+                "CustomField1": "",
+                "CustomField2": "",
+                "CustomField3": "",
+                "CustomField4": "",
+                "CustomField5": "",
+            },
+        ]
+
++ Response 200 (application/json)
+            
+            {
+                    "TransactionID":"ahx-123-fgh-fge-1212121",
+                    "Summary":
+                                {
+                                    "Description" : "Supplier Mgcln_004,Mgcln_005 Created Successfully.",
+                                    "TotalRecordCount" : 3,
+                                    "SuccessRecordCount" : 2,
+                                    "FailedRecordCount" : 1,
+                                    "DataValidationRecordCount" : 0,
+                                    "BusinessValidationRecordCount" : 1,
+                                    "SystemExceptionRecordCount" : 0,
+                                },
+                    "IdentifierList":   [
+                                            {
+                                                "IdentifierValue": "4",
+                                                "Status": "SUCCESS",
+                                                "SupplierID" : "1004",
+                                                "Description": "Supplier Mgcln_004  Created Successfully.",
+                                                "DataValidationExceptionList": [],
+                                                "BusinessValidationExceptionList": [],
+                                                "SystemExceptions": [],
+                                            },{
+                                                "IdentifierValue": "5",
+                                                "Status": "SUCCESS",
+                                                "SupplierID" : "1005",
+                                                "Description": "Supplier Mgcln_005  Created Successfully.",
+                                                "DataValidationExceptionList": [],
+                                                "BusinessValidationExceptionList": [],
+                                                "SystemExceptions": [],
+                                            },{
+                                                "IdentifierValue": "6",
+                                                "Status": "FAILED",
+                                                "SupplierID" : "0",
+                                                "Description": "Mgcln_006 Failed.",
+                                                "DataValidationExceptionList": [],
+                                                "BusinessValidationExceptionList": [
+                                                                                 {
+                                                                                    "ExceptionType": "Error",
+                                                                                    "ExceptionCode": "",
+                                                                                    "ExceptionDescription": "Payment Term -{1000} does not exist.",
+                                                                                    "LineNo": "1",
+                                                                                 }
+                                                ],
+                                                "SystemExceptions": [],
+                                            },
+                                        ]
+            }
+            
+## Group PurchaseOrder
+
+## Purchase Order (object)
+
+A Purchase Order object has the following attributes:
+
++ POHeader
+
+    This is to keep Header level information of a Purchase order.
+
+    Data Type: POHeader  
+    
+    Mandatory: Yes
+    
++  PODetails 
+
+    This is to keep Line level information of a Purchase order.
+    
+    Data Type: (array[PODetail])   
+    
+    Mandatory: Yes
+
+## POHeader (object)
+
+POHeader has the following attributes:
+
++ POId
+
+    This is a unique identification Number of the PO across all the locations.
+
+    Data Type: Number  
+    
+    Mandatory: Yes
+    
++ ReqNo
+
+    This is a Req Number of the PO.
+  
+    Data Type: Number  
+  
+    Mandatory: Yes
++ POCode
+
+    PO Code is the PO Number which remains unique for a given location, however, for BPO Release, the same PO Number can be repeated.
+  
+    Data Type: string(50)  
+  
+    Mandatory: Yes
+    
++ SupplierCode
+
+    Supplier Code against which PO has been created/ PO Amendment has been done. Xeeva will send the same Supplier Code as received from Client during Supplier Integration.
+
+    Data Type: string(50)  
+    
+    Mandatory: Yes
+    
++ CustomerCode
+
+    Customer Code is a code of a cutomer.
+
+    Data Type: string(50)  
+    
+    Mandatory: Yes
+    
++ LocationCode
+
+    Location Code against which PO has been created.
+
+    Data Type: string(50)  
+    
+    Mandatory: Yes
+    
++ POIssueDate
+
+    This is the Date when PO has been issued or PO Amendment has been accomplished.
+
+    Data Type: Datetime 
+    
+    Mandatory: Yes
+    
++ RFQNo
+
+    RFQNo against which PO has been created.
+
+    Data Type: string(20)  
+    
+    Mandatory: Yes
+    
++ BuyerCode
+
+    Buyer Code is the User Code of the Buyer who is the owner of the PO/ PO Amendment
+
+    Data Type: string(50)
+    
+    Mandatory: Yes
+    
++ PaymentTermCode
+
+    Payment Terms Code is the term used for creation or amendment of PO with the Supplier
+
+    Data Type: string(50)  
+    
+    Mandatory: No
+    
++ ShipVia
+
+    The system uses purchase order ship via codes during Purchase Order Entry to designate your preferred shipping method for the inventory.
+    
+    Data Type: string(50)  
+    
+    Mandatory: No
+    
+
++ Status
+
+    Status is the status of PO and PO Amendment which will be sent to Client.
+    PO Header: Unacknowledged, Acknowledged, Open, Cancelled, Closed.
+
+    Data Type: string(50)  
+    
+    Mandatory: Yes
+    
++ BuyerComments
+
+    Comment on Purchase Order given by a buyer.
+
+    Data Type: string(500)  
+    
+    Mandatory: No
+    
++ AmendmentNo
+
+    This is the count of amendment done on the PO. It increases with the Number of times PO gets amended
+
+    Data Type: Number  
+    
+    Mandatory: Yes
+    
++ ShipToCode
+
+    Ship To code belongs to the shipping address where Original or Amended PO Items to be delivered.
+
+    Data Type: string(50)  
+    
+    Mandatory: Yes
+    
++ AlternateRequestor
+
+    For Information Only about Alternate Requestor
+
+    Data Type: string(50) 
+    
+    Mandatory: No
+    
++ OrderComments
+
+    Purchase Order Comments on PO Header level
+
+    Data Type: string(2000)  
+    
+    Mandatory: No
+    
++ ShowPOComments
+
+    Flag to Show PO Comments on PO PDF or not.
+
+    Data Type: string(1)  
+    
+    Mandatory: No
+    
++ RequestorCode
+
+    Unique Code of Requestor.
+
+    Data Type: string(50)  
+    
+    Mandatory: Yes
+    
+
++ BillToCode
+
+    Bill To Code information.
+
+    Data Type: string(50)  
+    
+    Mandatory: No
+    
++ DivisionCode
+
+    Division Code information.
+
+    Data Type: string(50)  
+    
+    Mandatory: No
+    
++ ProgramCode
+
+    Program Code information.
+
+    Data Type: string(50)  
+    
+    Mandatory: No
+    
++ Capex
+
+    Capital expenditure information.
+    
+    Data Type: Number  
+    
+    Mandatory: No
+    
++ Budgeted
+
+    Budget information.
+
+    Data Type: Number  
+    
+    Mandatory: No
+    
++ RequestorName
+
+    Contact Person for this Purchase Order
+
+    Data Type: string(100)  
+    
+    Mandatory: No
+    
++ RequestorEmail
+
+    Contact Email for this Purchase Order.
+
+    Data Type: string(200)  
+    
+    Mandatory: No
+    
++ CurrencyCode
+
+    Currency information of Purchase order.
+
+    Data Type: string(10)  
+    
+    Mandatory: Yes
+    
++ OrderDescription
+
+    Description about Purchase Order.
+
+    Data Type: string(500)  
+    
+    Mandatory: No
+    
++ RequestorCurrency
+
+    Currency information of Requestor.
+
+    Data Type: string(10)  
+    
+    Mandatory: No
+    
+
++ BillToAddress
+    
+    Data Type: string(200)  
+    
+    Mandatory: No
+    
+
++ ShowLineCommentsOnPO
+
+    Data Type: string(1)  
+    
+    Mandatory: No
+    
++ Consignment
+
+    Data Type: string(1)  
+    
+    Mandatory: No
+    
++ BPOHeaderId
+
+    Data Type: Number  
+    
+    Mandatory: No
+    
++ BPOCurrentReleaseNo
+
+    Data Type: Number  
+    
+    Mandatory: No
+    
++ BPORequestorCode
+
+    Data Type: string(50)  
+    
+    Mandatory: No
+    
++ UserOnBehalfCode
+
+    Data Type: string(50)  
+    
+    Mandatory: No
+    
++ IsUrgentPO
+
+    Flag for Urgent PO.
+
+    Data Type: string(1) 
+    
+    Mandatory: No
+    
++ IsServicePO
+
+    Flag for Service PO.
+
+    Data Type: string(1) 
+    
+    Mandatory: No
+    
+
++ AmendmentDate
+
+    Date of Amendment made.
+
+    Data Type: DateTime 
+    
+    Mandatory: No
+    
++ POReleaseRejectDate
+
+    Date When PO Release of Reject.
+
+    Data Type: DateTime  
+    
+    Mandatory: No
+    
++ FOBCode
+
+    Data Type: string(50)  
+    
+    Mandatory: No
+    
++ IsApplyTaxOnHeader
+
+    Data Type: string(1)  
+    
+    Mandatory: No
+    
++ POSource
+
+    Data Type: string(50)  
+    
+    Mandatory: No
+    
++ PCardNo
+
+    Data Type: string(50)  
+    
+    Mandatory: No
+    
++ ShipToName
+
+    Data Type: string(50)  
+    
+    Mandatory: Yes
+    
++ ShipToAddress
+
+    Data Type: string(200)  
+    
+    Mandatory: No
+    
++ ShipToAddress2
+
+    Data Type: string(200)  
+    
+    Mandatory: No
+    
++ ShipToCity
+
+    Data Type: string(50)  
+    
+    Mandatory: No
+    
++ ShipToState
+
+    Data Type: string(50)  
+    
+    Mandatory: No
+    
++ ShipToCountry
+
+    Data Type: string(50)  
+    
+    Mandatory: No
+    
++ ShipToZip
+
+    Data Type: string(50)  
+    
+    Mandatory: No
+    
++ ShipToLocationCode
+
+    Data Type: string(50)  
+    
+    Mandatory: No
+    
++ VendorName
+
+    Data Type: string(50)  
+    
+    Mandatory: No
+    
++ VendorAddress
+
+    Data Type: string(200)  
+    
+    Mandatory: No
+    
++ VendorCity
+
+    Data Type: string(50) 
+    
+    Mandatory: No
+    
++ VendorState
+
+    Data Type: string(50)  
+    
+    Mandatory: No
+    
++ VendorZip
+
+    Data Type: string(50)  
+    
+    Mandatory: No
+    
++ VendorCountry
+
+    Data Type: string(50)  
+    
+    Mandatory: No
+    
+
++ BuyerContactNumber
+
+    Data Type: string(50)  
+    
+    Mandatory: No
+    
++ BuyerEmail
+
+    Data Type: string(100)  
+    
+    Mandatory: No
+    
++ BuyerName
+
+    Data Type: string(50)  
+    
+    Mandatory: No
+    
++ BuyerAddress
+
+    Data Type: string(200)  
+    
+    Mandatory: No
+    
++ BuyerCity
+
+    Data Type: string(50)  
+    
+    Mandatory: No
+    
++ BuyerSate
+
+    Data Type: string(50)  
+    
+    Mandatory: No
+    
++ BuyerZip
+
+    Data Type: string(50)  
+    
+    Mandatory: No
+
++ PSALocation
+
+    Data Type: string(50)  
+    
+    Mandatory: No
+
++ CustomField1    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField2    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField3    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField4    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField5    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No  
+
+## PODetail (object)    
+
++ POId
+
+    POID is a unique identification Number of the PO across all the locations.
+
+    Data Type: Number  
+    
+    Mandatory: Yes
+    
++ PODetailId
+
+    PODetailId is a unique identification Number of the PO Line.
+
+    Data Type: Number  
+    
+    Mandatory: Yes
+    
++ ProductCode
+
+    Product SKU of a Product in a PO Line.
+
+    Data Type: string(50)  
+    
+    Mandatory: Yes
+    
++ SupplierPartNumber
+
+    Supplier Part Number information.
+
+    Data Type: string(50)  
+    
+    Mandatory: No
+    
++ ProductDescription
+
+    Description of Product.
+
+    Data Type: string(500)  
+    
+    Mandatory: Yes
+    
++ PromiseDate
+
+    Supplier Promise Date for Shipping.
+
+    Data Type: DateTime  
+    
+    Mandatory: No
+    
++ OrderQuantity
+
+    Quantity at Line level.
+
+    Data Type: Number  
+    
+    Mandatory: Yes    
+    
++ ReceivedQuantity
+
+    Recivied Quantity against Order Quantity in a PO line.
+
+    Data Type: Number  
+    
+    Mandatory: No
+    
++ RejectReasonCode
+
+    Line Reject reason code.
+
+    Data Type: string(10)  
+    
+    Mandatory: No
+    
++ Comments
+
+    Line level Comments
+
+    Data Type: string(500)  
+    
+    Mandatory: Yes
+    
++ CustomerRequiredDate
+
+    Date on Which Customer Required Item.
+
+    Data Type: DateTime  
+    
+    Mandatory: No
+    
++ StatusCode
+
+    Line level status information
+
+    Data Type: string(20)  
+    
+    Mandatory: Yes
+    
++ LineItemNumber
+
+    Line Number is the sequence Number of the item included in the Original or Amended PO
+    
+    Data Type: Number  
+    
+    Mandatory: Yes
+    
++ Active
+
+    Information about Line is active or not.
+
+    Data Type: string(1)  
+    
+    Mandatory: No
+    
++ ShippedDate
+
+    Actual Shipping Date
+
+    Data Type: DateTime  
+    
+    Mandatory: No
+    
++ ShippedQuantity
+
+    Shipped Quantity at line level.
+
+    Data Type: Number  
+    
+    Mandatory: Yes
+    
++ UnitPrice
+
+    Unit Price of a Product Item in PO Line.
+
+    Data Type: Number  
+    
+    Mandatory: Yes
+    
++ RemainingOrderQuantity
+
+    Remaining Order Quantity for Shipping.
+
+    Data Type: Number  
+    
+    Mandatory: No
+    
++ UnitOfMeasure
+
+    Unit of Measure information for a product in PO Line.
+
+    Data Type: string(50)  
+    
+    Mandatory: Yes
+    
++ ExtendedPrice
+
+    Unit price * Order Quantity
+    
+    Data Type: Number  
+    
+    Mandatory: Yes
+    
++ Tax
+
+    Tax information at line level.
+
+    Data Type: Number  
+    
+    Mandatory: No
+    
++ Manufacturer
+
+    Data Type: string(100)  
+    
+    Mandatory: No
+    
++ PaymentTermCode
+
+    Payment Terms code is the term used for creation or amendment of PO with the Supplier (it is the same as Payment Term at PO header level)
+
+    Data Type: string(50)  
+    
+    Mandatory: No
+    
++ BuyerComments
+
+    Data Type: string(500)  
+    
+    Mandatory: No
+    
++ FreightTermCode
+
+    Delivery Term is same as Freight Terms in PO Header
+
+    Data Type: string(50)  
+    
+    Mandatory: No
+    
++ CommodityCode
+
+    Data Type: string(500)  
+    
+    Mandatory: No
+    
++ RequestorComments
+
+    Data Type: string(500)  
+    
+    Mandatory: No
+    
++ LeadTime
+
+    Data Type: Number  
+    
+    Mandatory: No
+    
++ IsVirtualPedimento
+
+    Data Type: Number  
+    
+    Mandatory: No
+    
++ BPOLineDetailId
+
+    Data Type: Number  
+    
+    Mandatory: No
+    
++ RFQLineItemId
+
+    Data Type: Number  
+    
+    Mandatory: No
+
++ ProjectCode
+
+    Data Type: string(50)  
+    
+    Mandatory: No
+    
++ AmendmentNo
+
+    Data Type: Number  
+    
+    Mandatory: No
+    
++ InvoicedQuantity
+
+    Data Type: Number  
+    
+    Mandatory: No
+    
++ LegacyPartNumber
+
+    Data Type: string(100)  
+    
+    Mandatory: No
+    
++ LineReleaseNumber
+
+    Data Type: Number  
+    
+    Mandatory: No
+    
++ CategoryId
+
+    Data Type: Number  
+    
+    Mandatory: No
+    
++ SupplierPartAuxuliaryId
+
+    Data Type: string(100)  
+    
+    Mandatory: No
+    
++ GLAccountCode
+
+    Data Type: string(50)  
+    
+    Mandatory: No
+    
++ CostCenterCode
+
+    Data Type: string(50)  
+    
+    Mandatory: No
+    
++ SubAccountCode
+
+    Data Type: string(50)  
+    
+    Mandatory: No
+
++ WorkOrderCode
+
+    Data Type: string(50)  
+    
+    Mandatory: No
+
++ CustomField1    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField2    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField3    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField4    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField5    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+    
+**Purchase Order Columns and Sequence information in Flat File Request**
+
+Request file contains Purchase Order Header and Purchase Order Detail records.
+RecordType field will be used to identify the Header record and detail record.
+
+**Purchase Order Header Columns and Sequence information in Flat File Request**
+
+<table style="width:100%" border="1">
+    <tr>
+        <th>Element</th>
+        <th>Sequence</th>
+        <th>Required</th>
+    </tr>
+    <tr>
+        <td>RecordType</td>
+        <td>1</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>POId</td>
+        <td>2</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>ReqNo</td>
+        <td>3</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>POCode</td>
+        <td>4</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>SupplierCode</td>
+        <td>5</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>CustomerCode</td>
+        <td>6</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>LocationCode</td>
+        <td>7</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>POIssueDate</td>
+        <td>8</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>RFQNo</td>
+        <td>9</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>BuyerCode</td>
+        <td>10</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>PaymentTermCode</td>
+        <td>11</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>ShipVia</td>
+        <td>12</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>Status</td>
+        <td>12</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>BuyerComments</td>
+        <td>13</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>AmendmentNo</td>
+        <td>14</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>ShipToCode</td>
+        <td>15</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>AlternateRequestor</td>
+        <td>16</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>OrderComments</td>
+        <td>17</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>ShowPOComments</td>
+        <td>18</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>RequestorCode</td>
+        <td>19</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>BillToCode</td>
+        <td>20</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>DivisionCode</td>
+        <td>21</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>ProgramCode</td>
+        <td>22</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>Capex</td>
+        <td>23</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>Budgeted</td>
+        <td>24</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>RequestorName</td>
+        <td>25</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>RequestorEmail</td>
+        <td>26</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>CurrencyCode</td>
+        <td>27</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>OrderDescription</td>
+        <td>28</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>RequestorCurrency</td>
+        <td>29</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>BillToAddress</td>
+        <td>30</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>ShowLineCommentsOnPO</td>
+        <td>31</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>Consignment</td>
+        <td>32</td>
+        <td>No</td>
+    </tr>
+     <tr>
+        <td>BPOHeaderId</td>
+        <td>33</td>
+        <td>No</td>
+    </tr>
+     <tr>
+        <td>BPOCurrentReleaseNo</td>
+        <td>34</td>
+        <td>No</td>
+    </tr>
+     <tr>
+        <td>BPORequestorCode</td>
+        <td>35</td>
+        <td>No</td>
+    </tr>
+     <tr>
+        <td>UserOnBehalfCode</td>
+        <td>36</td>
+        <td>No</td>
+    </tr>
+     <tr>
+        <td>IsUrgentPO</td>
+        <td>37</td>
+        <td>No</td>
+    </tr>
+     <tr>
+        <td>IsServicePO</td>
+        <td>38</td>
+        <td>No</td>
+    </tr>
+     <tr>
+        <td>AmendmentDate</td>
+        <td>39</td>
+        <td>No</td>
+    </tr>
+     <tr>
+        <td>POReleaseRejectDate</td>
+        <td>40</td>
+        <td>No</td>
+    </tr>
+     <tr>
+        <td>FOBCode</td>
+        <td>41</td>
+        <td>No</td>
+    </tr>
+     <tr>
+        <td>IsApplyTaxOnHeader</td>
+        <td>42</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>POSource</td>
+        <td>43</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>PCardNo</td>
+        <td>44</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>ShipToName</td>
+        <td>45</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>ShipToAddress</td>
+        <td>46</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>ShipToAddress2</td>
+        <td>47</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>ShipToCity</td>
+        <td>48</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>ShipToState</td>
+        <td>49</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>ShipToCountry</td>
+        <td>50</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>ShipToZip</td>
+        <td>51</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>ShipToLocationCode</td>
+        <td>52</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>VendorName</td>
+        <td>53</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>VendorAddress</td>
+        <td>54</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>VendorCity</td>
+        <td>55</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>VendorState</td>
+        <td>56</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>VendorZip</td>
+        <td>57</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>VendorCountry</td>
+        <td>58</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>BuyerContactNumber</td>
+        <td>59</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>BuyerEmail</td>
+        <td>60</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>BuyerName</td>
+        <td>61</td>
+        <td>No</td>
+    </tr>
+     <tr>
+        <td>BuyerAddress</td>
+        <td>62</td>
+        <td>No</td>
+    </tr>
+     <tr>
+        <td>BuyerCity</td>
+        <td>63</td>
+        <td>No</td>
+    </tr>
+     <tr>
+        <td>BuyerSate</td>
+        <td>64</td>
+        <td>No</td>
+    </tr>
+     <tr>
+        <td>BuyerZip</td>
+        <td>65</td>
+        <td>No</td>
+    </tr>
+     <tr>
+        <td>PSALocation</td>
+        <td>66</td>
+        <td>No</td>
+    </tr>
+</table>
+
+**Purchase Order Detail Columns and Sequence information in Flat File Request**
+
+<table style="width:100%" border="1">
+    <tr>
+        <th>Element</th>
+        <th>Sequence</th>
+        <th>Required</th>
+    </tr>
+    <tr>
+        <td>RecordType</td>
+        <td>1</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>POId</td>
+        <td>2</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>PODetailId</td>
+        <td>3</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>ProductCode</td>
+        <td>4</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>SupplierPartNumber</td>
+        <td>5</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>ProductDescription</td>
+        <td>6</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>PromiseDate</td>
+        <td>7</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>OrderQuantity</td>
+        <td>8</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>ReceivedQuantity</td>
+        <td>9</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>RejectReasonCode</td>
+        <td>10</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>Comments</td>
+        <td>11</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>CustomerRequiredDate</td>
+        <td>12</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>StatusCode</td>
+        <td>13</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>LineItemNumber</td>
+        <td>14</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>Active</td>
+        <td>15</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>ShippedDate</td>
+        <td>16</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>ShippedQuantity</td>
+        <td>17</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>UnitPrice</td>
+        <td>18</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>RemainingOrderQuantity</td>
+        <td>19</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>UnitOfMeasure</td>
+        <td>20</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>ExtendedPrice</td>
+        <td>21</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>Tax</td>
+        <td>22</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>Manufacturer</td>
+        <td>23</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>PaymentTermCode</td>
+        <td>24</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>BuyerComments</td>
+        <td>25</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>FreightTermCode</td>
+        <td>26</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>CommodityCode</td>
+        <td>27</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>RequestorComments</td>
+        <td>28</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>LeadTime</td>
+        <td>29</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>IsVirtualPedimento</td>
+        <td>30</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>BPOLineDetailId</td>
+        <td>31</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>RFQLineItemId</td>
+        <td>32</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>ProjectCode</td>
+        <td>33</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>AmendmentNo</td>
+        <td>34</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>InvoicedQuantity</td>
+        <td>35</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>LegacyPartNumber</td>
+        <td>36</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>LineReleaseNumber</td>
+        <td>37</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>CategoryId</td>
+        <td>38</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>SupplierPartAuxuliaryId</td>
+        <td>39</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>GLAccountCode</td>
+        <td>40</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>CostCenterCode</td>
+        <td>41</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>SubAccountCode</td>
+        <td>42</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>WorkOrderCode</td>
+        <td>43</td>
+        <td>No</td>
+    </tr>
+</table>
+
+**Purchase Order EDI Columns information**
+
+Segment/Element Usage Legend:
+M = Mandatory segment or element; required for successful Medtronic system processing.
+O = Optional segment or element; may be helpful but not required for successful processing.
+X = Conditional element; existence is conditional upon another segment or element
+
+<table style="width:100%" border="1">
+    <tr>
+        <th>EDI Element</th>
+        <th>Element Summary</th>
+        <th>Value(Static / Purchase Order attribute)</th>
+        <th>Min/Max Length</th>
+        <th>Usage </th>
+    </tr>
+    <tr>
+        <td>ISA</td>
+        <td>Interchange Control Header</td>
+        <td>ISA</td>
+        <td>3/3</td>
+        <td>M</td>
+    </tr>
+    <tr>
+        <td>ISA01</td>
+        <td>Authorization Information Qualifier</td>
+        <td>00</td>
+        <td>2/2</td>
+        <td>M</td>
+    </tr>
+     <tr>
+        <td>ISA02</td>
+        <td>Authorization Information</td>
+        <td>0000000000</td>
+        <td>10/10</td>
+        <td>M</td>
+    </tr>
+    <tr>
+        <td>ISA03</td>
+        <td>Security Information Qualifier</td>
+        <td>00</td>
+        <td>2/2</td>
+        <td>M</td>
+    </tr>
+     <tr>
+        <td>ISA04</td>
+        <td>Security Information</td>
+        <td>0000000000</td>
+        <td>10/10</td>
+        <td>M</td>
+    </tr>
+     <tr>
+        <td>ISA05</td>
+        <td>Interchange ID Qualifier</td>
+        <td>PO Cust ISA Qualifier value</td>
+        <td>2/2</td>
+        <td>M</td>
+    </tr>
+     <tr>
+        <td>ISA06</td>
+        <td>Interchange Sender ID</td>
+        <td>PO Cust ISA ID value</td>
+        <td>15/15</td>
+        <td>M</td>
+    </tr>
+     <tr>
+        <td>ISA07</td>
+        <td>Interchange ID Qualifier</td>
+        <td>PO TP ISA Qualifier value</td>
+        <td>2/2</td>
+        <td>M</td>
+    </tr>
+     <tr>
+        <td>ISA08</td>
+        <td>Interchange Receiver ID</td>
+        <td>PO TP ISA ID value</td>
+        <td>15/15</td>
+        <td>M</td>
+    </tr>
+     <tr>
+        <td>ISA09</td>
+        <td>Interchange Date</td>
+        <td>System Current Date</td>
+        <td>6/6</td>
+        <td>M</td>
+    </tr>
+     <tr>
+        <td>ISA10</td>
+        <td>Interchange Time</td>
+        <td>System Current Time </td>
+        <td>4/4</td>
+        <td>M</td>
+    </tr>
+     <tr>
+        <td>ISA11</td>
+        <td>Interchange Control Standards Identifier</td>
+        <td>U</td>
+        <td>1/1</td>
+        <td>M</td>
+    </tr>
+     <tr>
+        <td>ISA12</td>
+        <td>Interchange Control Version Number</td>
+        <td>00401</td>
+        <td>5/5</td>
+        <td>M</td>
+    </tr>
+     <tr>
+        <td>ISA13</td>
+        <td>Interchange Control Number</td>
+        <td>interchange Control Generated by Xeeva</td>
+        <td>9/9</td>
+        <td>M</td>
+    </tr>
+     <tr>
+        <td>ISA14</td>
+        <td>Acknowledgment Requested</td>
+        <td>0</td>
+        <td>1/1</td>
+        <td>M</td>
+    </tr>
+     <tr>
+        <td>ISA15</td>
+        <td>Usage Indicator</td>
+        <td>indicator</td>
+        <td>1/1</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>ISA16</td>
+        <td>Component Element Separator</td>
+        <td>Seprator defined by Xeeva (>) </td>
+        <td>1/1</td>
+        <td>M</td>
+    </tr>
+     <tr>
+        <td>GS</td>
+        <td>Functional Group Header</td>
+        <td>GS</td>
+        <td>2/2</td>
+        <td>Yes</td>
+    </tr>
+     <tr>
+        <td>GS01</td>
+        <td>Functional Identifier Code</td>
+        <td>PO</td>
+        <td>2/2</td>
+        <td>M</td>
+    </tr>
+    <tr>
+        <td>GS02</td>
+        <td>Application Sender's Code</td>
+        <td>Cust ISA ID value</td>
+        <td>2/15</td>
+        <td>M</td>
+    </tr>
+     <tr>
+        <td>GS03</td>
+        <td>Application Receiver's Code</td>
+        <td>GS ID value</td>
+        <td>2/2</td>
+        <td>M</td>
+    </tr>
+    <tr>
+        <td>GS04</td>
+        <td>Date</td>
+        <td>System Current Date</td>
+        <td>8/8</td>
+        <td>M</td>
+    </tr>
+     <tr>
+        <td>GS05</td>
+        <td>Time</td>
+        <td>System Current Time</td>
+        <td>4/8</td>
+        <td>M</td>
+    </tr>
+    <tr>
+        <td>GS06</td>
+        <td>Group Control Number</td>
+        <td>Group Control value provided by Xeeva</td>
+        <td>1/9</td>
+        <td>M</td>
+    </tr>
+    <tr>
+        <td>GS07</td>
+        <td>Responsible Agency Code</td>
+        <td>X</td>
+        <td>1/2</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>GS08</td>
+        <td>Version / Release / Industry Identifier Code</td>
+        <td>004010</td>
+        <td>1/12</td>
+        <td>M</td>
+    </tr>
+    <tr>
+        <td>ST</td>
+        <td>Transaction Set Header</td>
+        <td>ST</td>
+        <td>2/2</td>
+        <td>M</td>
+    </tr>
+    <tr>
+        <td>ST01</td>
+        <td>Transaction Set Identifier Code
+            Code uniquely identifying a Transaction Set
+            850 Purchase Order</td>
+        <td>850</td>
+        <td>3/3</td>
+        <td>M</td>
+    </tr>
+    <tr>
+        <td>ST02</td>
+        <td>Transaction Control Number, Identifying control number that must be unique within the transaction set functional group assigned by the originator for a transaction set</td>
+        <td>Unique Number generated by Xeeva</td>
+        <td>4/9</td>
+        <td>M</td>
+    </tr>
+    <tr>
+        <td>BEG</td>
+        <td>Beginning Segment for Purchase Order</td>
+        <td>BEG</td>
+        <td>3/3</td>
+        <td>M</td>
+    </tr>
+     <tr>
+        <td>BEG01</td>
+        <td>Transaction Set Purpose Code</td>
+        <td>00 - New Purchase Order, 
+        06 - Confirmation, 
+        07 - Duplicate</td>
+        <td>2/2</td>
+        <td>M</td>
+    </tr>
+    <tr>
+        <td>BEG02</td>
+        <td>Purchase Order Type Code</td>
+        <td>Transmitted code(s):
+            ‘CN’ = ‘ConsignmentOrder’
+            ‘NE’ = ‘NewOrder’
+            ‘SA’ = ‘StandAloneOrder’
+            ‘RO’ = ‘RushOrder’
+            'EO' = 'EmergencyOrder'
+        </td>
+        <td>2/2</td>
+        <td>M</td>
+    </tr>
+    <tr>
+        <td>BEG03</td>
+        <td>Identifying number for Purchase Order assigned by the orderer/purchaser</td>
+        <td>PO Number</td>
+        <td>1/3</td>
+        <td>M</td>
+    </tr>
+    <tr>
+        <td>BEG04</td>
+        <td>Release Number Number identifying a release against a Purchase Order previously placed by the parties involved in the transaction</td>
+        <td>PO Release Number</td>
+        <td>1/30/3</td>
+        <td>O</td>
+    </tr>
+    <tr>
+        <td>BEG05</td>
+        <td>Date expressed as CCYYMMDD</td>
+        <td>PO Date</td>
+        <td>8/8</td>
+        <td>M</td>
+    </tr>
+    <tr>
+        <td>BEG06</td>
+        <td>Contract Number</td>
+        <td></td>
+        <td>1/30</td>
+        <td>O</td>
+    </tr>
+    <tr>
+        <td>CUR</td>
+        <td>To specify the currency used in a transaction</td>
+        <td>CUR</td>
+        <td>3/3</td>
+        <td>O</td>
+    </tr>
+    <tr>
+        <td>CUR01</td>
+        <td> Code identifying an organizational entity, a physical location, property or an
+            individual</td>
+        <td>BY</td>
+        <td>2/3</td>
+        <td>M</td>
+    </tr>
+    <tr>
+        <td>CUR02</td>
+        <td>Currency Code</td>
+        <td>PO Currency Code</td>
+        <td>3/3</td>
+        <td>M</td>
+    </tr>
+    <tr>
+        <td>PER</td>
+        <td>Administrative Communications Contact.</td>
+        <td>PER</td>
+        <td>3/3</td>
+        <td>O</td>
+    </tr>
+     <tr>
+        <td>PER01</td>
+        <td>Contact Function Code (RQ Requestor Name/BD Buyer Name)</td>
+        <td>RQ/BD</td>
+        <td>2/2</td>
+        <td>M</td>
+    </tr>
+    <tr>
+        <td>PER02</td>
+        <td>Name</td>
+        <td>Requestor/Buyer Name</td>
+        <td>1/60</td>
+        <td>O</td>
+    </tr>
+    <tr>
+        <td>PER03</td>
+        <td>Communication Number Qualifier (TE Telephone)</td>
+        <td>TE</td>
+        <td>2/2</td>
+        <td>X</td>
+    </tr>
+     <tr>
+        <td>PER04</td>
+        <td>Communication Number</td>
+        <td>Requestor/ Buyer Contact Number</td>
+        <td>1/80</td>
+        <td>X</td>
+    </tr>
+     <tr>
+        <td>PER05</td>
+        <td>Communication Number Qualifier(EM Email)</td>
+        <td>EM</td>
+        <td>2/2</td>
+        <td>X</td>
+    </tr>
+     <tr>
+        <td>PER06</td>
+        <td>Communication Number</td>
+        <td>Requestor/ Buyer Email</td>
+        <td>1/80</td>
+        <td>X</td>
+    </tr>
+     <tr>
+        <td>FOB</td>
+        <td>To specify transportation instructions relating to shipment.</td>
+        <td>FOB</td>
+        <td>3/3</td>
+        <td>M</td>
+    </tr>
+     <tr>
+        <td>FOB01</td>
+        <td>Shipment Method of Payment (TP Third Party Pay/ DE Per Contract)</td>
+        <td>TP</td>
+        <td>2/2</td>
+        <td>M</td>
+    </tr>
+    <tr>
+        <td>N1</td>
+        <td>To identify a party by type of organization, name, and code</td>
+        <td>N1</td>
+        <td>2/2</td>
+        <td>O</td>
+    </tr>
+    <tr>
+        <td>N101</td>
+        <td>To identify a party by type of organization, name, and code (ST - Ship To/BY - Buying Party/VN - Vendor)</td>
+        <td>ST/BY/VN</td>
+        <td>2/3</td>
+        <td>M</td>
+    </tr>
+    <tr>
+        <td>N102</td>
+        <td>Name</td>
+        <td>Ship To/Buyer/Vendor Name provided by Xeeva</td>
+        <td>1/60</td>
+        <td>X</td>
+    </tr>
+    <tr>
+        <td>N103</td>
+        <td>Identification Code Qualifier (92 Assigned by Buyer or Buyer's Agent)</td>
+        <td>92</td>
+        <td>1/2</td>
+        <td>X</td>
+    </tr>
+     <tr>
+        <td>N104</td>
+        <td>Identification Code</td>
+        <td>PSALocation/BuyerCode/VendorID from PO</td>
+        <td>2/80</td>
+        <td>X</td>
+    </tr>
+    <tr>
+        <td>N3</td>
+        <td>Address Information</td>
+        <td>N3</td>
+        <td>2/2</td>
+        <td>O</td>
+    </tr>
+    <tr>
+        <td>N301</td>
+        <td>Address Information</td>
+        <td>Ship To Address/ Buyer Address /Vendor Address from PO</td>
+        <td>1/55</td>
+        <td>M</td>
+    </tr>
+    <tr>
+        <td>N302</td>
+        <td>Name</td>
+        <td>Ship To Address2/ Buyer Address2 /Vendor Address2 from PO</td>
+        <td>1/55</td>
+        <td>O</td>
+    </tr>
+     <tr>
+        <td>N4</td>
+        <td>Geographic Location</td>
+        <td>N4</td>
+        <td>2/2</td>
+        <td>O</td>
+    </tr>
+    <tr>
+        <td>N401</td>
+        <td>City Name</td>
+        <td>Ship To City/Buyer City/Vendor City from PO</td>
+        <td>2/30</td>
+        <td>O</td>
+    </tr>
+    <tr>
+        <td>N402</td>
+        <td>State or Province Code</td>
+        <td>Ship To State/Buyer State/Vendor State from PO</td>
+        <td>2/2</td>
+        <td>O</td>
+    </tr>
+    <tr>
+        <td>N403</td>
+        <td>Postal Code</td>
+        <td>Ship To Zip/Buyer Zip/Vendor Zip from PO</td>
+        <td>3/15</td>
+        <td>O</td>
+    </tr>
+    <tr>
+        <td>N404</td>
+        <td>Country Code</td>
+        <td>Ship To Country/Buyer Country/Vendor Country from PO</td>
+        <td>2/3</td>
+        <td>O</td>
+    </tr>
+    <tr>
+        <td>PO1</td>
+        <td>Baseline Item Data</td>
+        <td>PO1</td>
+        <td>3/3</td>
+        <td>M</td>
+    </tr>
+    <tr>
+        <td>PO101</td>
+        <td>Assigned Identification</td>
+        <td>PO Line Item Number</td>
+        <td>1/20</td>
+        <td>O</td>
+    </tr>
+    <tr>
+        <td>PO102</td>
+        <td>Quantity Ordered</td>
+        <td>PO Line Quantity</td>
+        <td>1/15</td>
+        <td>X</td>
+    </tr>
+    <tr>
+        <td>PO103</td>
+        <td>Unit or Basis for Measurement Code</td>
+        <td>UOM from PO Line item</td>
+        <td>2/2</td>
+        <td>O</td>
+    </tr>
+    <tr>
+        <td>PO104</td>
+        <td>Unit Price</td>
+        <td>Unit Price from PO Line item</td>
+        <td>1/17</td>
+        <td>X</td>
+    </tr>
+    <tr>
+        <td>PO105</td>
+        <td>Basis of Unit Price Code CP Current Price (Subject to Change)</td>
+        <td></td>
+        <td>2/2</td>
+        <td>O</td>
+    </tr>
+    <tr>
+        <td>PO106</td>
+        <td>Product/Service ID Qualifier</td>
+        <td>VN or Blank</td>
+        <td>2/2</td>
+        <td>X</td>
+    </tr>
+    <tr>
+        <td>PO107</td>
+        <td>Product/Service ID</td>
+        <td>Supplier Part Number  or Blank</td>
+        <td>1/48</td>
+        <td>X</td>
+    </tr>
+    <tr>
+        <td>PO108</td>
+        <td>Product/Service ID Qualifier</td>
+        <td>BP or Blank</td>
+        <td>2/2</td>
+        <td>X</td>
+    </tr>
+    <tr>
+        <td>PO109</td>
+        <td>Basis of Unit Price Code</td>
+        <td>Item Number</td>
+        <td>1/48</td>
+        <td>X</td>
+    </tr>
+     <tr>
+        <td>PID</td>
+        <td>Product/Item Description</td>
+        <td>PID</td>
+        <td>3/3</td>
+        <td>M</td>
+    </tr>
+    <tr>
+        <td>PID01</td>
+        <td>Item Description Type ‘F’ - Free form text</td>
+        <td>F</td>
+        <td>1/1 </td>
+        <td>M</td>
+    </tr>
+    <tr>
+        <td>PID05</td>
+        <td>Description</td>
+        <td>Description from PO Line item</td>
+        <td>1/80</td>
+        <td>M</td>
+    </tr>
+    <tr>
+        <td>REF</td>
+        <td>Reference Identification</td>
+        <td>REF</td>
+        <td>3/3</td>
+        <td>O</td>
+    </tr>
+    <tr>
+        <td>REF01</td>
+        <td>Reference Identification(12/AY/CO/CR/EU/QK)</td>
+        <td></td>
+        <td>3/3</td>
+        <td>M</td>
+    </tr>
+    <tr>
+        <td>REF02</td>
+        <td>Reference Identification</td>
+        <td>Requisition number from PO</td>
+        <td>1/30</td>
+        <td>O</td>
+    </tr>
+     <tr>
+        <td>DTM</td>
+        <td>Date/Time Reference</td>
+        <td>DTM</td>
+        <td>3/3</td>
+        <td>M</td>
+    </tr>
+    <tr>
+        <td>DTM01</td>
+        <td>Date/Time Qualifier</td>
+        <td>002</td>
+        <td>3/3</td>
+        <td>M</td>
+    </tr>
+    <tr>
+        <td>DTM02</td>
+        <td>Date expressed as CCYYMMDD</td>
+        <td>Promise Date from PO</td>
+        <td>8/8</td>
+        <td>X</td>
+    </tr>
+    <tr>
+        <td>CTT</td>
+        <td>Transaction Totals</td>
+        <td>CTT</td>
+        <td>3/3</td>
+        <td>O</td>
+    </tr>
+    <tr>
+        <td>CTT01</td>
+        <td>Number of Line Items</td>
+        <td>CTT</td>
+        <td>1/6</td>
+        <td>M</td>
+    </tr>
+    <tr>
+        <td>CTT02</td>
+        <td>Hash total of the number of units ordered</td>
+        <td>Total Order quantity from all PO Lines</td>
+        <td>1/10</td>
+        <td>O</td>
+    </tr>
+     <tr>
+        <td>SE</td>
+        <td>Transaction Set Trailer</td>
+        <td>SE</td>
+        <td>2/2</td>
+        <td>M</td>
+    </tr>
+    <tr>
+        <td>SE01</td>
+        <td>Number of Included Segments</td>
+        <td>Number of Included Segments</td>
+        <td>1/10</td>
+        <td>M</td>
+    </tr>
+    <tr>
+        <td>SE02</td>
+        <td>Transaction Set Control Number</td>
+        <td>Transaction Set Control Number</td>
+        <td>1/10</td>
+        <td>O</td>
+    </tr>
+    <tr>
+        <td>GE</td>
+        <td>Functional Group Trailer</td>
+        <td>GE</td>
+        <td>2/2</td>
+        <td>M</td>
+    </tr>
+    <tr>
+        <td>GE01</td>
+        <td>Number of Transaction Sets Included</td>
+        <td>Number of Transaction Sets Included</td>
+        <td>1/6</td>
+        <td>M</td>
+    </tr>
+    <tr>
+        <td>GE02</td>
+        <td>Group Control Number</td>
+        <td>Group Control Number</td>
+        <td>1/9</td>
+        <td>M</td>
+    </tr>
+    <tr>
+        <td>IEA</td>
+        <td>Interchange Control Trailer</td>
+        <td>IEA</td>
+        <td>3/3</td>
+        <td>M</td>
+    </tr>
+    <tr>
+        <td>IEA01</td>
+        <td>Number of Included Functional Groups</td>
+        <td>Number of Included Segments</td>
+        <td>1/5</td>
+        <td>M</td>
+    </tr>
+    <tr>
+        <td>IEA02</td>
+        <td>Interchange Control Number</td>
+        <td>Interchange Control Number</td>
+        <td>9/9</td>
+        <td>O</td>
+    </tr>
+</table>
+
+        
+## Purchase Order [/PurchaseOrder]
+
+Purchase Order entity integration is supported through web and Flat file methods.
+Customer may Pull one or more than One Purchase Order Objects from Xeeva through web interface or through Flat file.
+
+### Get Purchase Orders Payload (Try Now)[POST]
++ Request For Getting Single Purchase Order (application/json)
+
+            {
+                "NumberOfRecords": 1,
+                "SupplierCode": "",
+                "LocationCode": "",
+                "BuyerCode": "",
+            }
+        
+
++ Response 200 (application/json)
+            
+            [
+                {
+                    "POHeader": {
+                    "POId": "1011",
+                    "ReqNo": "ReqNo-001",
+                    "SupplierCode": "SUP-1",
+                    "CustomerCode": "ReqNo-001",
+                    "LocationCode": "LOC-91",
+                    "POIssueDate": "2018-12-12T08:34:48",
+                    "RFQNo": "RFQ0089",
+                    "BuyerCode": "BC-0012",
+                    "PaymentTermCode": "NET-60",
+                    "ShipVia": "FED",
+                    "Status": "1",
+                    "BuyerComments": "Urgent",
+                    "AmendmentNo": "0",
+                    "ShipToCode": "SHIP-001",
+                    "AlternateRequestor": "",
+                    "OrderComments": "Urgent",
+                    "ShowPOComments": "0",
+                    "RequestorCode": "REQ-002",
+                    "BillToCode": "BILL-90",
+                    "DivisionCode": "",
+                    "ProgramCode": "",
+                    "Capex": "",
+                    "Budgeted": "",
+                    "RequestorName": "Rupesh",
+                    "RequestorEmail": "Rupesh@xeeva.com",
+                    "CurrencyCode": "USD",
+                    "OrderDescription": "Test Order",
+                    "RequestorCurrency": "USD",
+                    "BillToAddress": "Address line 1",
+                    "ShowLineCommentsOnPO": "",
+                    "Consignment": "",
+                    "BPOHeaderId": "",
+                    "BPOCurrentReleaseNo": "",
+                    "BPORequestorCode": "",
+                    "UserOnBehalfCode": "",
+                    "IsUrgentPO": "",
+                    "IsServicePO": "",
+                    "AmendmentDate": "",
+                    "POReleaseRejectDate": "",
+                    "FOBCode": "",
+                    "IsApplyTaxOnHeader": "",
+                    "POSource": "",
+                    "PCardNo": "",
+                    "ShipToName": "ShipToName",
+                    "ShipToAddress": "ShipToAddress",
+                    "ShipToAddress2": "ShipToAddress2",
+                    "ShipToCity": "ShipToCity",
+                    "ShipToState": "ShipToState",
+                    "ShipToCountry": "ShipToCountry",
+                    "ShipToZip": "ShipToZip",
+                    "ShipToLocationCode": "ShipToLocationCode",
+                    "VendorName": "VendorName",
+                    "VendorAddress": "VendorAddress",
+                    "VendorCity": "VendorCity",
+                    "VendorState": "VendorState",
+                    "VendorZip": "VendorZip",
+                    "VendorCountry": "VendorCountry",
+                    "BuyerContactNumber": "8001-778787",
+                    "BuyerEmail": "BuyerEmail@xeeva.com",
+                    "BuyerName": "Test Buyer",
+                    "BuyerAddress": "BuyerAddress",
+                    "BuyerCity": "BuyerCity1",
+                    "BuyerSate": "BuyerSate1",
+                    "BuyerZip": "BuyerZip",
+                    "PSALocation": "PC-001",
+                    },
+                    "PODetails": [
+                    {
+                    "POId": "1011",
+                    "PODetailId": "8001",
+                    "ProductCode": "PC-001",
+                    "SupplierPartNumber": "1",
+                        "ProductDescription": "ProductDescription",
+                        "PromiseDate": "2018-12-12T08:34:48",
+                        "OrderQuantity": "2",
+                        "ReceivedQuantity": "1",
+                        "RejectReasonCode": "",
+                        "Comments": "Urgent",
+                        "CustomerRequiredDate": "2018-12-12T08:34:48",
+                        "StatusCode": "1",
+                        "LineItemNumber": "1",
+                        "Active": "1",
+                        "ShippedDate": "2018-12-12T08:34:48",
+                        "ShippedQuantity": "1",
+                        "UnitPrice": "100",
+                        "RemainingOrderQuantity": "1",
+                        "UnitOfMeasure": "EACH",
+                        "ExtendedPrice": "100",
+                        "Tax": "1",
+                        "Manufacturer": "Manufacturer",
+                        "PaymentTermCode": "PC-001",
+                        "BuyerComments": "Urgent",
+                        "FreightTermCode": "FED",
+                        "CommodityCode": "COM1",
+                        "RequestorComments": "",
+                        "LeadTime": "2",
+                        "IsVirtualPedimento": "",
+                        "BPOLineDetailId": "",
+                        "RFQLineItemId": "1",
+                        "ProjectCode": "",
+                        "AmendmentNo": "",
+                        "InvoicedQuantity": "0",
+                        "LegacyPartNumber": "",
+                        "LineReleaseNumber": "",
+                        "CategoryId": "1",
+                        "SupplierPartAuxuliaryId": "8001",
+                        "GLAccountCode": "PC-001",
+                        "CostCenterCode": "1",
+                        "SubAccountCode": "8001",
+                        "WorkOrderCode": "1",
+                    },{
+                    "POId": "1011",
+                    "PODetailId": "8001",
+                    "ProductCode": "PC-001",
+                    "SupplierPartNumber": "1",
+                        "ProductDescription": "ProductDescription",
+                        "PromiseDate": "2018-12-12T08:34:48",
+                        "OrderQuantity": "2",
+                        "ReceivedQuantity": "1",
+                        "RejectReasonCode": "",
+                        "Comments": "Urgent",
+                        "CustomerRequiredDate": "2018-12-12T08:34:48",
+                        "StatusCode": "1",
+                        "LineItemNumber": "2",
+                        "Active": "1",
+                        "ShippedDate": "2018-12-12T08:34:48",
+                        "ShippedQuantity": "1",
+                        "UnitPrice": "100",
+                        "RemainingOrderQuantity": "1",
+                        "UnitOfMeasure": "EACH",
+                        "ExtendedPrice": "100",
+                        "Tax": "1",
+                        "Manufacturer": "Manufacturer",
+                        "PaymentTermCode": "PC-001",
+                        "BuyerComments": "Urgent",
+                        "FreightTermCode": "FED",
+                        "CommodityCode": "COM1",
+                        "RequestorComments": "",
+                        "LeadTime": "2",
+                        "IsVirtualPedimento": "",
+                        "BPOLineDetailId": "",
+                        "RFQLineItemId": "1",
+                        "ProjectCode": "",
+                        "AmendmentNo": "",
+                        "InvoicedQuantity": "0",
+                        "LegacyPartNumber": "",
+                        "LineReleaseNumber": "",
+                        "CategoryId": "1",
+                        "SupplierPartAuxuliaryId": "8001",
+                        "GLAccountCode": "PC-001",
+                        "CostCenterCode": "1",
+                        "SubAccountCode": "8001",
+                        "WorkOrderCode": "1",
+                    }
+                    ]
+                    
+                }
+            ]
+
++ Request For Getting More than one Purchase Order (application/json)
+
+            {
+                "NumberOfRecords": 2,
+                "SupplierCode": "",
+                "LocationCode": "",
+                "BuyerCode": "",
+            }
+        
+
++ Response 200 (application/json)
+            
+            [
+                {
+                    "POHeader": {
+                    "POId": "1011",
+                    "ReqNo": "ReqNo-001",
+                    "SupplierCode": "SUP-1",
+                    "CustomerCode": "ReqNo-001",
+                    "LocationCode": "LOC-91",
+                    "POIssueDate": "2018-12-12T08:34:48",
+                    "RFQNo": "RFQ0089",
+                    "BuyerCode": "BC-0012",
+                    "PaymentTermCode": "NET-60",
+                    "ShipVia": "FED",
+                    "Status": "1",
+                    "BuyerComments": "Urgent",
+                    "AmendmentNo": "0",
+                    "ShipToCode": "SHIP-001",
+                    "AlternateRequestor": "",
+                    "OrderComments": "Urgent",
+                    "ShowPOComments": "0",
+                    "RequestorCode": "REQ-002",
+                    "BillToCode": "BILL-90",
+                    "DivisionCode": "",
+                    "ProgramCode": "",
+                    "Capex": "",
+                    "Budgeted": "",
+                    "RequestorName": "Rupesh",
+                    "RequestorEmail": "Rupesh@xeeva.com",
+                    "CurrencyCode": "USD",
+                    "OrderDescription": "Test Order",
+                    "RequestorCurrency": "USD",
+                    "BillToAddress": "Address line 1",
+                    "ShowLineCommentsOnPO": "",
+                    "Consignment": "",
+                    "BPOHeaderId": "",
+                    "BPOCurrentReleaseNo": "",
+                    "BPORequestorCode": "",
+                    "UserOnBehalfCode": "",
+                    "IsUrgentPO": "",
+                    "IsServicePO": "",
+                    "AmendmentDate": "",
+                    "POReleaseRejectDate": "",
+                    "FOBCode": "",
+                    "IsApplyTaxOnHeader": "",
+                    "POSource": "",
+                    "PCardNo": "",
+                    "ShipToName": "ShipToName",
+                    "ShipToAddress": "ShipToAddress",
+                    "ShipToAddress2": "ShipToAddress2",
+                    "ShipToCity": "ShipToCity",
+                    "ShipToState": "ShipToState",
+                    "ShipToCountry": "ShipToCountry",
+                    "ShipToZip": "ShipToZip",
+                    "ShipToLocationCode": "ShipToLocationCode",
+                    "VendorName": "VendorName",
+                    "VendorAddress": "VendorAddress",
+                    "VendorCity": "VendorCity",
+                    "VendorState": "VendorState",
+                    "VendorZip": "VendorZip",
+                    "VendorCountry": "VendorCountry",
+                    "BuyerContactNumber": "8001-778787",
+                    "BuyerEmail": "BuyerEmail@xeeva.com",
+                    "BuyerName": "Test Buyer",
+                    "BuyerAddress": "BuyerAddress",
+                    "BuyerCity": "BuyerCity1",
+                    "BuyerSate": "BuyerSate1",
+                    "BuyerZip": "BuyerZip",
+                    "PSALocation": "PC-001",
+                    },
+                    "PODetails": [
+                    {
+                    "POId": "1011",
+                    "PODetailId": "8001",
+                    "ProductCode": "PC-001",
+                    "SupplierPartNumber": "1",
+                        "ProductDescription": "ProductDescription",
+                        "PromiseDate": "2018-12-12T08:34:48",
+                        "OrderQuantity": "2",
+                        "ReceivedQuantity": "1",
+                        "RejectReasonCode": "",
+                        "Comments": "Urgent",
+                        "CustomerRequiredDate": "2018-12-12T08:34:48",
+                        "StatusCode": "1",
+                        "LineItemNumber": "1",
+                        "Active": "1",
+                        "ShippedDate": "2018-12-12T08:34:48",
+                        "ShippedQuantity": "1",
+                        "UnitPrice": "100",
+                        "RemainingOrderQuantity": "1",
+                        "UnitOfMeasure": "EACH",
+                        "ExtendedPrice": "100",
+                        "Tax": "1",
+                        "Manufacturer": "Manufacturer",
+                        "PaymentTermCode": "PC-001",
+                        "BuyerComments": "Urgent",
+                        "FreightTermCode": "FED",
+                        "CommodityCode": "COM1",
+                        "RequestorComments": "",
+                        "LeadTime": "2",
+                        "IsVirtualPedimento": "",
+                        "BPOLineDetailId": "",
+                        "RFQLineItemId": "1",
+                        "ProjectCode": "",
+                        "AmendmentNo": "",
+                        "InvoicedQuantity": "0",
+                        "LegacyPartNumber": "",
+                        "LineReleaseNumber": "",
+                        "CategoryId": "1",
+                        "SupplierPartAuxuliaryId": "8001",
+                        "GLAccountCode": "PC-001",
+                        "CostCenterCode": "1",
+                        "SubAccountCode": "8001",
+                        "WorkOrderCode": "1",
+                    },{
+                    "POId": "1011",
+                    "PODetailId": "8001",
+                    "ProductCode": "PC-001",
+                    "SupplierPartNumber": "1",
+                        "ProductDescription": "ProductDescription",
+                        "PromiseDate": "2018-12-12T08:34:48",
+                        "OrderQuantity": "2",
+                        "ReceivedQuantity": "1",
+                        "RejectReasonCode": "",
+                        "Comments": "Urgent",
+                        "CustomerRequiredDate": "2018-12-12T08:34:48",
+                        "StatusCode": "1",
+                        "LineItemNumber": "2",
+                        "Active": "1",
+                        "ShippedDate": "2018-12-12T08:34:48",
+                        "ShippedQuantity": "1",
+                        "UnitPrice": "100",
+                        "RemainingOrderQuantity": "1",
+                        "UnitOfMeasure": "EACH",
+                        "ExtendedPrice": "100",
+                        "Tax": "1",
+                        "Manufacturer": "Manufacturer",
+                        "PaymentTermCode": "PC-001",
+                        "BuyerComments": "Urgent",
+                        "FreightTermCode": "FED",
+                        "CommodityCode": "COM1",
+                        "RequestorComments": "",
+                        "LeadTime": "2",
+                        "IsVirtualPedimento": "",
+                        "BPOLineDetailId": "",
+                        "RFQLineItemId": "1",
+                        "ProjectCode": "",
+                        "AmendmentNo": "",
+                        "InvoicedQuantity": "0",
+                        "LegacyPartNumber": "",
+                        "LineReleaseNumber": "",
+                        "CategoryId": "1",
+                        "SupplierPartAuxuliaryId": "8001",
+                        "GLAccountCode": "PC-001",
+                        "CostCenterCode": "1",
+                        "SubAccountCode": "8001",
+                        "WorkOrderCode": "1",
+                    }
+                    ]
+                    
+                },{
+                    "POHeader": {
+                    "POId": "1012",
+                    "ReqNo": "ReqNo-001",
+                    "SupplierCode": "SUP-1",
+                    "CustomerCode": "ReqNo-001",
+                    "LocationCode": "LOC-91",
+                    "POIssueDate": "2018-12-12T08:34:48",
+                    "RFQNo": "RFQ0089",
+                    "BuyerCode": "BC-0012",
+                    "PaymentTermCode": "NET-60",
+                    "ShipVia": "FED",
+                    "Status": "1",
+                    "BuyerComments": "Urgent",
+                    "AmendmentNo": "0",
+                    "ShipToCode": "SHIP-001",
+                    "AlternateRequestor": "",
+                    "OrderComments": "Urgent",
+                    "ShowPOComments": "0",
+                    "RequestorCode": "REQ-002",
+                    "BillToCode": "BILL-90",
+                    "DivisionCode": "",
+                    "ProgramCode": "",
+                    "Capex": "",
+                    "Budgeted": "",
+                    "RequestorName": "Rupesh",
+                    "RequestorEmail": "Rupesh@xeeva.com",
+                    "CurrencyCode": "USD",
+                    "OrderDescription": "Test Order",
+                    "RequestorCurrency": "USD",
+                    "BillToAddress": "Address line 1",
+                    "ShowLineCommentsOnPO": "",
+                    "Consignment": "",
+                    "BPOHeaderId": "",
+                    "BPOCurrentReleaseNo": "",
+                    "BPORequestorCode": "",
+                    "UserOnBehalfCode": "",
+                    "IsUrgentPO": "",
+                    "IsServicePO": "",
+                    "POPDFPath": "",
+                    "AmendmentDate": "",
+                    "POReleaseRejectDate": "",
+                    "FOBCode": "",
+                    "IsApplyTaxOnHeader": "",
+                    "POSource": "",
+                    "PCardNo": "",
+                    "ShipToName": "ShipToName",
+                    "ShipToAddress": "ShipToAddress",
+                    "ShipToAddress2": "ShipToAddress2",
+                    "ShipToCity": "ShipToCity",
+                    "ShipToState": "ShipToState",
+                    "ShipToCountry": "ShipToCountry",
+                    "ShipToZip": "ShipToZip",
+                    "ShipToLocationCode": "ShipToLocationCode",
+                    "VendorName": "VendorName",
+                    "VendorAddress": "VendorAddress",
+                    "VendorCity": "VendorCity",
+                    "VendorState": "VendorState",
+                    "VendorZip": "VendorZip",
+                    "VendorCountry": "VendorCountry",
+                    "BuyerContactNumber": "8001-778787",
+                    "BuyerEmail": "BuyerEmail@xeeva.com",
+                    "BuyerName": "Test Buyer",
+                    "BuyerAddress": "BuyerAddress",
+                    "BuyerCity": "BuyerCity1",
+                    "BuyerSate": "BuyerSate1",
+                    "BuyerZip": "BuyerZip",
+                    "PSALocation": "PC-001",
+                    },
+                    "PODetails": [
+                    {
+                    "POId": "1012",
+                    "PODetailId": "8001",
+                    "ProductCode": "PC-001",
+                    "SupplierPartNumber": "1",
+                        "ProductDescription": "ProductDescription",
+                        "PromiseDate": "2018-12-12T08:34:48",
+                        "OrderQuantity": "2",
+                        "ReceivedQuantity": "1",
+                        "RejectReasonCode": "",
+                        "Comments": "Urgent",
+                        "CustomerRequiredDate": "2018-12-12T08:34:48",
+                        "StatusCode": "1",
+                        "LineItemNumber": "1",
+                        "Active": "1",
+                        "ShippedDate": "2018-12-12T08:34:48",
+                        "ShippedQuantity": "1",
+                        "UnitPrice": "100",
+                        "RemainingOrderQuantity": "1",
+                        "UnitOfMeasure": "EACH",
+                        "ExtendedPrice": "100",
+                        "Tax": "1",
+                        "Manufacturer": "Manufacturer",
+                        "PaymentTermCode": "PC-001",
+                        "BuyerComments": "Urgent",
+                        "FreightTermCode": "FED",
+                        "CommodityCode": "COM1",
+                        "RequestorComments": "",
+                        "LeadTime": "2",
+                        "IsVirtualPedimento": "",
+                        "BPOLineDetailId": "",
+                        "RFQLineItemId": "1",
+                        "RemainingInvoiceQuantity": "1011",
+                        "ProjectCode": "",
+                        "AmendmentNo": "",
+                        "InvoicedQuantity": "0",
+                        "LegacyPartNumber": "",
+                        "LineReleaseNumber": "",
+                        "CategoryId": "1",
+                        "SupplierPartAuxuliaryId": "8001",
+                        "GLAccountCode": "PC-001",
+                        "CostCenterCode": "1",
+                        "SubAccountCode": "8001",
+                        "SupplierCurrencyCode": "USD",
+                        "WorkOrderCode": "1",
+                        "Price": "100",
+                        "ExtendedAmount": "100",
+                        "UOM": "EACH",
+                        "Requisition": "991",
+                    },{
+                    "POId": "1012",
+                    "PODetailId": "8001",
+                    "ProductCode": "PC-001",
+                    "SupplierPartNumber": "1",
+                        "ProductDescription": "ProductDescription",
+                        "PromiseDate": "2018-12-12T08:34:48",
+                        "OrderQuantity": "2",
+                        "ReceivedQuantity": "1",
+                        "RejectReasonCode": "",
+                        "Comments": "Urgent",
+                        "CustomerRequiredDate": "2018-12-12T08:34:48",
+                        "StatusCode": "1",
+                        "LineItemNumber": "2",
+                        "Active": "1",
+                        "ShippedDate": "2018-12-12T08:34:48",
+                        "ShippedQuantity": "1",
+                        "UnitPrice": "100",
+                        "RemainingOrderQuantity": "1",
+                        "UnitOfMeasure": "EACH",
+                        "ExtendedPrice": "100",
+                        "Tax": "1",
+                        "Manufacturer": "Manufacturer",
+                        "PaymentTermCode": "PC-001",
+                        "BuyerComments": "Urgent",
+                        "FreightTermCode": "FED",
+                        "CommodityCode": "COM1",
+                        "RequestorComments": "",
+                        "LeadTime": "2",
+                        "IsVirtualPedimento": "",
+                        "BPOLineDetailId": "",
+                        "RFQLineItemId": "1",
+                        "RemainingInvoiceQuantity": "1011",
+                        "ProjectCode": "",
+                        "AmendmentNo": "",
+                        "InvoicedQuantity": "0",
+                        "LegacyPartNumber": "",
+                        "LineReleaseNumber": "",
+                        "CategoryId": "1",
+                        "SupplierPartAuxuliaryId": "8001",
+                        "GLAccountCode": "PC-001",
+                        "CostCenterCode": "1",
+                        "SubAccountCode": "8001",
+                        "SupplierCurrencyCode": "USD",
+                        "WorkOrderCode": "1",
+                        "Price": "100",
+                        "ExtendedAmount": "100",
+                        "UOM": "EACH",
+                        "Requisition": "991",
+                    }
+                    ]
+                    
+                }
+            ]
+            
+
+## Group Item
+
+
+## Item (object)
+
+A Item object has the following attributes:
+
++ LocationCode
+
+    This is for storing the unique division / location / plant code for which the Item is associated  in ERP
+    
+    Data Type: string(50)  
+    
+    Mandatory: Yes
+    
++ ItemCode
+
+    This field is for Item Code, XEEVA will use this for ordering an item.
+    
+    Data Type: string(10)  
+    
+    Mandatory: Yes
+    
++ ItemDescription
+
+    This field is for Item Description. This field is used to describe significance of Item.
+
+    Data Type: string(255)  
+    
+    Mandatory: Yes
+    
++ MasterCategoryCode
+
+    This field is for Master Category Code. This is used to distinguish item at very high level 
+
+    Data Type: string(5)  
+    
+    Mandatory: Yes
+    
++ CategoryCode
+
+    This field is for Category Code. This field is used to categorize the item.
+
+    Data Type: string(2)  
+    
+    Mandatory: Yes
+    
++ SubCategoryCode
+
+    This field is for Sub Category Code. This is used to one more low level categorization of item
+
+    Data Type: string(3)  
+    
+    Mandatory: Yes
+    
++ LegacyItemNumber
+
+    This field is for Legacy Item Number. This field is used to map Xeeva Item code with Legacy Item Number in external system. This is transmitted with PO and is consumed by external system to map Xeeva Item Code with Legacy Item Number.
+    
+    Data Type: string(50)  
+    
+    Mandatory: No
+    
++ ManufacturerName
+
+    This field is for Manufacturer Name.  This field is used to assign a manufacture to item who produced or build it.
+
+    Data Type: string(50)  
+    
+    Mandatory: No
+    
++ ManufacturerPartNumber
+
+    This field is for Manufacture Part Number. A manufacture assign a code to an item to identify it distinguish in the product list of manufacturer.
+    
+    Data Type: string(50)  
+    
+    Mandatory: No
+    
++ UnitofMeasure
+
+    This field is for Unit of Measure. Unit of Measure is associated with item to quantify an item.
+    
+    Data Type: string(3)  
+    
+    Mandatory: Yes
+    
++ PackSize
+
+    This field is for Pack Size. This field is used to describe pack size of item can be ordered like 10 strips in a box is single unit.
+    
+    Data Type: string(4)  
+    
+    Mandatory: Yes
+    
++ UnitPrice
+
+    This field is for Unit Price. It is price of an item for single unit.
+    
+    Data Type: Number  
+    
+    Mandatory: Yes
+    
++ SupplierCode
+
+    This field is for Supplier Code. It is supplier with which price agreement created for this item.
+    
+    Data Type: string(50)  
+    
+    Mandatory: No
+    
++ PartDescription 
+
+    This field is for Item Description.  This field is used to describe significance of Item.
+
+    Data Type: string(50)  
+    
+    Mandatory: No
+    
++ CreatedDate
+
+    This field is for Item Creation Date. This field is used to audit when item has been created.
+
+    Data Type: DateTime  
+    
+    Mandatory: No
+    
++ ModifiedDate
+
+    This field is used to audit when item has been last modified.
+    
+    Data Type: DateTime  
+    
+    Mandatory: No
+    
++ SupplierPartNumber 
+
+    This field is used to uniquely distinguish an item in Supplier Catalog list and give by supplier.
+    
+    Data Type: string(1)  
+    
+    Mandatory: Yes
+    
++ CustomField1    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField2    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField3    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField4    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField5    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No    
+    
+    
+**Item Columns and Sequence information in Flat File Request**
+
+<table style="width:100%" border="1">
+    <tr>
+        <th>Element</th>
+        <th>Sequence</th>
+        <th>Required</th>
+    </tr>
+    <tr>
+        <td>LocationCode</td>
+        <td>1</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>ItemCode</td>
+        <td>2</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>ItemDescription</td>
+        <td>3</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>MasterCategoryCode</td>
+        <td>4</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>CategoryCode</td>
+        <td>5</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>SubCategoryCode</td>
+        <td>6</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>LegacyItemNumber</td>
+        <td>7</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>ManufacturerName</td>
+        <td>8</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>ManufacturerPartNumber</td>
+        <td>9</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>UnitofMeasure</td>
+        <td>10</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>PackSize</td>
+        <td>11</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>UnitPrice</td>
+        <td>12</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>SupplierCode</td>
+        <td>13</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>PartDescription</td>
+        <td>14</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>CreatedDate</td>
+        <td>15</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>ModifiedDate</td>
+        <td>16</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>SupplierPartNumber</td>
+        <td>17</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>CustomField1</td>
+        <td>18</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>CustomField2</td>
+        <td>19</td>
+        <td>Yes</td>
+    </tr>    
+    <tr>
+        <td>CustomField3</td>
+        <td>20</td>
+        <td>Yes</td>
+    </tr>    
+    <tr>
+        <td>CustomField4</td>
+        <td>21</td>
+        <td>Yes</td>
+    </tr>    
+    <tr>
+        <td>CustomField1</td>
+        <td>22</td>
+        <td>Yes</td>
+    </tr>    
+</table>
+    
+## Items [/Items]
+    
+Items entity integration is supported through web and Flat file methods. Customer may Pull one or more than One Item  Objects from Xeeva through web interface or through Flat file.
+
+### Get Items Payload (Try Now)[POST]
+
++ Request For Getting Items (application/json)
+
+            {
+                "NumberOfRecords": 1,
+                "SupplierCode": "",
+                "LocationCode": "",
+            }
+            
++ Response 200 (application/json)
+
+        [
+            {
+            "LocationCode": "LOC-1",
+            "ItemCode": "ITEM-001",
+            "ItemDescription": "ItemDescription-1",
+            "MasterCategoryCode": "MA001",
+            "CategoryCode": "01",
+            "SubCategoryCode": "001",
+            "LegacyItemNumber": "LegacyItemNumber",
+            "ManufacturerName": "ManufacturerName",
+            "ManufacturerPartNumber": "ManufacturerPartNumber",
+            "UnitofMeasure": "UOM",
+            "PackSize": "EACH",
+            "UnitPrice": "121",
+            "SupplierCode": "BC-0012",
+            "PartDescription": "ItemDescription",
+            "CreatedDate": "2018-12-12T08:34:48",
+            "ModifiedDate": "2018-12-12T08:34:48",
+            "SupplierPartNumber": "SupplierPartNumber",                  
+            },{
+            "LocationCode": "LOC-1",
+            "ItemCode": "ITEM-002",
+            "ItemDescription": "ItemDescription-2",
+            "MasterCategoryCode": "MA001",
+            "CategoryCode": "01",
+            "SubCategoryCode": "001",
+            "LegacyItemNumber": "LegacyItemNumber",
+            "ManufacturerName": "ManufacturerName",
+            "ManufacturerPartNumber": "ManufacturerPartNumber",
+            "UnitofMeasure": "UOM",
+            "PackSize": "EACH",
+            "UnitPrice": "121",
+            "SupplierCode": "BC-0012",
+            "PartDescription": "ItemDescription",
+            "CreatedDate": "2018-12-12T08:34:48",
+            "ModifiedDate": "2018-12-12T08:34:48",
+            "SupplierPartNumber": "SupplierPartNumber",                    
+            }
+        ]
+    
+## Group Receiving
+
+## Receipt (object)
+
+A Receipt object has the following attributes:
+
++ Header
+
+    Header Level information about a Receipt
+
+    Data Type: ReceiptHeader  
+    
+    Mandatory: Yes
+    
++ Details
+
+    Line Level information about a Receipt
+
+    Data Type: (array[ReceiptDetail])  
+    
+    Mandatory: Yes
+    
+## ReceiptHeader (object)
+
+A Receipt Header object has the following attributes:
+
++ RecordType
+
+    Static value "PO_HEADER" needs to be passed to identify the type of record (Header or details)
+
+    Data Type: string(9)  
+    
+    Mandatory: Yes
+
++ LocationCode
+
+    Location code on which purchase order was generated
+
+    Data Type: string(50)  
+    
+    Mandatory: Yes
+    
++ ReceiptNumber
+
+    Unique Number for Receipt
+
+    Data Type: string(50)  
+    
+    Mandatory: Yes
+    
++ PackingSlipRef
+
+    Unique Number for Packing Slip for a Receipt.
+
+    Data Type: string(50)  
+    
+    Mandatory: Yes
+
++ POCode
+
+    PO Code is the PO Number against which Receipt has been generated.
+
+    Data Type: string(20)  
+    
+    Mandatory: Yes
+    
++ SupplierCode
+
+    Supplier Code is the Code of Supplier for which Receipt has been generated.
+
+    Data Type: string(50)  
+    
+    Mandatory: Yes
+    
++ ReceiptDate
+
+    Date of Receiving
+
+    Data Type: DateTime  
+    
+    Mandatory: Yes
+    
++ ReceivedBy
+
+    User code for the receiver
+
+    Data Type: string(50)  
+    
+    Mandatory: Yes
+    
++ ReleaseNumber
+
+    Value of Release number will always be 0 in case of standard PO/ Non BPO release PO. And if it is a BPO release, Xeeva will receive the same release number which was sent in PO release.
+
+    Data Type: string(4)  
+    
+    Mandatory: Yes
+    
++ CustomField1    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField2    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField3    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField4    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField5    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+    
+## ReceiptDetail (object)
+
+A Receipt Detail object has the following attributes:
+
++ RecordType
+
+    Static value "PO_DETAILS" needs to be passed to identify the type of record (Header or details)
+
+    Data Type: string(10)  
+    
+    Mandatory: Yes
+
++ ReceivedQuantity
+
+    Positive for receiving and negative for un-receiving
+
+    Data Type: Number  
+    
+    Mandatory: Yes
+    
++ LineNo
+
+    Same line number which was given in the PO
+
+    Data Type: Number  
+    
+    Mandatory: Yes
+    
++ TransactionID
+
+    Unique ID across the PO, to identify receiving uniquely
+
+    Data Type: string(50)  
+    
+    Mandatory: Yes
+    
++ PartNumber
+
+    Same item code which was given in the PO
+
+    Data Type: string(50)  
+    
+    Mandatory: Yes
+    
++ ReleaseNumber
+
+    Value of Release number will always be 0 in case of standard PO/ Non BPO release PO. And if it is a BPO release, Xeeva will receive the same release number which was sent in PO for respective line
+
+    Data Type: Number  
+    
+    Mandatory: Yes
+    
++ ParentTransactionID
+
+    Value of parent Transaction ID will be blank at the time of Receiving. At the time of un-receiving this column will have the same value of transaction ID which was there at the time of receiving.
+
+    Data Type: string(50)  
+    
+    Mandatory: No
+    
++ CustomField1    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField2    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField3    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField4    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField5    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+    
+**Receipt Columns and Sequence information in Flat File Request**
+
+Request file contains both Receipt Header and Receipt Detail records.
+
+RecordType field will be used to identify the Header record and detail record.
+
+**Receipt Header Columns and Sequence information in Flat File Request**
+
+<table style="width:100%" border="1">
+    <tr>
+        <th>Element</th>
+        <th>Sequence</th>
+        <th>Required</th>
+    </tr>
+    <tr>
+        <td>RecordType</td>
+        <td>1</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>LocationCode</td>
+        <td>2</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>ReceiptNumber</td>
+        <td>3</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>PackingSlipRef</td>
+        <td>4</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>POCode</td>
+        <td>5</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>SupplierCode</td>
+        <td>6</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>ReceiptDate</td>
+        <td>7</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>ReceivedBy</td>
+        <td>8</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>ReleaseNumber</td>
+        <td>9</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>CustomField1</td>
+        <td>10</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>CustomField2</td>
+        <td>11</td>
+        <td>No</td>
+    </tr>   
+    <tr>
+        <td>CustomField3</td>
+        <td>12</td>
+        <td>No</td>
+    </tr>   
+    <tr>
+        <td>CustomField4</td>
+        <td>13</td>
+        <td>No</td>
+    </tr>   
+    <tr>
+        <td>CustomField5</td>
+        <td>14</td>
+        <td>No</td>
+    </tr>   
+</table>
+
+**Receipt Detail Columns and Sequence information in Flat File Request**
+<table style="width:100%" border="1">
+    <tr>
+        <th>Element</th>
+        <th>Sequence</th>
+        <th>Required</th>
+    </tr>
+    <tr>
+        <td>RecordType</td>
+        <td>1</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>ReceivedQuantity</td>
+        <td>2</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>LineNo</td>
+        <td>3</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>TransactionID</td>
+        <td>4</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>PartNumber</td>
+        <td>5</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>ReleaseNumber</td>
+        <td>6</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>ParentTransactionID</td>
+        <td>7</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>CustomField1</td>
+        <td>8</td>
+        <td>No</td>
+    </tr>
+     <tr>
+        <td>CustomField2</td>
+        <td>9</td>
+        <td>No</td>
+    </tr>
+     <tr>
+        <td>CustomField3</td>
+        <td>10</td>
+        <td>No</td>
+    </tr>
+     <tr>
+        <td>CustomField4</td>
+        <td>11</td>
+        <td>No</td>
+    </tr>
+     <tr>
+        <td>CustomField5</td>
+        <td>12</td>
+        <td>No</td>
+    </tr>
+</table>
+    
+## Receiving [/Receiving]
+    
+Receivingentity integration is supported through web and Flat file methods. Customer may Pull one or more than One Item  Objects from Xeeva through web interface or through Flat file.
+
+### Get Receiving Payload (Try Now)[POST]
+
++ Request For Getting Receiving (application/json)
+        
+            {
+                "NumberOfRecords": 1,
+                "SupplierCode": "",
+                "LocationCode": "",
+            }
+            
++ Response 200 (application/json)
+
+        [
+            {
+                "Header": {
+                    "LocationCode": "1012",
+                    "ReceiptNumber": "RCPT-1",
+                    "POCode": "PO-001",
+                    "SupplierCode": "SUP-001",
+                    "ReceiptDate": "2018-12-12T08:34:48",
+                    "ReceivedBy": "1",
+                    "ReleaseNumber": "1",
+                    },
+                    "Details": [
+                    {
+                    "ReceivedQuantity": "2",
+                    "LineNo": "1",
+                    "TransactionID": "TRANS-0001",
+                    "PartNumber": "1",
+                    "ReleaseNumber": "1",
+                    "ParentTransactionID": "TRANS-00004",
+                    },{
+                    "ReceivedQuantity": "2",
+                    "LineNo": "2",
+                    "TransactionID": "TRANS-0002",
+                    "PartNumber": "2",
+                    "ReleaseNumber": "2",
+                    "ParentTransactionID": "TRANS-00004",
+                    }
+                    ]
+            },
+            }
+        ]
+    
+## Group OkToPay
+
+## OkToPay (object)
+
+A OkToPay object has the following attributes:
+
++ Header
+
+    This is to keep Header level information of a OkToPay object .
+
+    Data Type: Header  
+    
+    Mandatory: Yes
+    
++  Details 
+
+    This is to keep Line level information of a of a OkToPay object.
+    
+    Data Type: (array[Detail])   
+    
+    Mandatory: Yes
+    
+## Header (object)
+
+Header has the following attributes:
+
++ RecordType
+
+    Indicates record type (Header or Detail).
+
+    Data Type: string(15)  
+    
+    Mandatory: Yes
+    
++ InvoiceHeaderID
+
+    Unique Reference ID.
+  
+    Data Type: Number  
+  
+    Mandatory: Yes
+    
++ CreatedAt
+
+    Date the invoice was created, in case of credit or debit memo it would create date for credit or debit memo.
+  
+    Data Type: DateTime  
+  
+    Mandatory: Yes
++ InvoiceDate
+
+    Date of the invoice.
+  
+    Data Type: DateTime  
+  
+    Mandatory: Yes
+
++ InvoiceNumber
+
+    Invoice number .
+
+    Data Type: string(50)  
+    
+    Mandatory: Yes
++ MemoType
+
+    C or D (Credit memo or debit memo).
+
+    Data Type: string(1)  
+    
+    Mandatory: Yes
+
++ MemoNumber
+
+    Credit or Debit Memo number.
+
+    Data Type: string(50)  
+    
+    Mandatory: Yes
+
++ MemoDate
+
+    Date of the debit invoice.
+  
+    Data Type: DateTime  
+  
+    Mandatory: Yes
+
++ PurchaseOrderNumber
+
+    Purchase Order # (can be blank if line is not backed by PO).
+
+    Data Type: string(50)  
+    
+    Mandatory: Yes
+
++ PurchaseOrderDate 
+
+    Date of the PO.
+  
+    Data Type: DateTime  
+  
+    Mandatory: Yes
++ CurrencyCode
+
+    Currency Code.
+
+    Data Type: string(3)  
+    
+    Mandatory: Yes
+
++ TotalInvoiceAmount 
+
+    Total amount of invoice (including line amounts, shipping, handling, misc. amounts) in invoice currency.
+
+    Data Type: Number 
+    
+    Mandatory: Yes
+
++ TotalMemoAmount 
+
+    Total amount of Memo (including line amounts, shipping, handling, misc. amounts) in invoice currency.
+
+    Data Type: Number
+    
+    Mandatory: Yes
+
++ MiscAmount 
+
+    Miscellaneous amount.
+
+    Data Type: Number
+    
+    Mandatory: No
+
++ ShippingAmount 
+
+    Shipping Amount.
+
+    Data Type: Number
+    
+    Mandatory: Yes
+
++ LineTotalAmount  
+
+    Total amount of invoice (does not include line amounts, taxes, shipping, handling, misc. amounts).
+
+    Data Type: Number
+    
+    Mandatory: Yes
+
++ HeaderTaxAmount 
+
+    Amount of tax on header.
+
+    Data Type: Number
+    
+    Mandatory: No
+
++ VATAmount   
+
+    This would be the total VAT amount for all the line items, Misc. and Shipping.
+
+    Data Type: Number
+    
+    Mandatory: No
+
++ SupplierName   
+
+    Supplier Name.
+
+    Data Type: string(200)
+    
+    Mandatory: Yes
++ SupplierNumber   
+
+    Supplier number.
+
+    Data Type: string(50)
+    
+    Mandatory: Yes
+
++ BillToAddress   
+
+    Bill to address of the location .
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ ShipToAddress   
+
+    Ship to address of the location .
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ SupplierTaxID    
+
+    Unique TAX Id for Suppliers.
+
+    Data Type: string(20)
+    
+    Mandatory: Yes
+
++ SupplierVAT   
+
+    This is VAT registration number of supplier.
+
+    Data Type: string(20)
+    
+    Mandatory: No
+
++ CustomerVAT    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(20)
+    
+    Mandatory: No
+
++ LocationCode   
+
+    Ship to address of the location .
+
+    Data Type: string(20)
+    
+    Mandatory: Yes
+
++ ShippingIsTaxable   
+
+    If the VAT is applicable on the shipping or exempt.
+
+    Data Type: string(1)
+    
+    Mandatory: No
+
++ ShippingVATCode    
+
+    This is the VAT code to identify the VAT ledger for Shipping
+
+    Data Type: string(20)
+    
+    Mandatory: No
+
++ ShippingVATPercentage  
+
+    VAT rate for shipping, the value will be in %.
+
+    Data Type: Number
+    
+    Mandatory: No
+
++ MiscIsTaxable   
+
+    If the VAT is applicable on the Misc.  or exempt.
+
+    Data Type: string(1)
+    
+    Mandatory: No
+
++ MiscVATCode    
+
+    This is the VAT code to identify the VAT ledger for Misc.
+
+    Data Type: string(20)
+    
+    Mandatory: No
+
++ MiscVATPercentage  
+
+    VAT rate for Misc. ,the value will be in %.
+
+    Data Type: Number
+    
+    Mandatory: No
+
++ CustomField1    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField2    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField3    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField4    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField5    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+    
+## Detail (object)    
+
+Detail has the following attributes:
+
++ RecordType
+
+    Indicates record type (Header or Detail).
+
+    Data Type: string(15)  
+    
+    Mandatory: Yes
+    
++ InvoiceHeaderID
+
+    Unique Reference ID from header of invoice.
+  
+    Data Type: Number  
+  
+    Mandatory: Yes
+    
++ InvoiceDetailID
+
+    Indicates invoice reference
+  
+    Data Type: Number  
+  
+    Mandatory: Yes
+
++ LineAmount
+
+    Line total excluding tax (e.g.. quantity* unit price)
+  
+    Data Type: Number  
+  
+    Mandatory: Yes
+
++ InvoiceLineNumber
+
+    Line number of invoice (does not have to be sequential)
+  
+    Data Type: Number  
+  
+    Mandatory: Yes
+
++ ItemNumber
+
+    Item number of the item (NPM in case of catalog items) 
+  
+    Data Type: string(255)  
+  
+    Mandatory: Yes
+
++ ItemDescription
+
+    Item Description from invoice line
+  
+    Data Type: string(255)  
+  
+    Mandatory: No
+
++ POLineNumber
+
+    Purchase Order Line Number
+  
+    Data Type: Number  
+  
+    Mandatory: Yes
+
++ CommodityCode
+
+    Commodity Code
+  
+    Data Type: string(20)  
+  
+    Mandatory: No
+
++ UnitPrice
+
+    Invoice line unit price
+  
+    Data Type: Number  
+  
+    Mandatory: Yes
+
++ POLineQuantity
+
+    PO line Quantity 
+  
+    Data Type: Number  
+  
+    Mandatory: Yes
+
++ InvoiceQuantity
+
+    Invoice line quantity
+  
+    Data Type: Number  
+  
+    Mandatory: Yes
+
++ QuantityAlreadyInvoiced
+
+    Quantity already Invoiced 
+  
+    Data Type: Number  
+  
+    Mandatory: No
+
++ UOM
+
+    Unit of Measure code
+  
+    Data Type: string(6)  
+  
+    Mandatory: Yes
+
++ GLAccountCode
+
+    SAP Commodity / GL Code
+  
+    Data Type: string(100)  
+  
+    Mandatory: Yes
+    
++ CostCenter
+
+    Cost Center / Department ID 
+  
+    Data Type: string(100)  
+  
+    Mandatory: Yes
+
+
++ SubAccount
+
+    Sub-account code
+  
+    Data Type: string(100)  
+  
+    Mandatory: No
+
++ IsTaxable
+
+    If the Tax is applicable on the line
+  
+    Data Type: string(1)  
+  
+    Mandatory: No
+
++ VATCode
+
+    This is the VAT code to identify the VAT ledger the VAT should hit
+  
+    Data Type: string(20)  
+  
+    Mandatory: No
+
++ VATRate
+
+    Tax rate for this line. The value should be in % 
+  
+    Data Type: Number 
+  
+    Mandatory: No
+
++ VATAmount
+
+    This would be calculated based on the rate on which the tax is applied of Invoice
+  
+    Data Type: Number 
+  
+    Mandatory: No
+
++ TAXExempt
+
+    If TAX is exempt or not 
+  
+    Data Type: string(1) 
+  
+    Mandatory: No
+
+
++ BPOLineReleaseNumber
+
+    Specific to BPO order 
+  
+    Data Type: string(3) 
+  
+    Mandatory: No
+
++ CustomField1    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField2    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField3    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField4    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField5    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+    
+**OkToPay Columns and Sequence information in Flat File Request**
+
+Request file contains OkToPay Header and OkToPay Detail records.
+RecordType field will be used to identify the Header record and detail record.
+
+**OkToPay Header Columns and Sequence information in Flat File Request**
+
+<table style="width:100%" border="1">
+    <tr>
+        <th>Element</th>
+        <th>Sequence</th>
+        <th>Required</th>
+    </tr>
+    <tr>
+        <td>RecordType</td>
+        <td>1</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>InvoiceHeaderID</td>
+        <td>2</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>CreatedAt</td>
+        <td>3</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>InvoiceDate</td>
+        <td>4</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>InvoiceNumber</td>
+        <td>5</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>MemoType</td>
+        <td>6</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>MemoNumber</td>
+        <td>7</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>MemoDate</td>
+        <td>8</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>PurchaseOrderNumber</td>
+        <td>9</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>PurchaseOrderDate</td>
+        <td>10</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>CurrencyCode</td>
+        <td>11</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>TotalInvoiceAmount</td>
+        <td>12</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>TotalMemoAmount</td>
+        <td>13</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>MiscAmount</td>
+        <td>14</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>ShippingAmount</td>
+        <td>15</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>LineTotalAmount</td>
+        <td>16</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>HeaderTaxAmount</td>
+        <td>17</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>VATAmount</td>
+        <td>18</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>SupplierName</td>
+        <td>19</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>SupplierNumber</td>
+        <td>20</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>BillToAddress</td>
+        <td>21</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>ShipToAddress</td>
+        <td>22</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>SupplierTaxID</td>
+        <td>23</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>SupplierVAT</td>
+        <td>24</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>CustomerVAT</td>
+        <td>25</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>LocationCode</td>
+        <td>26</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>ShippingIsTaxable</td>
+        <td>27</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>ShippingVATCode</td>
+        <td>28</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>ShippingVATPercentage</td>
+        <td>29</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>MiscIsTaxable</td>
+        <td>30</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>MiscVATCode</td>
+        <td>31</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>MiscVATPercentage</td>
+        <td>32</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>CustomField1</td>
+        <td>33</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>CustomField2</td>
+        <td>34</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>CustomField3</td>
+        <td>35</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>CustomField4</td>
+        <td>36</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>CustomField5</td>
+        <td>37</td>
+        <td>No</td>
+    </tr>
+</table>
+    
+**OkToPay Detail Columns and Sequence information in Flat File Request**
+
+<table style="width:100%" border="1">
+    <tr>
+        <th>Element</th>
+        <th>Sequence</th>
+        <th>Required</th>
+    </tr>
+    <tr>
+        <td>RecordType</td>
+        <td>1</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>InvoiceHeaderID</td>
+        <td>2</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>InvoiceDetailID</td>
+        <td>3</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>LineAmount</td>
+        <td>4</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>InvoiceLineNumber</td>
+        <td>5</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>ItemNumber</td>
+        <td>6</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>ItemDescription</td>
+        <td>7</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>POLineNumber</td>
+        <td>8</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>CommodityCode</td>
+        <td>9</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>UnitPrice</td>
+        <td>10</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>POLineQuantity</td>
+        <td>11</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>InvoiceQuantity</td>
+        <td>12</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>QuantityAlreadyInvoiced</td>
+        <td>13</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>UOM</td>
+        <td>14</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>GLAccountCode</td>
+        <td>15</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>CostCenter</td>
+        <td>16</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>SubAccount</td>
+        <td>17</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>IsTaxable</td>
+        <td>18</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>VATCode</td>
+        <td>19</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>VATRate</td>
+        <td>20</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>VATAmount</td>
+        <td>21</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>TAXExempt</td>
+        <td>22</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>BPOLineReleaseNumber</td>
+        <td>23</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>CustomField1</td>
+        <td>24</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>CustomField2</td>
+        <td>25</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>CustomField3</td>
+        <td>26</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>CustomField4</td>
+        <td>27</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>CustomField5</td>
+        <td>28</td>
+        <td>No</td>
+    </tr>
+</table>
+    
+
+    
+## OkToPay [/OkToPay]
+    
+OkToPay integration is supported through web and Flat file methods. Customer may Pull one or more than One OkToPay Objects from Xeeva through web interface or through Flat file.
+
+### Get OkToPay Payload (Try Now)[POST]
+
++ Request For Getting OkToPay Data (application/json)
+
+            {
+                "NumberOfRecords": 1,
+                "SupplierCode": "",
+                "LocationCode": "",
+            }
+            
++ Response 200 (application/json)
+
+        [
+            {
+                "Header": {
+                    "Type": "Header",
+                    "InvoiceHeaderID": "RCPT-1",
+                    "CreatedAt": "2018-12-12T08:34:48",
+                    "InvoiceDate": "2018-12-12T08:34:48",
+                    "InvoiceNumber": "",
+                    "MemoType": "1",
+                    "MemoNumber": "1",
+                    "MemoDate": "",
+                    "PurchaseOrderNumber": "1",
+                    "PurchaseOrderDate": "1",
+                    "CurrencyCode": "",
+                    "TotalInvoiceAmount": "1",
+                    "TotalMemoAmount": "1",
+                    "MiscAmount": "",
+                    "ShippingAmount": "1",
+                    "LineTotalAmount": "1",
+                    "HeaderTaxAmount": "",
+                    "VATAmount": "1",
+                    "SupplierName": "1",
+                    "SupplierNumber": "",
+                    "BillToAddress": "1",
+                    "ShipToAddress": "1",
+                    "SupplierTaxID": "",
+                    "SupplierVAT": "1",
+                    "CustomerVAT": "1",
+                    "LocationCode": "",
+                    "ShippingIsTaxable": "1",
+                    "ShippingVATCode": "1",
+                    "ShippingVATPercentage": "",
+                    "MiscIsTaxable": "1",
+                    "MiscVATCode": "1",
+                    "MiscVATPercentage": "",
+                    "CustomField1": "1",
+                    "CustomField2": "1",
+                    "CustomField3": "",
+                    "CustomField4": "1",
+                    "CustomField5": "1",
+                    },
+                    "Details": [
+                    {
+                    "Type": "LINE",
+                    "InvoiceHeaderID": "1",
+                    "InvoiceDetailID": "TRANS-0001",
+                    "LineAmount": "1",
+                    "InvoiceLineNumber": "1",
+                    "ItemNumber": "TRANS-00004",
+                    "ItemDescription": "2",
+                    "POLineNumber": "1",
+                    "CommodityCode": "TRANS-0001",
+                    "UnitPrice": "1",
+                    "POLineQuantity": "1",
+                    "InvoiceQuantity": "TRANS-00004",
+                    "QuantityAlreadyInvoiced": "2",
+                    "UOM": "1",
+                    "GLAccountCode": "TRANS-0001",
+                    "CostCenter": "1",
+                    "SubAccount": "1",
+                    "IsTaxable": "TRANS-00004",
+                    "VATCode": "2",
+                    "VATRate": "1",
+                    "VATAmount": "TRANS-0001",
+                    "TAXExempt": "1",
+                    "BPOLineReleaseNumber": "1",
+                    "CustomField1": "TRANS-00004",
+                    "CustomField2": "2",
+                    "CustomField3": "1",
+                    "CustomField4": "TRANS-0001",
+                    "CustomField5": "1",                    
+                    },{
+                    "Type": "LINE",
+                    "InvoiceHeaderID": "1",
+                    "InvoiceDetailID": "TRANS-0001",
+                    "LineAmount": "1",
+                    "InvoiceLineNumber": "2",
+                    "ItemNumber": "TRANS-00004",
+                    "ItemDescription": "2",
+                    "POLineNumber": "1",
+                    "CommodityCode": "TRANS-0001",
+                    "UnitPrice": "1",
+                    "POLineQuantity": "1",
+                    "InvoiceQuantity": "TRANS-00004",
+                    "QuantityAlreadyInvoiced": "2",
+                    "UOM": "1",
+                    "GLAccountCode": "TRANS-0001",
+                    "CostCenter": "1",
+                    "SubAccount": "1",
+                    "IsTaxable": "TRANS-00004",
+                    "VATCode": "2",
+                    "VATRate": "1",
+                    "VATAmount": "TRANS-0001",
+                    "TAXExempt": "1",
+                    "BPOLineReleaseNumber": "1",
+                    "CustomField1": "TRANS-00004",
+                    "CustomField2": "2",
+                    "CustomField3": "1",
+                    "CustomField4": "TRANS-0001",
+                    "CustomField5": "1",
+                    }
+                    ]
+            }            
+        ]
