@@ -120,11 +120,114 @@ https://int-**{customer code}**-stag.xeeva.com/-  **sandbox**
 
 https://int-**{customer code}**.xeeva.com/ - **production**
     
-## Authentication
+## Integration API Authentication
 
 To use Web API, API needs to be authenticated. Users authenticate themselves through the HTTP Header Authorization: Basic token provided by Xeeva Integration Service. If the HTTP Header is missing or if the API Key is invalid, the HTTP Response will be 401 Unauthorized.
 
 To use SFTP: Xeeva Integration Service will provide credentials if SFTP server of Xeeva would be used. 
+
+## User Athentication
+
+### SAML SSO
+Xeeva supports the use of SAML 2.0 (Security Assertion Markup Language) for SSO (Single Sign-On) support between Xeeva and customer Identity Management solution. The user will click on a link to Xeeva and automatically be signed in if they were already logged in to customer SSO.
+
+####  Advantages
++ Users do not need to remember a new password for Xeeva
++ Xeeva does not store or maintain password information
++ Centralize account control through your Intranet and corporate standards
++ SAML is an industry-accepted standard for SSO
+    
+####   How it Works
++ A user visits a webpage on your Xeeva instance.
++ Xeeva redirects the user to Customer SSO site for authentication.
++ Customer SSO site returns a webpage that directs the user's browser to post the SAML response to a Xeeva-provided URL.
++ Xeeva verifies the response. Upon success, the newly-authenticated user will not be required to re-authenticate with Customer SSO site until the session times out.
++ The session timeout will be configurable.
+
+####   SP vs. IdP Initiated SSO Workflow
+
+#####   IDP Initiated SSO
+In this scenario, a user is logged on to the IdP and attempts to access a resource on a remote SP server. The SAML assertion is transported to the SP via HTTP POST.
+
+###### Processing Steps:
++ A user has logged on to the IdP.
++ The user requests access to a protected SP resource. The user is not logged on to the SP site.
++ Optionally, the IdP retrieves attributes from the user data store.
++ The IdP’s SSO service returns an HTML form to the browser with a SAML response containing the authentication assertion and any additional attributes. The browser automatically posts the HTML form back to the SP.
++ If the signature and the assertion are valid, the SP establishes a session for the user and redirects the browser to the target resource.
+
+#####   SP Initiated SSO
+In this scenario a user attempts to access a protected resource directly on an SP Web site without being logged on. The user does not have an account on the SP site, but does have a federated account managed by a third-party IdP. The SP sends an authentication request to the IdP. Both the request and the returned SAML assertion are sent through the user’s browser via HTTP POST.
+
+###### Processing Steps:
++ The user requests access to a protected SP resource. The request is redirected to the federation server to handle authentication.
++ The federation server sends an HTML form back to the browser with a SAML request for authentication from the IdP. The HTML form is automatically posted to the IdP’s SSO service.
++ If the user is not already logged on to the IdP site or if re-authentication is required, the IdP asks for credentials (e.g., ID and password) and the user logs on.
++ Additional information about the user may be retrieved from the user data store for inclusion in the SAML response. (These attributes are predetermined as part of the federation agreement between the IdP and the SP).
++ The IdP federation server generates an assertion, creates an artifact, and sends an HTTP redirect containing the artifact through the browser to the SP’s Assertion Consumer Service (ACS).
++ The ACS extracts the source ID from the SAML artifact and sends an artifact-resolve message to the federation server’s Artifact Resolution Service (ARS).
++ The ARS sends a SAML artifact response message containing the previously generated assertion.
++ If the signature and assertion are valid, the SP establishes a session for the user and redirects the browser to the target resource.
+
+### LDAP
+Xeeva supports the use of an external LDAP or Microsoft ActiveDirectory (AD) Server for authentication. Users will sign in to Xeeva using the same credentials that have been used to access to intranet applications.
+
+####   Advantages
++ Users do not need to remember a new password for Xeeva
++ Password changes are reflected in Xeeva instantaneously
++ Enforce password policies defined in your Directory Server
++ Centralize account control through your Directory Server
+    
+#### How it Works
++ Login to Directory Server as the provided unprivileged account.
++ Perform a search for the user that's trying to sign in.
++ Xeeva binds to the directory server using the Distinguished Name of the user we found and the password provided by the user.
++ Let the user into Xeeva if above Step was successful.
+
+####  Required Information
+<table style="width:100%" border="1">
+    <tr>       
+        <th>Information</th>
+        <th>Details</th>
+        <th>Source</th>
+    </tr>   
+    <tr>
+        <td>Xeeva Server IP addresses</td>
+        <td>Specific Xeeva IPs that the customer will connect to. </td>
+        <td>Xeeva</td>
+    </tr>   
+    <tr>
+        <td>Host</td>
+        <td>The server IP and hostname to connect to</td>
+        <td>Customer</td>
+    </tr>   
+    <tr>
+        <td>Port</td>
+        <td>The port to connect to.</td>
+        <td>Customer</td>
+    </tr>     
+    <tr>
+        <td>Base</td>
+        <td>The base DN for searching LDAP</td>
+        <td>Customer</td>
+    </tr>   
+    <tr>
+        <td>Domain</td>
+        <td>The Active Directory domain</td>
+        <td>Customer</td>
+    </tr> 
+    <tr>
+        <td>Username</td>
+        <td>The username of the user to login with.</td>
+        <td>Customer</td>
+    </tr> 
+    <tr>
+        <td>Password</td>
+        <td>The password for the above user</td>
+        <td>Customer</td>
+    </tr> 
+</table>
+
 
 ## Errors
     
