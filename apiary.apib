@@ -5277,23 +5277,23 @@ Receivingentity integration is supported through web and Flat file methods. Cust
 
 A OkToPay object has the following attributes:
 
-+ Header
++ InvoiceHeader
 
     This is to keep Header level information of a OkToPay object .
 
-    Data Type: Header  
+    Data Type: InvoiceHeader  
     
     Mandatory: Yes
     
-+  Details 
++  InvoiceDetails 
 
     This is to keep Line level information of a of a OkToPay object.
     
-    Data Type: (array[Detail])   
+    Data Type: (array[InvoiceDetails])   
     
     Mandatory: Yes
     
-## Header (object)
+## InvoiceHeader (object)
 
 Header has the following attributes:
 
@@ -5589,9 +5589,9 @@ Header has the following attributes:
     
     Mandatory: No
     
-## Detail (object)    
+## InvoiceDetails (object)    
 
-Detail has the following attributes:
+Invoice Details has the following attributes:
 
 + RecordType
 
@@ -5818,6 +5818,123 @@ Detail has the following attributes:
     Data Type: string(255)
     
     Mandatory: No
+    
++  InvoicePackingSlips 
+
+    This is to keep Invoice Packing Slip information of a of a Invoice line Details object.
+    
+    Data Type: (array[InvoicePackingSlip])   
+    
+    Mandatory: Yes
+    
+## InvoicePackingSlip (object)    
+
+Invoice Packing Slip has the following attributes:
+
++ RecordType
+
+    Indicates record type (INVOICE_LINE_PACKING).
+
+    Data Type: string(20)  
+    
+    Mandatory: Yes
+    
++ InvoiceHeaderID
+
+    Unique Reference ID from header of invoice.
+  
+    Data Type: Number  
+  
+    Mandatory: Yes
+    
++ InvoiceDetailID
+
+    Indicates invoice reference
+  
+    Data Type: Number  
+  
+    Mandatory: Yes
+    
++ InvoiceLinePackingID
+
+    Indicates Invoice Line Packing ID
+  
+    Data Type: Number  
+  
+    Mandatory: Yes
+
++ POLineQuantity
+
+    Indicates PO Line Quantity
+  
+    Data Type: Number  
+  
+    Mandatory: Yes
+
++ InvoiceLineQuantity
+
+    Indicates Invoice Line Quantity
+  
+    Data Type: Number  
+  
+    Mandatory: Yes
+
++ PackingSilpNumber
+
+    Unique Packing Slip number. 
+  
+    Data Type: string(255)  
+  
+    Mandatory: Yes
+
++ TransactionID
+
+    Indiacate the id of Transaction
+  
+    Data Type: string(255)  
+  
+    Mandatory: No
+
++ CustomField1    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField2    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField3    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField4    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField5    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
     
 **OkToPay Columns and Sequence information in Flat File Request**
 
