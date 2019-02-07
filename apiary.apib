@@ -5941,7 +5941,7 @@ Invoice Packing Slip has the following attributes:
 Request file contains Invoice Header, Invoice Details and Invoice Packing Slips  records.
 RecordType field will be used to identify the Invoice Header, Invoice Details and Invoice Packing Slips records.
 
-**OkToPay Invoice Header Columns and Sequence information in Flat File Request**
+**Invoice Header Columns and Sequence information in Flat File Request**
 
 <table style="width:100%" border="1">
     <tr>
@@ -6136,7 +6136,7 @@ RecordType field will be used to identify the Invoice Header, Invoice Details an
     </tr>
 </table>
     
-**OkToPay Invoice Detail Columns and Sequence information in Flat File Request**
+**Invoice Detail Columns and Sequence information in Flat File Request**
 
 <table style="width:100%" border="1">
     <tr>
@@ -6287,7 +6287,7 @@ RecordType field will be used to identify the Invoice Header, Invoice Details an
 </table>
     
 
-**OkToPay Invoice Packing Slip Columns and Sequence information in Flat File Request**
+**Invoice Packing Slip Columns and Sequence information in Flat File Request**
 
 <table style="width:100%" border="1">
     <tr>
@@ -6381,8 +6381,8 @@ OkToPay integration is supported through web and Flat file methods. Customer may
 
         [
             {
-                "Header": {
-                    "Type": "Header",
+                "InvoiceHeader": {
+                    "Type": "INVOICE_HEADER",
                     "InvoiceHeaderID": "RCPT-1",
                     "CreatedAt": "2018-12-12T08:34:48",
                     "InvoiceDate": "2018-12-12T08:34:48",
@@ -6420,11 +6420,11 @@ OkToPay integration is supported through web and Flat file methods. Customer may
                     "CustomField4": "1",
                     "CustomField5": "1",
                     },
-                    "Details": [
+                    "InvoiceDetails": [
                     {
-                    "Type": "LINE",
+                    "Type": "INVOICE_LINE",
                     "InvoiceHeaderID": "1",
-                    "InvoiceDetailID": "TRANS-0001",
+                    "InvoiceDetailID": 1001",
                     "LineAmount": "1",
                     "InvoiceLineNumber": "1",
                     "ItemNumber": "TRANS-00004",
@@ -6449,11 +6449,42 @@ OkToPay integration is supported through web and Flat file methods. Customer may
                     "CustomField2": "2",
                     "CustomField3": "1",
                     "CustomField4": "TRANS-0001",
+                    "CustomField5": "1", 
+                    "InvoicePackingSlips": [
+                    {
+                    "Type": "INVOICE_LINE_PACKING",
+                    "InvoiceHeaderID": "1",
+                    "InvoiceDetailID": "1001",
+                    "InvoiceLinePackingID": "10012",
+                    "POLineQuantity": "1",
+                    "InvoiceLineQuantity": "1",
+                    "PackingSilpNumber": "PACK-SL-001",
+                    "TransactionID": "Tran00121",
+                    "CustomField1": "TRANS-00004",
+                    "CustomField2": "2",
+                    "CustomField3": "1",
+                    "CustomField4": "TRANS-0001",
                     "CustomField5": "1",                    
                     },{
-                    "Type": "LINE",
+                     "Type": "INVOICE_LINE_PACKING",
                     "InvoiceHeaderID": "1",
-                    "InvoiceDetailID": "TRANS-0001",
+                    "InvoiceDetailID": "1001",
+                    "InvoiceLinePackingID": "10012",
+                    "POLineQuantity": "1",
+                    "InvoiceLineQuantity": "1",
+                    "PackingSilpNumber": "PACK-SL-001",
+                    "TransactionID": "Tran00121",
+                    "CustomField1": "TRANS-00004",
+                    "CustomField2": "2",
+                    "CustomField3": "1",
+                    "CustomField4": "TRANS-0001",
+                    "CustomField5": "1", 
+                    }
+                    ]
+                    },{
+                    "Type": "INVOICE_LINE",
+                    "InvoiceHeaderID": "1",
+                    "InvoiceDetailID": "10002",
                     "LineAmount": "1",
                     "InvoiceLineNumber": "2",
                     "ItemNumber": "TRANS-00004",
@@ -6479,7 +6510,1260 @@ OkToPay integration is supported through web and Flat file methods. Customer may
                     "CustomField3": "1",
                     "CustomField4": "TRANS-0001",
                     "CustomField5": "1",
+                    "InvoicePackingSlips": [
+                    {
+                    "Type": "INVOICE_LINE_PACKING",
+                    "InvoiceHeaderID": "1",
+                    "InvoiceDetailID": "1001",
+                    "InvoiceLinePackingID": "10012",
+                    "POLineQuantity": "1",
+                    "InvoiceLineQuantity": "1",
+                    "PackingSilpNumber": "PACK-SL-001",
+                    "TransactionID": "Tran00121",
+                    "CustomField1": "TRANS-00004",
+                    "CustomField2": "2",
+                    "CustomField3": "1",
+                    "CustomField4": "TRANS-0001",
+                    "CustomField5": "1",                    
+                    },{
+                     "Type": "INVOICE_LINE_PACKING",
+                    "InvoiceHeaderID": "1",
+                    "InvoiceDetailID": "1001",
+                    "InvoiceLinePackingID": "10012",
+                    "POLineQuantity": "1",
+                    "InvoiceLineQuantity": "1",
+                    "PackingSilpNumber": "PACK-SL-001",
+                    "TransactionID": "Tran00121",
+                    "CustomField1": "TRANS-00004",
+                    "CustomField2": "2",
+                    "CustomField3": "1",
+                    "CustomField4": "TRANS-0001",
+                    "CustomField5": "1", 
+                    }
+                    ]
                     }
                     ]
             }            
         ]
+        
+## Group Invoice
+
+## Invoice (object)
+
+A Invoice object has the following attributes:
+
++ InvoiceHeader
+
+    This is to keep Header level information of a Invoice.
+
+    Data Type: InvoiceHeader  
+    
+    Mandatory: Yes
+    
++  InvoiceDetails 
+
+    This is to keep Line level information of a Purchase order.
+    
+    Data Type: (array[InvoiceDetail])   
+    
+    Mandatory: Yes
+    
+## InvoiceHeader (object)
+
+InvoiceHeader has the following attributes:
+
++ RecordType 
+
+    This is to identify the Record type (INVOICE_HEADER).
+
+    Data Type: string(15)  
+    
+    Mandatory: Yes
+    
+**Business and Data Validation Rules**
+<table style="width:100%" border="1">
+<tr>       
+<th>Rule #</th>
+<th>Rule Type</th>
+<th>Error Code</th>
+<th>Error Message</th>
+</tr>   
+<tr>
+<td>1</td>
+<td>Data Validation - Mandatory</td>
+<td>EX-RQ-01</td>
+<td>RecordType Required: The field is required.</td>       
+</tr>   
+<tr>
+<td>2</td>
+<td>Data Validation - Length Validation</td>
+<td>EX-LG-01</td>
+<td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
+</tr> 
+<tr>
+<td>3</td>
+<td>Error</td>
+<td></td>
+<td>RecordType - value should be "INVOICE_HEADER".</td>       
+</tr> 
+</table>
+
++ InvoiceHeaderID 
+
+    This is a unique identification Number of the Invoice.
+
+    Data Type: Number  
+    
+    Mandatory: Yes
+    
+**Business and Data Validation Rules**
+    <table style="width:100%" border="1">
+    <tr>       
+    <th>Rule #</th>
+    <th>Rule Type</th>
+    <th>Error Code</th>
+    <th>Error Message</th>
+    </tr>   
+    <tr>
+    <td>1</td>
+    <td>Data Validation - Mandatory</td>
+    <td>EX-RQ-02</td>
+    <td>InvoiceHeaderID Required: The field is required.</td>       
+    </tr>   
+    <tr>
+    </table>
+    
++ InvoiceNumber
+
+    This is a Invoice Number of the Invoice.
+  
+    Data Type: string(100)  
+  
+    Mandatory: Yes
+    
+**Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-02</td>
+        <td>InvoiceHeaderID Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-01</td>
+        <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
+        </tr> 
+        <tr>
+        <td>3</td>
+        <td>Error</td>
+        <td></td>
+        <td>RecordType - value should be INVOICE_HEADER.</td>       
+        </tr> 
+        </table>
+
++ InvoiceType
+    
+    Invoice Type is to identify Invoice/Credit Memo/Debit Memo. Possible values I, C and D.
+  
+    Data Type: string(1)  
+  
+    Mandatory: Yes
+    
+**Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-02</td>
+        <td>InvoiceHeaderID Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-01</td>
+        <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
+        </tr> 
+        <tr>
+        <td>3</td>
+        <td>Error</td>
+        <td></td>
+        <td>RecordType - value should be INVOICE_HEADER.</td>       
+        </tr> 
+        </table>
+    
++ PoCode
+
+    Purchase Code against which Invoice has been created.
+
+    Data Type: string(20)  
+    
+    Mandatory: Yes
+    
+**Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-02</td>
+        <td>InvoiceHeaderID Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-01</td>
+        <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
+        </tr> 
+        <tr>
+        <td>3</td>
+        <td>Error</td>
+        <td></td>
+        <td>RecordType - value should be INVOICE_HEADER.</td>       
+        </tr> 
+        </table>
+    
++ InvoiceDate
+
+    Invoice Date.
+
+    Data Type: Datetime  
+    
+    Mandatory: Yes
+    
+**Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-02</td>
+        <td>InvoiceHeaderID Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-01</td>
+        <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
+        </tr> 
+        <tr>
+        <td>3</td>
+        <td>Error</td>
+        <td></td>
+        <td>RecordType - value should be INVOICE_HEADER.</td>       
+        </tr> 
+        </table>
+    
++ ShiptToCode
+
+    Ship To code of invoice.
+
+    Data Type: string(50)  
+    
+    Mandatory: Yes
+    
+**Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-02</td>
+        <td>InvoiceHeaderID Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-01</td>
+        <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
+        </tr> 
+        <tr>
+        <td>3</td>
+        <td>Error</td>
+        <td></td>
+        <td>RecordType - value should be INVOICE_HEADER.</td>       
+        </tr> 
+        </table>
+    
++ SupplierCode
+
+    This is the code of Supplier associated with Invoice.
+
+    Data Type: string(50) 
+    
+    Mandatory: Yes
+    
+**Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-02</td>
+        <td>InvoiceHeaderID Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-01</td>
+        <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
+        </tr> 
+        <tr>
+        <td>3</td>
+        <td>Error</td>
+        <td></td>
+        <td>RecordType - value should be INVOICE_HEADER.</td>       
+        </tr> 
+        </table>
+    
++ HeaderTaxAmount
+
+    This is the Tax amount applied on Header level.
+
+    Data Type: Number  
+    
+    Mandatory: Yes
+    
+**Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-02</td>
+        <td>InvoiceHeaderID Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-01</td>
+        <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
+        </tr> 
+        <tr>
+        <td>3</td>
+        <td>Error</td>
+        <td></td>
+        <td>RecordType - value should be INVOICE_HEADER.</td>       
+        </tr> 
+        </table>
+    
++ FreightCharges
+
+    Freight charges applied on Invoice.
+
+    Data Type: Number
+    
+    Mandatory: No
+    
++ CurrencyCode
+
+    Currency code of Invoice
+
+    Data Type: string(2)  
+    
+    Mandatory: Yes
+    
+**Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-02</td>
+        <td>InvoiceHeaderID Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-01</td>
+        <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
+        </tr> 
+        <tr>
+        <td>3</td>
+        <td>Error</td>
+        <td></td>
+        <td>RecordType - value should be INVOICE_HEADER.</td>       
+        </tr> 
+        </table>
+    
++ LocationCode
+
+    Location code of the invoice.
+    
+    Data Type: string(50)  
+    
+    Mandatory: No
+    
+**Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-02</td>
+        <td>InvoiceHeaderID Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-01</td>
+        <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
+        </tr> 
+        <tr>
+        <td>3</td>
+        <td>Error</td>
+        <td></td>
+        <td>RecordType - value should be INVOICE_HEADER.</td>       
+        </tr> 
+        </table>
+    
++ ReferenceID 
+
+    This is for holding refernce information in incoming request for a single Invoice.
+
+    Data Type: string(50)  
+    
+    Mandatory: Yes
+    
+**Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-02</td>
+        <td>InvoiceHeaderID Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-01</td>
+        <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
+        </tr> 
+        <tr>
+        <td>3</td>
+        <td>Error</td>
+        <td></td>
+        <td>RecordType - value should be INVOICE_HEADER.</td>       
+        </tr> 
+        </table>
+    
++ CustomField1    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField2    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField3    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField4    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField5    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+    
+## InvoiceDetail  (object)
+
+Invoice Detail has the following attributes: 
+
++ RecordType 
+
+    This is to identify the Record type (INVOICE_DETAIL).
+
+    Data Type: string(15)  
+    
+    Mandatory: Yes
+    
+**Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-02</td>
+        <td>InvoiceHeaderID Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-01</td>
+        <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
+        </tr> 
+        <tr>
+        <td>3</td>
+        <td>Error</td>
+        <td></td>
+        <td>RecordType - value should be INVOICE_HEADER.</td>       
+        </tr> 
+        </table>
+
++ InvoiceDetailID 
+
+    This is a unique identification Number of the Invoice line item.
+
+    Data Type: Number  
+    
+    Mandatory: Yes
+    
+**Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-02</td>
+        <td>InvoiceHeaderID Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-01</td>
+        <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
+        </tr> 
+        <tr>
+        <td>3</td>
+        <td>Error</td>
+        <td></td>
+        <td>RecordType - value should be INVOICE_HEADER.</td>       
+        </tr> 
+        </table>
+    
++ InvoiceLineNumber
+
+    This is a Invoice Line Number associated with the Invoice Detail.
+  
+    Data Type: Number  
+  
+    Mandatory: Yes
+    
+**Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-02</td>
+        <td>InvoiceHeaderID Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-01</td>
+        <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
+        </tr> 
+        <tr>
+        <td>3</td>
+        <td>Error</td>
+        <td></td>
+        <td>RecordType - value should be INVOICE_HEADER.</td>       
+        </tr> 
+        </table>
+    
++ POlineNumber
+
+    This is a PO Line Number associated with the Invoice Detail.
+  
+    Data Type: Number  
+  
+    Mandatory: Yes
+    
+**Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-02</td>
+        <td>InvoiceHeaderID Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-01</td>
+        <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
+        </tr> 
+        <tr>
+        <td>3</td>
+        <td>Error</td>
+        <td></td>
+        <td>RecordType - value should be INVOICE_HEADER.</td>       
+        </tr> 
+        </table>
+    
++ InvoiceQuantity
+
+    Invoice Quantity of the Invoice line.
+  
+    Data Type: Number 
+  
+    Mandatory: Yes
+    
+**Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-02</td>
+        <td>InvoiceHeaderID Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-01</td>
+        <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
+        </tr> 
+        <tr>
+        <td>3</td>
+        <td>Error</td>
+        <td></td>
+        <td>RecordType - value should be INVOICE_HEADER.</td>       
+        </tr> 
+        </table>
+    
++ UOM
+
+    Unit of Measure of invoice line detail.
+
+    Data Type: string(50)  
+    
+    Mandatory: Yes
+    
+**Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-02</td>
+        <td>InvoiceHeaderID Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-01</td>
+        <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
+        </tr> 
+        <tr>
+        <td>3</td>
+        <td>Error</td>
+        <td></td>
+        <td>RecordType - value should be INVOICE_HEADER.</td>       
+        </tr> 
+        </table>
+    
++ UnitPrice
+
+    Unit price of Item associated with Invoice Line.
+
+    Data Type: Number  
+    
+    Mandatory: Yes
+    
+**Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-02</td>
+        <td>InvoiceHeaderID Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-01</td>
+        <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
+        </tr> 
+        <tr>
+        <td>3</td>
+        <td>Error</td>
+        <td></td>
+        <td>RecordType - value should be INVOICE_HEADER.</td>       
+        </tr> 
+        </table>
+    
++ ProductSKU
+
+    Ship To code of invoice.
+
+    Data Type: string(64)  
+    
+    Mandatory: No
+    
+**Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-02</td>
+        <td>InvoiceHeaderID Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-01</td>
+        <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
+        </tr> 
+        <tr>
+        <td>3</td>
+        <td>Error</td>
+        <td></td>
+        <td>RecordType - value should be INVOICE_HEADER.</td>       
+        </tr> 
+        </table>
+    
++ ProductDescription
+
+    Description of Product associated with invoice line.
+
+    Data Type: string(2000) 
+    
+    Mandatory: Yes
+    
+**Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-02</td>
+        <td>InvoiceHeaderID Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-01</td>
+        <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
+        </tr> 
+        <tr>
+        <td>3</td>
+        <td>Error</td>
+        <td></td>
+        <td>RecordType - value should be INVOICE_HEADER.</td>       
+        </tr> 
+        </table>
+    
++ LineTaxAmount
+
+    This is the Tax amount applied on line level.
+
+    Data Type: Number  
+    
+    Mandatory: Yes
+    
+**Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-02</td>
+        <td>InvoiceHeaderID Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-01</td>
+        <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
+        </tr> 
+        <tr>
+        <td>3</td>
+        <td>Error</td>
+        <td></td>
+        <td>RecordType - value should be INVOICE_HEADER.</td>       
+        </tr> 
+        </table>
+    
++ Comments
+
+    Comment associated with invoice line.
+
+    Data Type: string(500) 
+    
+    Mandatory: No
+    
+**Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-02</td>
+        <td>InvoiceHeaderID Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-01</td>
+        <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
+        </tr> 
+        <tr>
+        <td>3</td>
+        <td>Error</td>
+        <td></td>
+        <td>RecordType - value should be INVOICE_HEADER.</td>       
+        </tr> 
+        </table>
+
+
++ CustomField1    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField2    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField3    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField4    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField5    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
+**Invoice Header Columns and Sequence information in Flat File Request**
+
+<table style="width:100%" border="1">
+    <tr>
+        <th>Element</th>
+        <th>Sequence</th>
+        <th>Required</th>
+    </tr>
+    <tr>
+        <td>RecordType</td>
+        <td>1</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>InvoiceHeaderID</td>
+        <td>2</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>InvoiceNumber</td>
+        <td>3</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>InvoiceType</td>
+        <td>4</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>PoCode</td>
+        <td>5</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>InvoiceDate</td>
+        <td>6</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>ShiptToCode</td>
+        <td>7</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>SupplierCode</td>
+        <td>8</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>HeaderTaxAmount</td>
+        <td>9</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>FreightCharges</td>
+        <td>10</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>CurrencyCode</td>
+        <td>11</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>LocationCode</td>
+        <td>12</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>ReferenceID</td>
+        <td>13</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>CustomField1</td>
+        <td>14</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>CustomField2</td>
+        <td>15</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>CustomField3</td>
+        <td>16</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>CustomField4</td>
+        <td>17</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>CustomField5</td>
+        <td>18</td>
+        <td>No</td>
+    </tr>
+</table>
+
+**Invoice Detail Columns and Sequence information in Flat File Request**
+
+<table style="width:100%" border="1">
+    <tr>
+        <th>Element</th>
+        <th>Sequence</th>
+        <th>Required</th>
+    </tr>
+    <tr>
+        <td>RecordType</td>
+        <td>1</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>InvoiceDetailID</td>
+        <td>2</td>
+        <td>Yes</td>
+    </tr>
+     <tr>
+        <td>InvoiceLineNumber</td>
+        <td>3</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>POlineNumber</td>
+        <td>4</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>InvoiceQuantity</td>
+        <td>5</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>UOM</td>
+        <td>6</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>UnitPrice</td>
+        <td>7</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>ProductSKU</td>
+        <td>8</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>ProductDescription</td>
+        <td>9</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>LineTaxAmount</td>
+        <td>10</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>Comments</td>
+        <td>11</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>CustomField1</td>
+        <td>12</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>CustomField2</td>
+        <td>13</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>CustomField3</td>
+        <td>14</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>CustomField4</td>
+        <td>15</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>CustomField5</td>
+        <td>16</td>
+        <td>No</td>
+    </tr>
+</table>
+
+## Invoice [/Invoice]
+Invoice entity integration is supported through web and Flat file methods.
+Customer may send one or more than One Invoice Objects to Xeeva through web interface or through Flat file.
+
+
+### Add or Import Invoice Payload (Try Now)[POST] 
+
++ Request Single Invoice with Success status (application/json)
+
+        [
+            {
+                "RecordType": "INVOICE_HEADER",
+                "InvoiceHeaderID": 0,
+                "InvoiceNumber": "INV-001",
+                "InvoiceType": "I",
+                "PoCode": "PO-001",
+                "InvoiceDate": "2018-12-12T08:34:48",
+                "ShiptToCode": "SH-001",
+                "SupplierCode": "SUP-001",
+                "HeaderTaxAmount": 0,
+                "FreightCharges": 0,
+                "CurrencyCode": "USD",
+                "ReferenceID": "112233"
+                "CustomField1": "",
+                "CustomField2": "",
+                "CustomField3": "",
+                "CustomField4": "",
+                "CustomField5": "",
+                "InvoiceDetails": [
+                    {
+                    "Type": "INVOICE_LINE_PACKING",
+                    "InvoiceDetailID": "1001",
+                    "InvoiceLineNumber": "1",
+                    "POlineNumber": "10012",
+                    "InvoiceQuantity": "1",
+                    "UOM": "EA",
+                    "UnitPrice": 5,
+                    "ProductSKU": "",
+                    "ProductDescription": "Test",
+                    "LineTaxAmount": 0,
+                    "Comments": " Test Comment",
+                    "CustomField1": "",
+                    "CustomField2": "",
+                    "CustomField3": "",
+                    "CustomField4": "",
+                    "CustomField5": "",                   
+                    },{
+                    "Type": "INVOICE_LINE_PACKING",
+                    "InvoiceDetailID": "1002",
+                    "InvoiceLineNumber": "2",
+                    "POlineNumber": "10012",
+                    "InvoiceQuantity": "1",
+                    "UOM": "EA",
+                    "UnitPrice": 5,
+                    "ProductSKU": "",
+                    "ProductDescription": "Test",
+                    "LineTaxAmount": 0,
+                    "Comments": " Test Comment",
+                    "CustomField1": "",
+                    "CustomField2": "",
+                    "CustomField3": "",
+                    "CustomField4": "",
+                    "CustomField5": "",   
+                    }
+                    ]
+                    }
+            }
+        ]
+
++ Response 200 (application/json)
+            
+            {
+                    "TransactionID":"ahx-123-fgh-fge-1212121",
+                    "Summary":
+                                {
+                                    "Description" : "Invoice INV-001 Created Successfully.",
+                                    "TotalRecordCount" : 1,
+                                    "SuccessRecordCount" : 1,
+                                    "FailedRecordCount" : 0,
+                                    "DataValidationRecordCount" : 0,
+                                    "BusinessValidationRecordCount" : 0,
+                                    "SystemExceptionRecordCount" : 0,
+                                },
+                    "IdentifierList":   [
+                                            {
+                                                "IdentifierValue": "112233",
+                                                "Status": "SUCCESS",
+                                                "InvoiceHeaderID" : "10012",
+                                                "Description": "Invoice INV-001 Created Successfully.",
+                                                "DataValidationExceptionList": [],
+                                                "BusinessValidationExceptionList": [],
+                                                "SystemExceptions": [],
+                                            }
+                                        ]
+            }
