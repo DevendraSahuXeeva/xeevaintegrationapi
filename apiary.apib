@@ -5883,7 +5883,7 @@ Invoice Packing Slip has the following attributes:
 
     Unique Packing Slip number. 
   
-    Data Type: string(255)  
+    Data Type: string(50)  
   
     Mandatory: Yes
 
@@ -5891,7 +5891,7 @@ Invoice Packing Slip has the following attributes:
 
     Indiacate the id of Transaction
   
-    Data Type: string(255)  
+    Data Type: string(50)  
   
     Mandatory: No
 
@@ -5938,10 +5938,10 @@ Invoice Packing Slip has the following attributes:
     
 **OkToPay Columns and Sequence information in Flat File Request**
 
-Request file contains OkToPay Header and OkToPay Detail records.
-RecordType field will be used to identify the Header record and detail record.
+Request file contains Invoice Header, Invoice Details and Invoice Packing Slips  records.
+RecordType field will be used to identify the Invoice Header, Invoice Details and Invoice Packing Slips records.
 
-**OkToPay Header Columns and Sequence information in Flat File Request**
+**OkToPay Invoice Header Columns and Sequence information in Flat File Request**
 
 <table style="width:100%" border="1">
     <tr>
@@ -6136,7 +6136,7 @@ RecordType field will be used to identify the Header record and detail record.
     </tr>
 </table>
     
-**OkToPay Detail Columns and Sequence information in Flat File Request**
+**OkToPay Invoice Detail Columns and Sequence information in Flat File Request**
 
 <table style="width:100%" border="1">
     <tr>
@@ -6286,6 +6286,81 @@ RecordType field will be used to identify the Header record and detail record.
     </tr>
 </table>
     
+
+**OkToPay Invoice Packing Slip Columns and Sequence information in Flat File Request**
+
+<table style="width:100%" border="1">
+    <tr>
+        <th>Element</th>
+        <th>Sequence</th>
+        <th>Required</th>
+    </tr>
+    <tr>
+        <td>RecordType</td>
+        <td>1</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>InvoiceHeaderID</td>
+        <td>2</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>InvoiceDetailID</td>
+        <td>3</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>InvoiceLinePackingID</td>
+        <td>4</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>POLineQuantity</td>
+        <td>5</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>InvoiceLineQuantity</td>
+        <td>6</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>PackingSilpNumber</td>
+        <td>7</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>TransactionID</td>
+        <td>8</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>CustomField1</td>
+        <td>9</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>CustomField2</td>
+        <td>10</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>CustomField3</td>
+        <td>11</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>CustomField4</td>
+        <td>12</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>CustomField5</td>
+        <td>13</td>
+        <td>No</td>
+    </tr>
+</table>
 
     
 ## OkToPay [/OkToPay]
