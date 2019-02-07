@@ -6652,20 +6652,20 @@ InvoiceHeader has the following attributes:
         <tr>
         <td>1</td>
         <td>Data Validation - Mandatory</td>
-        <td>EX-RQ-02</td>
-        <td>InvoiceHeaderID Required: The field is required.</td>       
+        <td>EX-RQ-03</td>
+        <td>InvoiceNumber Required: The field is required.</td>       
         </tr>   
         <tr>
         <td>2</td>
         <td>Data Validation - Length Validation</td>
-        <td>EX-LG-01</td>
-        <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
+        <td>EX-LG-03</td>
+        <td>InvoiceNumber Length: The field length is 110 and is invalid.  It must be greater than or equal to 0 and less then or equal to 100.</td>       
         </tr> 
         <tr>
         <td>3</td>
         <td>Error</td>
         <td></td>
-        <td>RecordType - value should be INVOICE_HEADER.</td>       
+        <td>InvoiceNumber - value should be unique.</td>       
         </tr> 
         </table>
 
@@ -6688,14 +6688,14 @@ InvoiceHeader has the following attributes:
         <tr>
         <td>1</td>
         <td>Data Validation - Mandatory</td>
-        <td>EX-RQ-02</td>
-        <td>InvoiceHeaderID Required: The field is required.</td>       
+        <td>EX-RQ-04</td>
+        <td>InvoiceType Required: The field is required.</td>       
         </tr>   
         <tr>
         <td>2</td>
         <td>Data Validation - Length Validation</td>
-        <td>EX-LG-01</td>
-        <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
+        <td>EX-LG-04</td>
+        <td>InvoiceType Length: The field length is 5 and is invalid.  It must be greater than or equal to 0 and less then or equal to 1.</td>       
         </tr> 
         <tr>
         <td>3</td>
@@ -6724,20 +6724,20 @@ InvoiceHeader has the following attributes:
         <tr>
         <td>1</td>
         <td>Data Validation - Mandatory</td>
-        <td>EX-RQ-02</td>
-        <td>InvoiceHeaderID Required: The field is required.</td>       
+        <td>EX-RQ-05</td>
+        <td>PoCode Required: The field is required.</td>       
         </tr>   
         <tr>
         <td>2</td>
         <td>Data Validation - Length Validation</td>
-        <td>EX-LG-01</td>
-        <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
+        <td>EX-LG-05</td>
+        <td>PoCode Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 20.</td>       
         </tr> 
         <tr>
         <td>3</td>
         <td>Error</td>
         <td></td>
-        <td>RecordType - value should be INVOICE_HEADER.</td>       
+        <td>PoCode Code -{PoCodeValue} does not exist.</td>       
         </tr> 
         </table>
     
@@ -6760,21 +6760,10 @@ InvoiceHeader has the following attributes:
         <tr>
         <td>1</td>
         <td>Data Validation - Mandatory</td>
-        <td>EX-RQ-02</td>
-        <td>InvoiceHeaderID Required: The field is required.</td>       
+        <td>EX-RQ-06</td>
+        <td>InvoiceDate Required: The field is required.</td>       
         </tr>   
         <tr>
-        <td>2</td>
-        <td>Data Validation - Length Validation</td>
-        <td>EX-LG-01</td>
-        <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
-        </tr> 
-        <tr>
-        <td>3</td>
-        <td>Error</td>
-        <td></td>
-        <td>RecordType - value should be INVOICE_HEADER.</td>       
-        </tr> 
         </table>
     
 + ShiptToCode
@@ -6796,20 +6785,20 @@ InvoiceHeader has the following attributes:
         <tr>
         <td>1</td>
         <td>Data Validation - Mandatory</td>
-        <td>EX-RQ-02</td>
-        <td>InvoiceHeaderID Required: The field is required.</td>       
+        <td>EX-RQ-07</td>
+        <td>ShiptToCode Required: The field is required.</td>       
         </tr>   
         <tr>
         <td>2</td>
         <td>Data Validation - Length Validation</td>
-        <td>EX-LG-01</td>
-        <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
+        <td>EX-LG-07</td>
+        <td>ShiptToCode Length: The field length is 90 and is invalid.  It must be greater than or equal to 0 and less then or equal to 50.</td>       
         </tr> 
         <tr>
         <td>3</td>
         <td>Error</td>
         <td></td>
-        <td>RecordType - value should be INVOICE_HEADER.</td>       
+        <td>ShiptToCode -{ShiptToCodeValue} does not exist.</td>       
         </tr> 
         </table>
     
@@ -6832,14 +6821,14 @@ InvoiceHeader has the following attributes:
         <tr>
         <td>1</td>
         <td>Data Validation - Mandatory</td>
-        <td>EX-RQ-02</td>
-        <td>InvoiceHeaderID Required: The field is required.</td>       
+        <td>SupplierCode-RQ-08</td>
+        <td>SupplierCode Required: The field is required.</td>       
         </tr>   
         <tr>
         <td>2</td>
         <td>Data Validation - Length Validation</td>
-        <td>EX-LG-01</td>
-        <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
+        <td>EX-LG-08</td>
+        <td>SupplierCode Length: The field length is 75 and is invalid.  It must be greater than or equal to 0 and less then or equal to 50.</td>       
         </tr> 
         <tr>
         <td>3</td>
@@ -6855,36 +6844,9 @@ InvoiceHeader has the following attributes:
 
     Data Type: Number  
     
-    Mandatory: Yes
+    Mandatory: No
     
-**Business and Data Validation Rules**
-        <table style="width:100%" border="1">
-        <tr>       
-        <th>Rule #</th>
-        <th>Rule Type</th>
-        <th>Error Code</th>
-        <th>Error Message</th>
-        </tr>   
-        <tr>
-        <td>1</td>
-        <td>Data Validation - Mandatory</td>
-        <td>EX-RQ-02</td>
-        <td>InvoiceHeaderID Required: The field is required.</td>       
-        </tr>   
-        <tr>
-        <td>2</td>
-        <td>Data Validation - Length Validation</td>
-        <td>EX-LG-01</td>
-        <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
-        </tr> 
-        <tr>
-        <td>3</td>
-        <td>Error</td>
-        <td></td>
-        <td>RecordType - value should be INVOICE_HEADER.</td>       
-        </tr> 
-        </table>
-    
+
 + FreightCharges
 
     Freight charges applied on Invoice.
@@ -6897,7 +6859,7 @@ InvoiceHeader has the following attributes:
 
     Currency code of Invoice
 
-    Data Type: string(2)  
+    Data Type: string(3)  
     
     Mandatory: Yes
     
@@ -6912,20 +6874,20 @@ InvoiceHeader has the following attributes:
         <tr>
         <td>1</td>
         <td>Data Validation - Mandatory</td>
-        <td>EX-RQ-02</td>
-        <td>InvoiceHeaderID Required: The field is required.</td>       
+        <td>EX-RQ-09</td>
+        <td>CurrencyCode Required: The field is required.</td>       
         </tr>   
         <tr>
         <td>2</td>
         <td>Data Validation - Length Validation</td>
-        <td>EX-LG-01</td>
-        <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
+        <td>EX-LG-09</td>
+        <td>CurrencyCode Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 3.</td>       
         </tr> 
         <tr>
         <td>3</td>
         <td>Error</td>
         <td></td>
-        <td>RecordType - value should be INVOICE_HEADER.</td>       
+        <td>CurrencyCode -{CurrencyCodeValue} does not exist.</td>       
         </tr> 
         </table>
     
@@ -6948,20 +6910,20 @@ InvoiceHeader has the following attributes:
         <tr>
         <td>1</td>
         <td>Data Validation - Mandatory</td>
-        <td>EX-RQ-02</td>
-        <td>InvoiceHeaderID Required: The field is required.</td>       
+        <td>EX-RQ-10</td>
+        <td>LocationCode Required: The field is required.</td>       
         </tr>   
         <tr>
         <td>2</td>
         <td>Data Validation - Length Validation</td>
-        <td>EX-LG-01</td>
-        <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
+        <td>EX-LG-10</td>
+        <td>LocationCode Length: The field length is 125 and is invalid.  It must be greater than or equal to 0 and less then or equal to 50.</td>       
         </tr> 
         <tr>
         <td>3</td>
         <td>Error</td>
         <td></td>
-        <td>RecordType - value should be INVOICE_HEADER.</td>       
+        <td>LocationCode -{LocationCodeValue} does not exist.</td>       
         </tr> 
         </table>
     
@@ -6984,14 +6946,14 @@ InvoiceHeader has the following attributes:
         <tr>
         <td>1</td>
         <td>Data Validation - Mandatory</td>
-        <td>EX-RQ-02</td>
-        <td>InvoiceHeaderID Required: The field is required.</td>       
+        <td>EX-RQ-11</td>
+        <td>ReferenceID Required: The field is required.</td>       
         </tr>   
         <tr>
         <td>2</td>
         <td>Data Validation - Length Validation</td>
-        <td>EX-LG-01</td>
-        <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
+        <td>EX-LG-11</td>
+        <td>ReferenceID Length: The field length is 125 and is invalid.  It must be greater than or equal to 0 and less then or equal to 50.</td>       
         </tr> 
         <tr>
         <td>3</td>
@@ -7064,20 +7026,20 @@ Invoice Detail has the following attributes:
         <tr>
         <td>1</td>
         <td>Data Validation - Mandatory</td>
-        <td>EX-RQ-02</td>
-        <td>InvoiceHeaderID Required: The field is required.</td>       
+        <td>EX-RQ-12</td>
+        <td>RecordType Required: The field is required.</td>       
         </tr>   
         <tr>
         <td>2</td>
         <td>Data Validation - Length Validation</td>
-        <td>EX-LG-01</td>
+        <td>EX-LG-12</td>
         <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
         </tr> 
         <tr>
         <td>3</td>
         <td>Error</td>
         <td></td>
-        <td>RecordType - value should be INVOICE_HEADER.</td>       
+        <td>RecordType - value should be INVOICE_DETAIL.</td>       
         </tr> 
         </table>
 
@@ -7100,21 +7062,9 @@ Invoice Detail has the following attributes:
         <tr>
         <td>1</td>
         <td>Data Validation - Mandatory</td>
-        <td>EX-RQ-02</td>
-        <td>InvoiceHeaderID Required: The field is required.</td>       
+        <td>EX-RQ-13</td>
+        <td>InvoiceDetailID Required: The field is required.</td>       
         </tr>   
-        <tr>
-        <td>2</td>
-        <td>Data Validation - Length Validation</td>
-        <td>EX-LG-01</td>
-        <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
-        </tr> 
-        <tr>
-        <td>3</td>
-        <td>Error</td>
-        <td></td>
-        <td>RecordType - value should be INVOICE_HEADER.</td>       
-        </tr> 
         </table>
     
 + InvoiceLineNumber
@@ -7136,21 +7086,9 @@ Invoice Detail has the following attributes:
         <tr>
         <td>1</td>
         <td>Data Validation - Mandatory</td>
-        <td>EX-RQ-02</td>
-        <td>InvoiceHeaderID Required: The field is required.</td>       
+        <td>EX-RQ-14</td>
+        <td>InvoiceLineNumber Required: The field is required.</td>       
         </tr>   
-        <tr>
-        <td>2</td>
-        <td>Data Validation - Length Validation</td>
-        <td>EX-LG-01</td>
-        <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
-        </tr> 
-        <tr>
-        <td>3</td>
-        <td>Error</td>
-        <td></td>
-        <td>RecordType - value should be INVOICE_HEADER.</td>       
-        </tr> 
         </table>
     
 + POlineNumber
@@ -7172,21 +7110,9 @@ Invoice Detail has the following attributes:
         <tr>
         <td>1</td>
         <td>Data Validation - Mandatory</td>
-        <td>EX-RQ-02</td>
-        <td>InvoiceHeaderID Required: The field is required.</td>       
+        <td>EX-RQ-15</td>
+        <td>POlineNumber Required: The field is required.</td>       
         </tr>   
-        <tr>
-        <td>2</td>
-        <td>Data Validation - Length Validation</td>
-        <td>EX-LG-01</td>
-        <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
-        </tr> 
-        <tr>
-        <td>3</td>
-        <td>Error</td>
-        <td></td>
-        <td>RecordType - value should be INVOICE_HEADER.</td>       
-        </tr> 
         </table>
     
 + InvoiceQuantity
@@ -7208,21 +7134,9 @@ Invoice Detail has the following attributes:
         <tr>
         <td>1</td>
         <td>Data Validation - Mandatory</td>
-        <td>EX-RQ-02</td>
-        <td>InvoiceHeaderID Required: The field is required.</td>       
+        <td>EX-RQ-16</td>
+        <td>InvoiceQuantity Required: The field is required.</td>       
         </tr>   
-        <tr>
-        <td>2</td>
-        <td>Data Validation - Length Validation</td>
-        <td>EX-LG-01</td>
-        <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
-        </tr> 
-        <tr>
-        <td>3</td>
-        <td>Error</td>
-        <td></td>
-        <td>RecordType - value should be INVOICE_HEADER.</td>       
-        </tr> 
         </table>
     
 + UOM
@@ -7244,20 +7158,20 @@ Invoice Detail has the following attributes:
         <tr>
         <td>1</td>
         <td>Data Validation - Mandatory</td>
-        <td>EX-RQ-02</td>
-        <td>InvoiceHeaderID Required: The field is required.</td>       
+        <td>EX-RQ-17</td>
+        <td>UOM Required: The field is required.</td>       
         </tr>   
         <tr>
         <td>2</td>
         <td>Data Validation - Length Validation</td>
-        <td>EX-LG-01</td>
-        <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
+        <td>EX-LG-17</td>
+        <td>UOM Length: The field length is 125 and is invalid.  It must be greater than or equal to 0 and less then or equal to 50.</td>       
         </tr> 
         <tr>
         <td>3</td>
         <td>Error</td>
         <td></td>
-        <td>RecordType - value should be INVOICE_HEADER.</td>       
+        <td>UOM -{UOMValue} does not exist.</td>          
         </tr> 
         </table>
     
@@ -7280,21 +7194,9 @@ Invoice Detail has the following attributes:
         <tr>
         <td>1</td>
         <td>Data Validation - Mandatory</td>
-        <td>EX-RQ-02</td>
-        <td>InvoiceHeaderID Required: The field is required.</td>       
+        <td>EX-RQ-18</td>
+        <td>UnitPrice Required: The field is required.</td>       
         </tr>   
-        <tr>
-        <td>2</td>
-        <td>Data Validation - Length Validation</td>
-        <td>EX-LG-01</td>
-        <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
-        </tr> 
-        <tr>
-        <td>3</td>
-        <td>Error</td>
-        <td></td>
-        <td>RecordType - value should be INVOICE_HEADER.</td>       
-        </tr> 
         </table>
     
 + ProductSKU
@@ -7314,22 +7216,17 @@ Invoice Detail has the following attributes:
         <th>Error Message</th>
         </tr>   
         <tr>
-        <td>1</td>
-        <td>Data Validation - Mandatory</td>
-        <td>EX-RQ-02</td>
-        <td>InvoiceHeaderID Required: The field is required.</td>       
-        </tr>   
         <tr>
-        <td>2</td>
+        <td>1</td>
         <td>Data Validation - Length Validation</td>
-        <td>EX-LG-01</td>
-        <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
+        <td>EX-LG-19</td>
+        <td>ProductSKU Length: The field length is 125 and is invalid.  It must be greater than or equal to 0 and less then or equal to 64.</td>       
         </tr> 
         <tr>
-        <td>3</td>
+        <td>2</td>
         <td>Error</td>
         <td></td>
-        <td>RecordType - value should be INVOICE_HEADER.</td>       
+        <td>ProductSKU -{ProductSKUValue} does not exist.</td>          
         </tr> 
         </table>
     
@@ -7352,20 +7249,14 @@ Invoice Detail has the following attributes:
         <tr>
         <td>1</td>
         <td>Data Validation - Mandatory</td>
-        <td>EX-RQ-02</td>
-        <td>InvoiceHeaderID Required: The field is required.</td>       
+        <td>EX-RQ-20</td>
+        <td>ProductDescription Required: The field is required.</td>       
         </tr>   
         <tr>
         <td>2</td>
         <td>Data Validation - Length Validation</td>
-        <td>EX-LG-01</td>
-        <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
-        </tr> 
-        <tr>
-        <td>3</td>
-        <td>Error</td>
-        <td></td>
-        <td>RecordType - value should be INVOICE_HEADER.</td>       
+        <td>EX-LG-20</td>
+        <td>ProductDescription Length: The field length is 2225 and is invalid.  It must be greater than or equal to 0 and less then or equal to 2000.</td>       
         </tr> 
         </table>
     
@@ -7375,36 +7266,9 @@ Invoice Detail has the following attributes:
 
     Data Type: Number  
     
-    Mandatory: Yes
+    Mandatory: No
     
-**Business and Data Validation Rules**
-        <table style="width:100%" border="1">
-        <tr>       
-        <th>Rule #</th>
-        <th>Rule Type</th>
-        <th>Error Code</th>
-        <th>Error Message</th>
-        </tr>   
-        <tr>
-        <td>1</td>
-        <td>Data Validation - Mandatory</td>
-        <td>EX-RQ-02</td>
-        <td>InvoiceHeaderID Required: The field is required.</td>       
-        </tr>   
-        <tr>
-        <td>2</td>
-        <td>Data Validation - Length Validation</td>
-        <td>EX-LG-01</td>
-        <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
-        </tr> 
-        <tr>
-        <td>3</td>
-        <td>Error</td>
-        <td></td>
-        <td>RecordType - value should be INVOICE_HEADER.</td>       
-        </tr> 
-        </table>
-    
+
 + Comments
 
     Comment associated with invoice line.
@@ -7422,22 +7286,11 @@ Invoice Detail has the following attributes:
         <th>Error Message</th>
         </tr>   
         <tr>
-        <td>1</td>
-        <td>Data Validation - Mandatory</td>
-        <td>EX-RQ-02</td>
-        <td>InvoiceHeaderID Required: The field is required.</td>       
-        </tr>   
         <tr>
         <td>2</td>
         <td>Data Validation - Length Validation</td>
-        <td>EX-LG-01</td>
-        <td>RecordType Length: The field length is 25 and is invalid.  It must be greater than or equal to 0 and less then or equal to 15.</td>       
-        </tr> 
-        <tr>
-        <td>3</td>
-        <td>Error</td>
-        <td></td>
-        <td>RecordType - value should be INVOICE_HEADER.</td>       
+        <td>EX-LG-21</td>
+        <td>Comments Length: The field length is 525 and is invalid.  It must be greater than or equal to 0 and less then or equal to 500.</td>       
         </tr> 
         </table>
 
