@@ -144,30 +144,6 @@ Xeeva supports the use of SAML 2.0 (Security Assertion Markup Language) for SSO 
 + Xeeva verifies the response. Upon success, the newly-authenticated user will not be required to re-authenticate with Customer SSO site until the session times out.
 + The session timeout will be configurable.
 
-####   Service Provider vs. Identity Provider Initiated SSO Workflow
-
-#####   IDP (Identity Provider) Initiated SSO
-In this scenario, a user is logged on to the IdP and attempts to access a resource on a remote SP server. The SAML assertion is transported to the SP via HTTP POST.
-
-###### Processing Steps:
-+ A user has logged on to the IdP.
-+ The user requests access to a protected SP resource. The user is not logged on to the SP site.
-+ Optionally, the IdP retrieves attributes from the user data store.
-+ The IdP’s SSO service returns an HTML form to the browser with a SAML response containing the authentication assertion and any additional attributes. The browser automatically posts the HTML form back to the SP.
-+ If the signature and the assertion are valid, the SP establishes a session for the user and redirects the browser to the target resource.
-
-#####   SP (Service Provider) Initiated SSO
-In this scenario a user attempts to access a protected resource directly on an SP Web site without being logged on. The user does not have an account on the SP site, but does have a federated account managed by a third-party IdP. The SP sends an authentication request to the IdP. Both the request and the returned SAML assertion are sent through the user’s browser via HTTP POST.
-
-###### Processing Steps:
-+ The user requests access to a protected SP resource. The request is redirected to the federation server to handle authentication.
-+ The federation server sends an HTML form back to the browser with a SAML request for authentication from the IdP. The HTML form is automatically posted to the IdP’s SSO service.
-+ If the user is not already logged on to the IdP site or if re-authentication is required, the IdP asks for credentials (e.g., ID and password) and the user logs on.
-+ Additional information about the user may be retrieved from the user data store for inclusion in the SAML response. (These attributes are predetermined as part of the federation agreement between the IdP and the SP).
-+ The IdP federation server generates an assertion, creates an artifact, and sends an HTTP redirect containing the artifact through the browser to the SP’s Assertion Consumer Service (ACS).
-+ The ACS extracts the source ID from the SAML artifact and sends an artifact-resolve message to the federation server’s Artifact Resolution Service (ARS).
-+ The ARS sends a SAML artifact response message containing the previously generated assertion.
-+ If the signature and assertion are valid, the SP establishes a session for the user and redirects the browser to the target resource.
 
 ### LDAP
 Xeeva supports the use of an external LDAP or Microsoft ActiveDirectory (AD) Server for authentication. Users will sign in to Xeeva using the same credentials that have been used to access to intranet applications.
