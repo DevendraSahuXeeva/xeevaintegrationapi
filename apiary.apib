@@ -7669,3 +7669,506 @@ OkToPay integration is supported through web and Flat file methods. Customer may
                     ]
             }            
         ]
+        
+## Group ERfq
+
+## ERfq (object)
+A ERfq object has the following attributes:
+
++ ItemDescription
+
+    This field is for Item Description. This field is used to describe significance of Item.
+
+    Data Type: string(255)  
+    
+    Mandatory: Yes
+    
+    **Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-01</td>
+        <td>Item Description Required: The field is required.</td>       
+        </tr>   
+        </table>
+        
++ MasterCategoryCode
+
+    This field is for Master Category Code. This is used to distinguish item at very high level.
+
+    Data Type: string(5)  
+    
+    Mandatory: Yes
+    
+    **Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-02</td>
+        <td>Master Category Code Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Error</td>
+        <td></td>
+        <td>Master Category Code must exist in Xeeva Master Category Setup</td>       
+        </tr>   
+        </table>
+        
++ CategoryCode
+
+    This field is for Category Code. This field is used to categorize the item.
+
+    Data Type: string(2)  
+    
+    Mandatory: Yes
+    
+    **Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-03</td>
+        <td>Category Code Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Error</td>
+        <td></td>
+        <td>Category Code must exist in Xeeva Category Setup.</td>       
+        </tr>   
+        </table>
+        
++ SubCategoryCode
+
+    This field is for Sub Category Code. This is used to one more low level categorization of item.
+
+    Data Type: string(3)  
+    
+    Mandatory: Yes
+    
+    **Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-04</td>
+        <td>Sub Category Code Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Error</td>
+        <td></td>
+        <td>Sub Category Code must exist in Xeeva Sub Category Setup.</td>       
+        </tr>   
+        </table>
+        
++ Quantity
+
+    This field is for quantity to be ordered.
+
+    Data Type: Number(8)  
+    
+    Mandatory: Yes
+    
+    **Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-05</td>
+        <td>Quantity Required: The field is required.</td>       
+        </tr> 
+        </table>
+        
++ UnitPrice
+
+    This field is for Unit Price. It is price of an item for single unit.
+
+    Data Type: Number(14)  
+    
+    Mandatory: Yes
+    
+    **Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-06</td>
+        <td>Unit Price Required: The field is required.</td>       
+        </tr> 
+        </table>
+        
++ UnitOfMeasure
+
+    This field is for Unit of Measure. Unit of Measure is associated with item to quantify an item.
+
+    Data Type: string(3)  
+    
+    Mandatory: Yes
+    
+    **Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-07</td>
+        <td>Unit Of Measure Required: The field is required.</td>       
+        </tr> 
+        <tr>
+        <td>2</td>
+        <td>Error</td>
+        <td></td>
+        <td>Unit of measure must exist in Xeeva Unit of Measure setup</td>       
+        </tr> 
+        </table>
+        
++ ManufacturerName
+
+    This field is for Manufacturer Name. This field is used to assign a manufacture to item who produce or build it.
+
+    Data Type: string(50)  
+    
+    Mandatory: No
+    
++ ManufacturerPartNumber
+
+    This field is for Manufacture Part Number. A manufacture assign a code to an item to identify it distinguisly in the product list of manufacturer.
+
+    Data Type: string(50)  
+    
+    Mandatory: No
+   
++ SuggestedSupplier 
+
+    This field is for Supplier Code. It is supplier with which price agreement created for this item
+
+    Data Type: string(50)  
+    
+    Mandatory: No
+    
+    **Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Error</td>
+        <td></td>
+        <td>Supplier Code must exist in Xeeva Supplier setup.</td>       
+        </tr> 
+        </table>
+        
++ AdditionalNotes 
+
+    This field is for providing any specific information for ordering.
+
+    Data Type: string(50)  
+    
+    Mandatory: No
+    
++ ReferenceID 
+
+    This is for holding refernce information in incoming request for a single ERfq.
+
+    Data Type: string(50)  
+    
+    Mandatory: Yes
+    
+    **Business and Data Validation Rules**
+        <table style="width:100%" border="1">
+        <tr>       
+        <th>Rule #</th>
+        <th>Rule Type</th>
+        <th>Error Code</th>
+        <th>Error Message</th>
+        </tr>   
+        <tr>
+        <td>1</td>
+        <td>Data Validation - Mandatory</td>
+        <td>EX-RQ-08</td>
+        <td>ReferenceID Required: The field is required.</td>       
+        </tr>   
+        <tr>
+        <td>2</td>
+        <td>Data Validation - Length Validation</td>
+        <td>EX-LG-01</td>
+        <td>ReferenceID Length: The field length is 55 and is invalid.  It must be greater than or equal to 0 and less then or equal to 50.</td>       
+        </tr>
+        </table>
+    
++ CustomField1    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField2    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField3    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField4    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+
++ CustomField5    
+
+    BLANK (Reserved fields ) -
+
+    Data Type: string(255)
+    
+    Mandatory: No
+    
+**ERfq Columns and Sequence information in Flat File Request**
+
+<table style="width:100%" border="1">
+    <tr>
+        <th>Element</th>
+        <th>Sequence</th>
+        <th>Required</th>
+        <th>Data Type</th>
+        <th>Length</th>
+    </tr>
+    <tr>
+        <td>ItemDescription</td>
+        <td>1</td>
+        <td>Yes</td>
+        <td>String</td>
+        <td>255</td>
+    </tr>
+    <tr>
+        <td>MasterCategoryCode</td>
+        <td>2</td>
+        <td>Yes</td>
+        <td>String</td>
+        <td>5</td>
+    </tr>
+    <tr>
+        <td>CategoryCode</td>
+        <td>3</td>
+        <td>Yes</td>
+        <td>String</td>
+        <td>2</td>
+    </tr>
+    <tr>
+        <td>SubCategoryCode</td>
+        <td>4</td>
+        <td>Yes</td>
+        <td>String</td>
+        <td>3</td>
+    </tr>
+    <tr>
+        <td>Quantity</td>
+        <td>5</td>
+        <td>Yes</td>
+        <td>Number</td>
+        <td>8</td>
+    </tr>
+    <tr>
+        <td>UnitPrice</td>
+        <td>6</td>
+        <td>Yes</td>
+        <td>Number</td>
+        <td>14</td>
+    </tr>
+    <tr>
+        <td>UnitOfMeasure</td>
+        <td>7</td>
+        <td>Yes</td>
+        <td>String</td>
+        <td>3</td>
+    </tr>
+    <tr>
+        <td>ManufacturerName</td>
+        <td>8</td>
+        <td>No</td>
+        <td>String</td>
+        <td>50</td>
+    </tr>
+    <tr>
+        <td>ManufacturerPartNumber</td>
+        <td>9</td>
+        <td>No</td>
+        <td>String</td>
+        <td>50</td>
+    </tr>
+    <tr>
+        <td>SuggestedSupplier</td>
+        <td>10</td>
+        <td>No</td>
+        <td>String</td>
+        <td>50</td>
+    </tr>
+    <tr>
+        <td>AdditionalNotes</td>
+        <td>11</td>
+        <td>No</td>
+        <td>String</td>
+        <td>50</td>
+    </tr>
+     <tr>
+        <td>ReferenceID</td>
+        <td>12</td>
+        <td>Yes</td>
+        <td>String</td>
+        <td>50</td>
+    </tr>
+    <tr>
+        <td>CustomField1</td>
+        <td>13</td>
+        <td>No</td>
+        <td>String</td>
+        <td>255</td>
+    </tr>
+     <tr>
+        <td>CustomField2</td>
+        <td>14</td>
+        <td>No</td>
+        <td>String</td>
+        <td>255</td>
+    </tr>
+     <tr>
+        <td>CustomField3</td>
+        <td>15</td>
+        <td>No</td>
+        <td>String</td>
+        <td>255</td>
+    </tr>
+     <tr>
+        <td>CustomField4</td>
+        <td>16</td>
+        <td>No</td>
+        <td>String</td>
+        <td>255</td>
+    </tr>
+     <tr>
+        <td>CustomField5</td>
+        <td>17</td>
+        <td>No</td>
+        <td>String</td>
+        <td>255</td>
+    </tr>
+</table>
+
+## ERfq [/ERfq]
+ERfq entity integration is supported through web and Flat file methods.
+Customer may send one or more than One ERfq Objects to Xeeva through web interface or through Flat file.
+
+Click to try now 
+### Add or Import ERfq Payload (Try Now)[POST] 
++ Request Single ERfq with Success status (application/json)
+
+        [
+            {
+                "ItemDescription": "Item Description",
+                "MasterCategoryCode": "MC001",
+                "CategoryCode": "01",
+                "SubCategoryCode": "011",
+                "Quantity": 10",
+                "UnitPrice": 20,
+                "UnitOfMeasure": "EA",
+                "ManufacturerName": "Manufacturer-1",
+                "ManufacturerPartNumber": "MPN-001",
+                "SuggestedSupplier": "SUP-1",
+                "AdditionalNotes": "Test",
+                "ReferenceID": "1",
+                "CustomField1": "",
+                "CustomField2": "",
+                "CustomField3": "",
+                "CustomField4": "",
+                "CustomField5": "",
+            }
+        ]
+
++ Response 200 (application/json)
+            
+            {
+                    "TransactionID":"ahx-123-fgh-fge-1212121",
+                    "Summary":
+                                {
+                                    "Description" : "ERfq (Item Description) Created Successfully.",
+                                    "TotalRecordCount" : 1,
+                                    "SuccessRecordCount" : 1,
+                                    "FailedRecordCount" : 0,
+                                    "DataValidationRecordCount" : 0,
+                                    "BusinessValidationRecordCount" : 0,
+                                    "SystemExceptionRecordCount" : 0,
+                                },
+                    "IdentifierList":   [
+                                            {
+                                                "IdentifierValue": "1",
+                                                "Status": "SUCCESS",
+                                                "ERfqID" : "1001",
+                                                "Description": "ERfq (Item Description)  Created Successfully.",
+                                                "DataValidationExceptionList": [],
+                                                "BusinessValidationExceptionList": [],
+                                                "SystemExceptions": [],
+                                            }
+                                        ]
+            }
