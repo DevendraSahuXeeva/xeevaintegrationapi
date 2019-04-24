@@ -2861,94 +2861,93 @@ Customer may send one or more than One Invoice Objects to Xeeva through web inte
 
 ### Add or Import Invoice Payload (Try Now)[POST] 
 
-+ Request Single Invoice with Success status (application/json)
++ Request Single Invoice with Success status (application/xml)
 
-        [
-            {
-                "RecordType": "INVOICE_HEADER",
-                "InvoiceHeaderID": 0,
-                "InvoiceNumber": "INV-001",
-                "InvoiceType": "I",
-                "PoCode": "PO-001",
-                "InvoiceDate": "2018-12-12T08:34:48",
-                "ShiptToCode": "SH-001",
-                "SupplierCode": "SUP-001",
-                "HeaderTaxAmount": 0,
-                "FreightCharges": 0,
-                "CurrencyCode": "USD",
-                "ReferenceID": "112233"
-                "CustomField1": "",
-                "CustomField2": "",
-                "CustomField3": "",
-                "CustomField4": "",
-                "CustomField5": "",
-                "InvoiceDetails": [
-                    {
-                    "Type": "INVOICE_LINE_PACKING",
-                    "InvoiceDetailID": "1001",
-                    "InvoiceLineNumber": "1",
-                    "POlineNumber": "10012",
-                    "InvoiceQuantity": "1",
-                    "UOM": "EA",
-                    "UnitPrice": 5,
-                    "ProductSKU": "",
-                    "ProductDescription": "Test",
-                    "LineTaxAmount": 0,
-                    "Comments": " Test Comment",
-                    "CustomField1": "",
-                    "CustomField2": "",
-                    "CustomField3": "",
-                    "CustomField4": "",
-                    "CustomField5": "",                   
-                    },{
-                    "Type": "INVOICE_LINE_PACKING",
-                    "InvoiceDetailID": "1002",
-                    "InvoiceLineNumber": "2",
-                    "POlineNumber": "10012",
-                    "InvoiceQuantity": "1",
-                    "UOM": "EA",
-                    "UnitPrice": 5,
-                    "ProductSKU": "",
-                    "ProductDescription": "Test",
-                    "LineTaxAmount": 0,
-                    "Comments": " Test Comment",
-                    "CustomField1": "",
-                    "CustomField2": "",
-                    "CustomField3": "",
-                    "CustomField4": "",
-                    "CustomField5": "",   
-                    }
-                    ]
-                    }
-            }
-        ]
+        <ArrayOfInvoice>
+            <Invoice>
+                <CurrencyCode>USD</CurrencyCode>
+                <CustomField1/>
+                <CustomField2/>
+                <CustomField3/>
+                <CustomField4/>
+                <CustomField5/>
+                <FreightCharges>0</FreightCharges>
+                <HeaderTaxAmount>0</HeaderTaxAmount>
+                <InvoiceDate>2018-12-12T08:34:48</InvoiceDate>
+                <InvoiceDetails>
+                    <InvoiceDetail>
+                    <Comments> Test Comment</Comments>
+                    <CustomField1/>
+                    <CustomField2/>
+                    <CustomField3/>
+                    <CustomField4/>
+                    <CustomField5/>
+                    <InvoiceDetailID>1001</InvoiceDetailID>
+                    <InvoiceLineNumber>1</InvoiceLineNumber>
+                    <InvoiceQuantity>1</InvoiceQuantity>
+                    <LineTaxAmount>0</LineTaxAmount>
+                    <POlineNumber>10012</POlineNumber>
+                    <ProductDescription>Test</ProductDescription>
+                    <ProductSKU/>
+                    <Type>INVOICE_LINE_PACKING</Type>
+                    <UOM>EA</UOM>
+                    <UnitPrice>5</UnitPrice>
+                </InvoiceDetail>
+                <InvoiceDetail>
+                    <Comments> Test Comment</Comments>
+                    <CustomField1/>
+                    <CustomField2/>
+                    <CustomField3/>
+                    <CustomField4/>
+                    <CustomField5/>
+                    <InvoiceDetailID>1002</InvoiceDetailID>
+                    <InvoiceLineNumber>2</InvoiceLineNumber>
+                    <InvoiceQuantity>1</InvoiceQuantity>
+                    <LineTaxAmount>0</LineTaxAmount>
+                    <POlineNumber>10012</POlineNumber>
+                    <ProductDescription>Test</ProductDescription>
+                    <ProductSKU/>
+                    <Type>INVOICE_LINE_PACKING</Type>
+                    <UOM>EA</UOM>
+                    <UnitPrice>5</UnitPrice>
+                    </InvoiceDetail>
+                </InvoiceDetails>
+                <InvoiceHeaderID>0</InvoiceHeaderID>
+                <InvoiceNumber>INV-001</InvoiceNumber>
+                <InvoiceType>I</InvoiceType>
+                <PoCode>PO-001</PoCode>
+                <RecordType>INVOICE_HEADER</RecordType>
+                <ReferenceID>112233</ReferenceID>
+                <ShiptToCode>SH-001</ShiptToCode>
+                <SupplierCode>SUP-001</SupplierCode>
+            </Invoice>
+        </ArrayOfInvoice>
 
-+ Response 200 (application/json)
++ Response 200 (application/xml)
             
-            {
-                    "TransactionID":"ahx-123-fgh-fge-1212121",
-                    "Summary":
-                                {
-                                    "Description" : "Invoice INV-001 Created Successfully.",
-                                    "TotalRecordCount" : 1,
-                                    "SuccessRecordCount" : 1,
-                                    "FailedRecordCount" : 0,
-                                    "DataValidationRecordCount" : 0,
-                                    "BusinessValidationRecordCount" : 0,
-                                    "SystemExceptionRecordCount" : 0,
-                                },
-                    "IdentifierList":   [
-                                            {
-                                                "IdentifierValue": "112233",
-                                                "Status": "SUCCESS",
-                                                "InvoiceHeaderID" : "10012",
-                                                "Description": "Invoice INV-001 Created Successfully.",
-                                                "DataValidationExceptionList": [],
-                                                "BusinessValidationExceptionList": [],
-                                                "SystemExceptions": [],
-                                            }
-                                        ]
-            }
+            <XeevaResponse>
+                <IdentifierList>
+                    <Identifier>
+                    <BusinessValidationExceptionList/>
+                    <DataValidationExceptionList/>
+                    <Description>Invoice INV-001 Created Successfully.</Description>
+                    <IdentifierValue>112233</IdentifierValue>
+                    <InvoiceHeaderID>10012</InvoiceHeaderID>
+                    <Status>SUCCESS</Status>
+                    <SystemExceptions/>
+                    </Identifier>
+                </IdentifierList>
+                <Summary>
+                    <BusinessValidationRecordCount>0</BusinessValidationRecordCount>
+                    <DataValidationRecordCount>0</DataValidationRecordCount>
+                    <Description>Invoice INV-001 Created Successfully.</Description>
+                    <FailedRecordCount>0</FailedRecordCount>
+                    <SuccessRecordCount>1</SuccessRecordCount>
+                    <SystemExceptionRecordCount>0</SystemExceptionRecordCount>
+                    <TotalRecordCount>1</TotalRecordCount>
+                </Summary>
+                <TransactionID>ahx-123-fgh-fge-1212121</TransactionID>
+            </XeevaResponse>
 
 ## Group PurchaseOrder
 
