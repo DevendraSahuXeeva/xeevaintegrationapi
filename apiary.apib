@@ -1502,304 +1502,306 @@ Customer may send one or more than One supplier Objects to Xeeva through web int
 
 Click to try now 
 ### Add or Import Supplier Payload (Try Now)[POST] 
-+ Request Single Supplier with Success status (application/json)
++ Request Single Supplier with Success status (application/xml)
 
-        [
-            {
-                "SupplierCode": "Mgcln_001",
-                "SupplierType": "N",
-                "ShipPoint": "18",
-                "SupplierName": "Test1 Supplier",
-                "Address1": "Address1",
-                "Address2": "Address2",
-                "City": "Magna Clone City",
-                "State": "AK",
-                "Zip": "12345",
-                "Country": "MEX",
-                "PaymentTermsCode": "60",
-                "CurrencyCode": "EUR",
-                "Phone": "9300876101",
-                "Fax": "121312",
-                "ContactPerson": "Magna Clone1 Supplieruser01",
-                "Email": "magnaclone01@supplier.com",
-                "Active": "Y",
-                "LocationCode": "LOC01",
-                "TaxId": "121",
-                "DunsNumber": "DUNS001111",
-                "ReferenceID": "1",
-                "CustomField1": "",
-                "CustomField2": "",
-                "CustomField3": "",
-                "CustomField4": "",
-                "CustomField5": "",
-            }
-        ]
+        <ArrayOfSupplier>
+            <Supplier>
+                <Active>Y</Active>
+                <Address1>Address1</Address1>
+                <Address2>Address2</Address2>
+                <City>Magna Clone City</City>
+                <ContactPerson>Magna Clone1 Supplieruser01</ContactPerson>
+                <Country>MEX</Country>
+                <CurrencyCode>EUR</CurrencyCode>
+                <CustomField1/>
+                <CustomField2/>
+                <CustomField3/>
+                <CustomField4/>
+                <CustomField5/>
+                <DunsNumber>DUNS001111</DunsNumber>
+                <Email>magnaclone01@supplier.com</Email>
+                <Fax>121312</Fax>
+                <LocationCode>LOC01</LocationCode>
+                <PaymentTermsCode>60</PaymentTermsCode>
+                <Phone>9300876101</Phone>
+                <ReferenceID>1</ReferenceID>
+                <ShipPoint>18</ShipPoint>
+                <State>AK</State>
+                <SupplierCode>Mgcln_001</SupplierCode>
+                <SupplierName>Test1 Supplier</SupplierName>
+                <SupplierType>N</SupplierType>
+                <TaxId>121</TaxId>
+                <Zip>12345</Zip>
+            </Supplier>
+        </ArrayOfSupplier>
 
-+ Response 200 (application/json)
++ Response 200 (application/xml)
             
-            {
-                    "TransactionID":"ahx-123-fgh-fge-1212121",
-                    "Summary":
-                                {
-                                    "Description" : "Supplier Mgcln_001 Created Successfully.",
-                                    "TotalRecordCount" : 1,
-                                    "SuccessRecordCount" : 1,
-                                    "FailedRecordCount" : 0,
-                                    "DataValidationRecordCount" : 0,
-                                    "BusinessValidationRecordCount" : 0,
-                                    "SystemExceptionRecordCount" : 0,
-                                },
-                    "IdentifierList":   [
-                                            {
-                                                "IdentifierValue": "1",
-                                                "Status": "SUCCESS",
-                                                "SupplierID" : "1001",
-                                                "Description": "Supplier Mgcln_001  Created Successfully.",
-                                                "DataValidationExceptionList": [],
-                                                "BusinessValidationExceptionList": [],
-                                                "SystemExceptions": [],
-                                            }
-                                        ]
-            }
-+ Request Two Supplier One with Success and One with data Validation Failure  Status(application/json)
+            <XeevaResponse>
+                <IdentifierList>
+                    <Identifier>
+                        <BusinessValidationExceptionList/>
+                        <DataValidationExceptionList/>
+                        <Description>Supplier Mgcln_001 Created Successfully.</Description>
+                        <IdentifierValue>1</IdentifierValue>
+                        <Status>SUCCESS</Status>
+                        <SupplierID>1001</SupplierID>
+                        <SystemExceptions/>
+                    </Identifier>
+                </IdentifierList>
+                <Summary>
+                    <BusinessValidationRecordCount>0</BusinessValidationRecordCount>
+                    <DataValidationRecordCount>0</DataValidationRecordCount>
+                    <Description>Supplier Mgcln_001 Created Successfully.</Description>
+                    <FailedRecordCount>0</FailedRecordCount>
+                    <SuccessRecordCount>1</SuccessRecordCount>
+                    <SystemExceptionRecordCount>0</SystemExceptionRecordCount>
+                    <TotalRecordCount>1</TotalRecordCount>
+                </Summary>
+            <TransactionID>ahx-123-fgh-fge-1212121</TransactionID>
+            </XeevaResponse>
++ Request Two Supplier One with Success and One with data Validation Failure  Status(application/xml)
 
-        [
-            {
-                "SupplierCode": "Mgcln_002",
-                "SupplierType": "N",
-                "ShipPoint": "18",
-                "SupplierName": "Test2 Supplier",
-                "Address1": "Address1",
-                "Address2": "Address2",
-                "City": "Magna Clone City",
-                "State": "AK",
-                "Zip": "12345",
-                "Country": "MEX",
-                "PaymentTermsCode": "60",
-                "CurrencyCode": "EUR",
-                "Phone": "9300876101",
-                "Fax": "121312",
-                "ContactPerson": "Magna Supplieruser02",
-                "Email": "magnaclone02@supplier.com",
-                "Active": "Y",
-                "LocationCode": "LOC01",
-                "TaxId": "121",
-                "DunsNumber": "DUNS001111",
-                "ReferenceID": "2",
-                "CustomField1": "",
-                "CustomField2": "",
-                "CustomField3": "",
-                "CustomField4": "",
-                "CustomField5": "",
-            },{
-                "SupplierCode": "Mgcln_003",
-                "SupplierType": "",
-                "ShipPoint": "18",
-                "SupplierName": "Test3 Supplier",
-                "Address1": "Address1",
-                "Address2": "Address2",
-                "City": "Magna Clone City",
-                "State": "AK",
-                "Zip": "12345",
-                "Country": "MEX",
-                "PaymentTermsCode": "60",
-                "CurrencyCode": "EUR",
-                "Phone": "9300876101",
-                "Fax": "121312",
-                "ContactPerson": "Magna Supplieruser03",
-                "Email": "magnaclone03@supplier.com",
-                "Active": "Y",
-                "LocationCode": "LOC01",
-                "TaxId": "121",
-                "DunsNumber": "DUNS002222",
-                "ReferenceID": "3",
-                "CustomField1": "",
-                "CustomField2": "",
-                "CustomField3": "",
-                "CustomField4": "",
-                "CustomField5": "",
-            },
-        ]
+        <ArrayOfSupplier>
+            <Supplier>
+                <Active>Y</Active>
+                <Address1>Address1</Address1>
+                <Address2>Address2</Address2>
+                <City>Magna Clone City</City>
+                <ContactPerson>Magna Supplieruser02</ContactPerson>
+                <Country>MEX</Country>
+                <CurrencyCode>EUR</CurrencyCode>
+                <CustomField1/>
+                <CustomField2/>
+                <CustomField3/>
+                <CustomField4/>
+                <CustomField5/>
+                <DunsNumber>DUNS001111</DunsNumber>
+                <Email>magnaclone02@supplier.com</Email>
+                <Fax>121312</Fax>
+                <LocationCode>LOC01</LocationCode>
+                <PaymentTermsCode>60</PaymentTermsCode>
+                <Phone>9300876101</Phone>
+                <ReferenceID>2</ReferenceID>
+                <ShipPoint>18</ShipPoint>
+                <State>AK</State>
+                <SupplierCode>Mgcln_002</SupplierCode>
+                <SupplierName>Test2 Supplier</SupplierName>
+                <SupplierType>N</SupplierType>
+                <TaxId>121</TaxId>
+                <Zip>12345</Zip>
+            </Supplier>
+            <Supplier>
+                <Active>Y</Active>
+                <Address1>Address1</Address1>
+                <Address2>Address2</Address2>
+                <City>Magna Clone City</City>
+                <ContactPerson>Magna Supplieruser03</ContactPerson>
+                <Country>MEX</Country>
+                <CurrencyCode>EUR</CurrencyCode>
+                <CustomField1/>
+                <CustomField2/>
+                <CustomField3/>
+                <CustomField4/>
+                <CustomField5/>
+                <DunsNumber>DUNS002222</DunsNumber>
+                <Email>magnaclone03@supplier.com</Email>
+                <Fax>121312</Fax>
+                <LocationCode>LOC01</LocationCode>
+                <PaymentTermsCode>60</PaymentTermsCode>
+                <Phone>9300876101</Phone>
+                <ReferenceID>3</ReferenceID>
+                <ShipPoint>18</ShipPoint>
+                <State>AK</State>
+                <SupplierCode>Mgcln_003</SupplierCode>
+                <SupplierName>Test3 Supplier</SupplierName>
+                <SupplierType/>
+                <TaxId>121</TaxId>
+                <Zip>12345</Zip>
+            </Supplier>
+        </ArrayOfSupplier>
 
-+ Response 200 (application/json)
++ Response 200 (application/xml)
             
-            {
-                    "TransactionID":"ahx-123-fgh-fge-1212121",
-                    "Summary":
-                                {
-                                    "Description" : "Supplier Mgcln_002 Created Successfully.",
-                                    "TotalRecordCount" : 2,
-                                    "SuccessRecordCount" : 1,
-                                    "FailedRecordCount" : 1,
-                                    "DataValidationRecordCount" : 1,
-                                    "BusinessValidationRecordCount" : 0,
-                                    "SystemExceptionRecordCount" : 0,
-                                },
-                    "IdentifierList":   [
-                                            {
-                                                "IdentifierValue": "2",
-                                                "Status": "SUCCESS",
-                                                "SupplierID" : "1002",
-                                                "Description": "Supplier Mgcln_002  Created Successfully.",
-                                                "DataValidationExceptionList": [],
-                                                "BusinessValidationExceptionList": [],
-                                                "SystemExceptions": [],
-                                            },{
-                                                "IdentifierValue": "3",
-                                                "Status": "FAILED",
-                                                "SupplierID" : "0",
-                                                "Description": "Mgcln_003 Failed.",
-                                                "DataValidationExceptionList": [
-                                                                                 {
-                                                                                    "ExceptionType": "Required",
-                                                                                    "ExceptionCode": "EX-RQ-02",
-                                                                                    "ExceptionDescription": "SupplierType Required: The field is required.",
-                                                                                    "LineNo": "1",
-                                                                                 }
-                                                ],
-                                                "BusinessValidationExceptionList": [],
-                                                "SystemExceptions": [],
-                                            },
-                                        ]
-            }
+            <XeevaResponse>
+                <IdentifierList>
+                    <Identifier>
+                        <BusinessValidationExceptionList/>
+                        <DataValidationExceptionList/>
+                        <Description>Supplier Mgcln_002 Created Successfully.</Description>
+                        <IdentifierValue>2</IdentifierValue>
+                        <Status>SUCCESS</Status>
+                        <SupplierID>1002</SupplierID>
+                        <SystemExceptions/>
+                    </Identifier>
+                    <Identifier>
+                        <BusinessValidationExceptionList/>
+                        <DataValidationExceptionList>
+                            <DataValidationException>
+                                <ExceptionCode>EX-RQ-02</ExceptionCode>
+                                <ExceptionDescription>SupplierType Required: The field is required.</ExceptionDescription>
+                                <ExceptionType>Required</ExceptionType>
+                                <LineNo>1</LineNo>
+                            </DataValidationException>
+                        </DataValidationExceptionList>
+                        <Description>Mgcln_003 Failed.</Description>
+                        <IdentifierValue>3</IdentifierValue>
+                        <Status>FAILED</Status>
+                        <SupplierID>0</SupplierID>
+                        <SystemExceptions/>
+                    </Identifier>
+                </IdentifierList>
+                <Summary>
+                    <BusinessValidationRecordCount>0</BusinessValidationRecordCount>
+                    <DataValidationRecordCount>1</DataValidationRecordCount>
+                    <Description>Supplier Mgcln_002 Created Successfully.</Description>
+                    <FailedRecordCount>1</FailedRecordCount>
+                    <SuccessRecordCount>1</SuccessRecordCount>
+                    <SystemExceptionRecordCount>0</SystemExceptionRecordCount>
+                    <TotalRecordCount>2</TotalRecordCount>
+                </Summary>
+                <TransactionID>ahx-123-fgh-fge-1212121</TransactionID>
+            </XeevaResponse>
 
-+ Request Three Supplier Two Success and One with Business Validation Failed status (application/json)
++ Request Three Supplier Two Success and One with Business Validation Failed status (application/xml)
 
-        [
-            {
-                "SupplierCode": "Mgcln_004",
-                "SupplierType": "N",
-                "ShipPoint": "18",
-                "SupplierName": "Test4 Supplier",
-                "Address1": "Address1",
-                "Address2": "Address2",
-                "City": "Magna Clone City",
-                "State": "AK",
-                "Zip": "12345",
-                "Country": "MEX",
-                "PaymentTermsCode": "60",
-                "CurrencyCode": "EUR",
-                "Phone": "9300876101",
-                "Fax": "121312",
-                "ContactPerson": "Magna Supplieruser04",
-                "Email": "magnaclone04@supplier.com",
-                "Active": "Y",
-                "LocationCode": "LOC01",
-                "TaxId": "121",
-                "DunsNumber": "DUNS001111",
-                "ReferenceID": "4",
-                "CustomField1": "",
-                "CustomField2": "",
-                "CustomField3": "",
-                "CustomField4": "",
-                "CustomField5": "",
-            },{
-                "SupplierCode": "Mgcln_005",
-                "SupplierType": "N",
-                "ShipPoint": "18",
-                "SupplierName": "Test5 Supplier",
-                "Address1": "Address1",
-                "Address2": "Address2",
-                "City": "Magna Clone City",
-                "State": "AK",
-                "Zip": "12345",
-                "Country": "MEX",
-                "PaymentTermsCode": "60",
-                "CurrencyCode": "EUR",
-                "Phone": "9300876101",
-                "Fax": "121312",
-                "ContactPerson": "Magna Supplieruser05",
-                "Email": "magnaclone05@supplier.com",
-                "Active": "Y",
-                "LocationCode": "LOC01",
-                "TaxId": "121",
-                "DunsNumber": "DUNS002222",
-                "ReferenceID": "5",
-                "CustomField1": "",
-                "CustomField2": "",
-                "CustomField3": "",
-                "CustomField4": "",
-                "CustomField5": "",
-            },{
-                "SupplierCode": "Mgcln_006",
-                "SupplierType": "",
-                "ShipPoint": "18",
-                "SupplierName": "Test6 Supplier",
-                "Address1": "Address1",
-                "Address2": "Address2",
-                "City": "Magna Clone City",
-                "State": "AK",
-                "Zip": "12345",
-                "Country": "MEX",
-                "PaymentTermsCode": "1000",
-                "CurrencyCode": "EUR",
-                "Phone": "9300876101",
-                "Fax": "121312",
-                "ContactPerson": "Magna Supplieruser06",
-                "Email": "magnaclone06@supplier.com",
-                "Active": "Y",
-                "LocationCode": "LOC01",
-                "TaxId": "121",
-                "DunsNumber": "DUNS002222",
-                "ReferenceID": "6",
-                "CustomField1": "",
-                "CustomField2": "",
-                "CustomField3": "",
-                "CustomField4": "",
-                "CustomField5": "",
-            },
-        ]
+        <ArrayOfSupplier>
+            <Supplier>
+                <Active>Y</Active>
+                <Address1>Address1</Address1>
+                <Address2>Address2</Address2>
+                <City>Magna Clone City</City>
+                <ContactPerson>Magna Supplieruser04</ContactPerson>
+                <Country>MEX</Country>
+                <CurrencyCode>EUR</CurrencyCode>
+                <CustomField1/>
+                <CustomField2/>
+                <CustomField3/>
+                <CustomField4/>
+                <CustomField5/>
+                <DunsNumber>DUNS001111</DunsNumber>
+                <Email>magnaclone04@supplier.com</Email>
+                <Fax>121312</Fax>
+                <LocationCode>LOC01</LocationCode>
+                <PaymentTermsCode>60</PaymentTermsCode>
+                <Phone>9300876101</Phone>
+                <ReferenceID>4</ReferenceID>
+                <ShipPoint>18</ShipPoint>
+                <State>AK</State>
+                <SupplierCode>Mgcln_004</SupplierCode>
+                <SupplierName>Test4 Supplier</SupplierName>
+                <SupplierType>N</SupplierType>
+                <TaxId>121</TaxId>
+                <Zip>12345</Zip>
+            </Supplier>
+            <Supplier>
+                <Active>Y</Active>
+                <Address1>Address1</Address1>
+                <Address2>Address2</Address2>
+                <City>Magna Clone City</City>
+                <ContactPerson>Magna Supplieruser05</ContactPerson>
+                <Country>MEX</Country>
+                <CurrencyCode>EUR</CurrencyCode>
+                <CustomField1/>
+                <CustomField2/>
+                <CustomField3/>
+                <CustomField4/>
+                <CustomField5/>
+                <DunsNumber>DUNS002222</DunsNumber>
+                <Email>magnaclone05@supplier.com</Email>
+                <Fax>121312</Fax>
+                <LocationCode>LOC01</LocationCode>
+                <PaymentTermsCode>60</PaymentTermsCode>
+                <Phone>9300876101</Phone>
+                <ReferenceID>5</ReferenceID>
+                <ShipPoint>18</ShipPoint>
+                <State>AK</State>
+                <SupplierCode>Mgcln_005</SupplierCode>
+                <SupplierName>Test5 Supplier</SupplierName>
+                <SupplierType>N</SupplierType>
+                <TaxId>121</TaxId>
+                <Zip>12345</Zip>
+            </Supplier>
+            <Supplier>
+                <Active>Y</Active>
+                <Address1>Address1</Address1>
+                <Address2>Address2</Address2>
+                <City>Magna Clone City</City>
+                <ContactPerson>Magna Supplieruser06</ContactPerson>
+                <Country>MEX</Country>
+                <CurrencyCode>EUR</CurrencyCode>
+                <CustomField1/>
+                <CustomField2/>
+                <CustomField3/>
+                <CustomField4/>
+                <CustomField5/>
+                <DunsNumber>DUNS002222</DunsNumber>
+                <Email>magnaclone06@supplier.com</Email>
+                <Fax>121312</Fax>
+                <LocationCode>LOC01</LocationCode>
+                <PaymentTermsCode>1000</PaymentTermsCode>
+                <Phone>9300876101</Phone>
+                <ReferenceID>6</ReferenceID>
+                <ShipPoint>18</ShipPoint>
+                <State>AK</State>
+                <SupplierCode>Mgcln_006</SupplierCode>
+                <SupplierName>Test6 Supplier</SupplierName>
+                <SupplierType/>
+                <TaxId>121</TaxId>
+                <Zip>12345</Zip>
+            </Supplier>
+        </ArrayOfSupplier>
 
-+ Response 200 (application/json)
++ Response 200 (application/xml)
             
-            {
-                    "TransactionID":"ahx-123-fgh-fge-1212121",
-                    "Summary":
-                                {
-                                    "Description" : "Supplier Mgcln_004,Mgcln_005 Created Successfully.",
-                                    "TotalRecordCount" : 3,
-                                    "SuccessRecordCount" : 2,
-                                    "FailedRecordCount" : 1,
-                                    "DataValidationRecordCount" : 0,
-                                    "BusinessValidationRecordCount" : 1,
-                                    "SystemExceptionRecordCount" : 0,
-                                },
-                    "IdentifierList":   [
-                                            {
-                                                "IdentifierValue": "4",
-                                                "Status": "SUCCESS",
-                                                "SupplierID" : "1004",
-                                                "Description": "Supplier Mgcln_004  Created Successfully.",
-                                                "DataValidationExceptionList": [],
-                                                "BusinessValidationExceptionList": [],
-                                                "SystemExceptions": [],
-                                            },{
-                                                "IdentifierValue": "5",
-                                                "Status": "SUCCESS",
-                                                "SupplierID" : "1005",
-                                                "Description": "Supplier Mgcln_005  Created Successfully.",
-                                                "DataValidationExceptionList": [],
-                                                "BusinessValidationExceptionList": [],
-                                                "SystemExceptions": [],
-                                            },{
-                                                "IdentifierValue": "6",
-                                                "Status": "FAILED",
-                                                "SupplierID" : "0",
-                                                "Description": "Mgcln_006 Failed.",
-                                                "DataValidationExceptionList": [],
-                                                "BusinessValidationExceptionList": [
-                                                                                 {
-                                                                                    "ExceptionType": "Error",
-                                                                                    "ExceptionCode": "",
-                                                                                    "ExceptionDescription": "Payment Term -{1000} does not exist.",
-                                                                                    "LineNo": "1",
-                                                                                 }
-                                                ],
-                                                "SystemExceptions": [],
-                                            },
-                                        ]
-            }
-            
+            <XeevaResponse>
+                <IdentifierList>
+                    <Identifier>
+                        <BusinessValidationExceptionList/>
+                        <DataValidationExceptionList/>
+                        <Description>Supplier Mgcln_004 Created Successfully.</Description>
+                        <IdentifierValue>4</IdentifierValue>
+                        <Status>SUCCESS</Status>
+                        <SupplierID>1004</SupplierID>
+                        <SystemExceptions/>
+                        </Identifier>
+                    <Identifier>
+                        <BusinessValidationExceptionList/>
+                        <DataValidationExceptionList/>
+                        <Description>Supplier Mgcln_005 Created Successfully.</Description>
+                        <IdentifierValue>5</IdentifierValue>
+                        <Status>SUCCESS</Status>
+                        <SupplierID>1005</SupplierID>
+                        <SystemExceptions/>
+                    </Identifier>
+                    <Identifier>
+                        <BusinessValidationExceptionList>
+                            <BusinessValidationException>
+                            <ExceptionCode/>
+                            <ExceptionDescription>Payment Term -{1000} does not exist.</ExceptionDescription>
+                            <ExceptionType>Error</ExceptionType>
+                            <LineNo>1</LineNo>
+                            </BusinessValidationException>
+                        </BusinessValidationExceptionList>
+                        <DataValidationExceptionList/>
+                        <Description>Mgcln_006 Failed.</Description>
+                        <IdentifierValue>6</IdentifierValue>
+                        <Status>FAILED</Status>
+                        <SupplierID>0</SupplierID>
+                        <SystemExceptions/>
+                    </Identifier>
+                </IdentifierList>
+                <Summary>
+                    <BusinessValidationRecordCount>1</BusinessValidationRecordCount>
+                    <DataValidationRecordCount>0</DataValidationRecordCount>
+                    <Description>Supplier Mgcln_004,Mgcln_005 Created Successfully.</Description>
+                    <FailedRecordCount>1</FailedRecordCount>
+                    <SuccessRecordCount>2</SuccessRecordCount>
+                    <SystemExceptionRecordCount>0</SystemExceptionRecordCount>
+                    <TotalRecordCount>3</TotalRecordCount>
+                </Summary>
+                <TransactionID>ahx-123-fgh-fge-1212121</TransactionID>
+                </XeevaResponse>
             
 ## Group Invoice
 
