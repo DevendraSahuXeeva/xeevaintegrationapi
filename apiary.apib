@@ -5079,522 +5079,551 @@ Customer may Pull one or more than One Purchase Order Objects from Xeeva through
 ### Get Purchase Orders Payload (Try Now)[POST]
 + Request For Getting Single Purchase Order (application/json)
 
-            {
-                "NumberOfRecords": 1,
-                "SupplierCode": "",
-                "LocationCode": "",
-                "BuyerCode": "",
-            }
+            <PurchaseOrderSearchRequest>
+                 <PageSize>1</PageSize>
+                 <TransactionID>execution-0f25b4a5-28fe-402a-b735-6bfb83f44404-2019.01.30</TransactionID>
+                 <LastChanges>All</LastChanges>
+                 <POCreatedStartDate>01-Jan-2017T09:08:48.396Z</POCreatedStartDate>
+                 <POCreatedEndDate>01-Jan-2018T09:08:48.396Z</POCreatedEndDate>
+                 <SupplierList>
+                 <SupplierCode></SupplierCode>
+                 </SupplierList>
+                 <BuyerList>
+                 <BuyerCode></BuyerCode>
+                 </BuyerList>
+                 <RequesterList>
+                 <RequesterName></RequesterName>
+                 </RequesterList>
+                 <LocationList>
+                 <LocationCode></LocationCode>
+                 </LocationList>
+                 <POCodeList>
+                 <POCode></POCode>
+                 </POCodeList>
+                 <PageNumber>1</PageNumber>
+            </PurchaseOrderSearchRequest>
         
 
 + Response 200 (application/json)
             
-            [
-                {
-                    "POHeader": {
-                    "POId": "1011",
-                    "ReqNo": "ReqNo-001",
-                    "SupplierCode": "SUP-1",
-                    "CustomerCode": "ReqNo-001",
-                    "LocationCode": "LOC-91",
-                    "POIssueDate": "2018-12-12T08:34:48",
-                    "RFQNo": "RFQ0089",
-                    "BuyerCode": "BC-0012",
-                    "PaymentTermCode": "NET-60",
-                    "ShipVia": "FED",
-                    "Status": "1",
-                    "BuyerComments": "Urgent",
-                    "AmendmentNo": "0",
-                    "ShipToCode": "SHIP-001",
-                    "AlternateRequestor": "",
-                    "OrderComments": "Urgent",
-                    "ShowPOComments": "0",
-                    "RequestorCode": "REQ-002",
-                    "BillToCode": "BILL-90",
-                    "DivisionCode": "",
-                    "ProgramCode": "",
-                    "Capex": "",
-                    "Budgeted": "",
-                    "RequestorName": "Rupesh",
-                    "RequestorEmail": "Rupesh@xeeva.com",
-                    "CurrencyCode": "USD",
-                    "OrderDescription": "Test Order",
-                    "RequestorCurrency": "USD",
-                    "BillToAddress": "Address line 1",
-                    "ShowLineCommentsOnPO": "",
-                    "Consignment": "",
-                    "BPOHeaderId": "",
-                    "BPOCurrentReleaseNo": "",
-                    "BPORequestorCode": "",
-                    "UserOnBehalfCode": "",
-                    "IsUrgentPO": "",
-                    "IsServicePO": "",
-                    "AmendmentDate": "",
-                    "POReleaseRejectDate": "",
-                    "FOBCode": "",
-                    "IsApplyTaxOnHeader": "",
-                    "POSource": "",
-                    "PCardNo": "",
-                    "ShipToName": "ShipToName",
-                    "ShipToAddress": "ShipToAddress",
-                    "ShipToAddress2": "ShipToAddress2",
-                    "ShipToCity": "ShipToCity",
-                    "ShipToState": "ShipToState",
-                    "ShipToCountry": "ShipToCountry",
-                    "ShipToZip": "ShipToZip",
-                    "ShipToLocationCode": "ShipToLocationCode",
-                    "VendorName": "VendorName",
-                    "VendorAddress": "VendorAddress",
-                    "VendorCity": "VendorCity",
-                    "VendorState": "VendorState",
-                    "VendorZip": "VendorZip",
-                    "VendorCountry": "VendorCountry",
-                    "BuyerContactNumber": "8001-778787",
-                    "BuyerEmail": "BuyerEmail@xeeva.com",
-                    "BuyerName": "Test Buyer",
-                    "BuyerAddress": "BuyerAddress",
-                    "BuyerCity": "BuyerCity1",
-                    "BuyerSate": "BuyerSate1",
-                    "BuyerZip": "BuyerZip",
-                    "PSALocation": "PC-001",
-                    },
-                    "PODetails": [
-                    {
-                    "POId": "1011",
-                    "PODetailId": "8001",
-                    "ProductCode": "PC-001",
-                    "SupplierPartNumber": "1",
-                        "ProductDescription": "ProductDescription",
-                        "PromiseDate": "2018-12-12T08:34:48",
-                        "OrderQuantity": "2",
-                        "ReceivedQuantity": "1",
-                        "RejectReasonCode": "",
-                        "Comments": "Urgent",
-                        "CustomerRequiredDate": "2018-12-12T08:34:48",
-                        "StatusCode": "1",
-                        "LineItemNumber": "1",
-                        "Active": "1",
-                        "ShippedDate": "2018-12-12T08:34:48",
-                        "ShippedQuantity": "1",
-                        "UnitPrice": "100",
-                        "RemainingOrderQuantity": "1",
-                        "UnitOfMeasure": "EACH",
-                        "ExtendedPrice": "100",
-                        "Tax": "1",
-                        "Manufacturer": "Manufacturer",
-                        "PaymentTermCode": "PC-001",
-                        "BuyerComments": "Urgent",
-                        "FreightTermCode": "FED",
-                        "CommodityCode": "COM1",
-                        "RequestorComments": "",
-                        "LeadTime": "2",
-                        "IsVirtualPedimento": "",
-                        "BPOLineDetailId": "",
-                        "RFQLineItemId": "1",
-                        "ProjectCode": "",
-                        "AmendmentNo": "",
-                        "InvoicedQuantity": "0",
-                        "LegacyPartNumber": "",
-                        "LineReleaseNumber": "",
-                        "CategoryId": "1",
-                        "SupplierPartAuxuliaryId": "8001",
-                        "GLAccountCode": "PC-001",
-                        "CostCenterCode": "1",
-                        "SubAccountCode": "8001",
-                        "WorkOrderCode": "1",
-                    },{
-                    "POId": "1011",
-                    "PODetailId": "8001",
-                    "ProductCode": "PC-001",
-                    "SupplierPartNumber": "1",
-                        "ProductDescription": "ProductDescription",
-                        "PromiseDate": "2018-12-12T08:34:48",
-                        "OrderQuantity": "2",
-                        "ReceivedQuantity": "1",
-                        "RejectReasonCode": "",
-                        "Comments": "Urgent",
-                        "CustomerRequiredDate": "2018-12-12T08:34:48",
-                        "StatusCode": "1",
-                        "LineItemNumber": "2",
-                        "Active": "1",
-                        "ShippedDate": "2018-12-12T08:34:48",
-                        "ShippedQuantity": "1",
-                        "UnitPrice": "100",
-                        "RemainingOrderQuantity": "1",
-                        "UnitOfMeasure": "EACH",
-                        "ExtendedPrice": "100",
-                        "Tax": "1",
-                        "Manufacturer": "Manufacturer",
-                        "PaymentTermCode": "PC-001",
-                        "BuyerComments": "Urgent",
-                        "FreightTermCode": "FED",
-                        "CommodityCode": "COM1",
-                        "RequestorComments": "",
-                        "LeadTime": "2",
-                        "IsVirtualPedimento": "",
-                        "BPOLineDetailId": "",
-                        "RFQLineItemId": "1",
-                        "ProjectCode": "",
-                        "AmendmentNo": "",
-                        "InvoicedQuantity": "0",
-                        "LegacyPartNumber": "",
-                        "LineReleaseNumber": "",
-                        "CategoryId": "1",
-                        "SupplierPartAuxuliaryId": "8001",
-                        "GLAccountCode": "PC-001",
-                        "CostCenterCode": "1",
-                        "SubAccountCode": "8001",
-                        "WorkOrderCode": "1",
-                    }
-                    ]
-                    
-                }
-            ]
+            <ArrayOfPurchaseOrder>
+              <PurchaseOrder>
+                <POHeader>
+                  <POId>1011</POId>
+                  <ReqNo>ReqNo-001</ReqNo>
+                  <SupplierCode>SUP-1</SupplierCode>
+                  <CustomerCode>ReqNo-001</CustomerCode>
+                  <LocationCode>LOC-91</LocationCode>
+                  <POIssueDate>2018-12-12T08:34:48</POIssueDate>
+                  <RFQNo>RFQ0089</RFQNo>
+                  <BuyerCode>BC-0012</BuyerCode>
+                  <PaymentTermCode>NET-60</PaymentTermCode>
+                  <ShipVia>FED</ShipVia>
+                  <Status>1</Status>
+                  <BuyerComments>Urgent</BuyerComments>
+                  <AmendmentNo>0</AmendmentNo>
+                  <ShipToCode>SHIP-001</ShipToCode>
+                  <AlternateRequestor></AlternateRequestor>
+                  <OrderComments>Urgent</OrderComments>
+                  <ShowPOComments>0</ShowPOComments>
+                  <RequestorCode>REQ-002</RequestorCode>
+                  <BillToCode>BILL-90</BillToCode>
+                  <DivisionCode></DivisionCode>
+                  <ProgramCode></ProgramCode>
+                  <Capex></Capex>
+                  <Budgeted></Budgeted>
+                  <RequestorName>Rupesh</RequestorName>
+                  <RequestorEmail>Rupesh@xeeva.com</RequestorEmail>
+                  <CurrencyCode>USD</CurrencyCode>
+                  <OrderDescription>Test Order</OrderDescription>
+                  <RequestorCurrency>USD</RequestorCurrency>
+                  <BillToAddress>Address line 1</BillToAddress>
+                  <ShowLineCommentsOnPO></ShowLineCommentsOnPO>
+                  <Consignment></Consignment>
+                  <BPOHeaderId></BPOHeaderId>
+                  <BPOCurrentReleaseNo></BPOCurrentReleaseNo>
+                  <BPORequestorCode></BPORequestorCode>
+                  <UserOnBehalfCode></UserOnBehalfCode>
+                  <IsUrgentPO></IsUrgentPO>
+                  <IsServicePO></IsServicePO>
+                  <AmendmentDate></AmendmentDate>
+                  <POReleaseRejectDate></POReleaseRejectDate>
+                  <FOBCode></FOBCode>
+                  <IsApplyTaxOnHeader></IsApplyTaxOnHeader>
+                  <POSource></POSource>
+                  <PCardNo></PCardNo>
+                  <ShipToName>ShipToName</ShipToName>
+                  <ShipToAddress>ShipToAddress</ShipToAddress>
+                  <ShipToAddress2>ShipToAddress2</ShipToAddress2>
+                  <ShipToCity>ShipToCity</ShipToCity>
+                  <ShipToState>ShipToState</ShipToState>
+                  <ShipToCountry>ShipToCountry</ShipToCountry>
+                  <ShipToZip>ShipToZip</ShipToZip>
+                  <ShipToLocationCode>ShipToLocationCode</ShipToLocationCode>
+                  <VendorName>VendorName</VendorName>
+                  <VendorAddress>VendorAddress</VendorAddress>
+                  <VendorCity>VendorCity</VendorCity>
+                  <VendorState>VendorState</VendorState>
+                  <VendorZip>VendorZip</VendorZip>
+                  <VendorCountry>VendorCountry</VendorCountry>
+                  <BuyerContactNumber>8001-778787</BuyerContactNumber>
+                  <BuyerEmail>BuyerEmail@xeeva.com</BuyerEmail>
+                  <BuyerName>Test Buyer</BuyerName>
+                  <BuyerAddress>BuyerAddress</BuyerAddress>
+                  <BuyerCity>BuyerCity1</BuyerCity>
+                  <BuyerSate>BuyerSate1</BuyerSate>
+                  <BuyerZip>BuyerZip</BuyerZip>
+                  <PSALocation>PC-001</PSALocation>
+                </POHeader>
+                <PODetails>
+                  <POId>1011</POId>
+                  <PODetailId>8001</PODetailId>
+                  <ProductCode>PC-001</ProductCode>
+                  <SupplierPartNumber>1</SupplierPartNumber>
+                  <ProductDescription>ProductDescription</ProductDescription>
+                  <PromiseDate>2018-12-12T08:34:48</PromiseDate>
+                  <OrderQuantity>2</OrderQuantity>
+                  <ReceivedQuantity>1</ReceivedQuantity>
+                  <RejectReasonCode></RejectReasonCode>
+                  <Comments>Urgent</Comments>
+                  <CustomerRequiredDate>2018-12-12T08:34:48</CustomerRequiredDate>
+                  <StatusCode>1</StatusCode>
+                  <LineItemNumber>1</LineItemNumber>
+                  <Active>1</Active>
+                  <ShippedDate>2018-12-12T08:34:48</ShippedDate>
+                  <ShippedQuantity>1</ShippedQuantity>
+                  <UnitPrice>100</UnitPrice>
+                  <RemainingOrderQuantity>1</RemainingOrderQuantity>
+                  <UnitOfMeasure>EACH</UnitOfMeasure>
+                  <ExtendedPrice>100</ExtendedPrice>
+                  <Tax>1</Tax>
+                  <Manufacturer>Manufacturer</Manufacturer>
+                  <PaymentTermCode>PC-001</PaymentTermCode>
+                  <BuyerComments>Urgent</BuyerComments>
+                  <FreightTermCode>FED</FreightTermCode>
+                  <CommodityCode>COM1</CommodityCode>
+                  <RequestorComments></RequestorComments>
+                  <LeadTime>2</LeadTime>
+                  <IsVirtualPedimento></IsVirtualPedimento>
+                  <BPOLineDetailId></BPOLineDetailId>
+                  <RFQLineItemId>1</RFQLineItemId>
+                  <ProjectCode></ProjectCode>
+                  <AmendmentNo></AmendmentNo>
+                  <InvoicedQuantity>0</InvoicedQuantity>
+                  <LegacyPartNumber></LegacyPartNumber>
+                  <LineReleaseNumber></LineReleaseNumber>
+                  <CategoryId>1</CategoryId>
+                  <SupplierPartAuxuliaryId>8001</SupplierPartAuxuliaryId>
+                  <GLAccountCode>PC-001</GLAccountCode>
+                  <CostCenterCode>1</CostCenterCode>
+                  <SubAccountCode>8001</SubAccountCode>
+                  <WorkOrderCode>1</WorkOrderCode>
+                </PODetails>
+                <PODetails>
+                  <POId>1011</POId>
+                  <PODetailId>8001</PODetailId>
+                  <ProductCode>PC-001</ProductCode>
+                  <SupplierPartNumber>1</SupplierPartNumber>
+                  <ProductDescription>ProductDescription</ProductDescription>
+                  <PromiseDate>2018-12-12T08:34:48</PromiseDate>
+                  <OrderQuantity>2</OrderQuantity>
+                  <ReceivedQuantity>1</ReceivedQuantity>
+                  <RejectReasonCode></RejectReasonCode>
+                  <Comments>Urgent</Comments>
+                  <CustomerRequiredDate>2018-12-12T08:34:48</CustomerRequiredDate>
+                  <StatusCode>1</StatusCode>
+                  <LineItemNumber>2</LineItemNumber>
+                  <Active>1</Active>
+                  <ShippedDate>2018-12-12T08:34:48</ShippedDate>
+                  <ShippedQuantity>1</ShippedQuantity>
+                  <UnitPrice>100</UnitPrice>
+                  <RemainingOrderQuantity>1</RemainingOrderQuantity>
+                  <UnitOfMeasure>EACH</UnitOfMeasure>
+                  <ExtendedPrice>100</ExtendedPrice>
+                  <Tax>1</Tax>
+                  <Manufacturer>Manufacturer</Manufacturer>
+                  <PaymentTermCode>PC-001</PaymentTermCode>
+                  <BuyerComments>Urgent</BuyerComments>
+                  <FreightTermCode>FED</FreightTermCode>
+                  <CommodityCode>COM1</CommodityCode>
+                  <RequestorComments></RequestorComments>
+                  <LeadTime>2</LeadTime>
+                  <IsVirtualPedimento></IsVirtualPedimento>
+                  <BPOLineDetailId></BPOLineDetailId>
+                  <RFQLineItemId>1</RFQLineItemId>
+                  <ProjectCode></ProjectCode>
+                  <AmendmentNo></AmendmentNo>
+                  <InvoicedQuantity>0</InvoicedQuantity>
+                  <LegacyPartNumber></LegacyPartNumber>
+                  <LineReleaseNumber></LineReleaseNumber>
+                  <CategoryId>1</CategoryId>
+                  <SupplierPartAuxuliaryId>8001</SupplierPartAuxuliaryId>
+                  <GLAccountCode>PC-001</GLAccountCode>
+                  <CostCenterCode>1</CostCenterCode>
+                  <SubAccountCode>8001</SubAccountCode>
+                  <WorkOrderCode>1</WorkOrderCode>
+                </PODetails>
+              </PurchaseOrder>
+            </ArrayOfPurchaseOrder>
 
 + Request For Getting More than one Purchase Order (application/json)
 
-            {
-                "NumberOfRecords": 2,
-                "SupplierCode": "",
-                "LocationCode": "",
-                "BuyerCode": "",
-            }
+             <PurchaseOrderSearchRequest>
+                 <PageSize>2</PageSize>
+                 <TransactionID>execution-0f25b4a5-28fe-402a-b735-6bfb83f44404-2019.01.30</TransactionID>
+                 <LastChanges>All</LastChanges>
+                 <POCreatedStartDate>01-Jan-2017T09:08:48.396Z</POCreatedStartDate>
+                 <POCreatedEndDate>01-Jan-2018T09:08:48.396Z</POCreatedEndDate>
+                 <SupplierList>
+                 <SupplierCode></SupplierCode>
+                 </SupplierList>
+                 <BuyerList>
+                 <BuyerCode></BuyerCode>
+                 </BuyerList>
+                 <RequesterList>
+                 <RequesterName></RequesterName>
+                 </RequesterList>
+                 <LocationList>
+                 <LocationCode></LocationCode>
+                 </LocationList>
+                 <POCodeList>
+                 <POCode></POCode>
+                 </POCodeList>
+                 <PageNumber>1</PageNumber>
+            </PurchaseOrderSearchRequest>
         
 
 + Response 200 (application/json)
             
-            [
-                {
-                    "POHeader": {
-                    "POId": "1011",
-                    "ReqNo": "ReqNo-001",
-                    "SupplierCode": "SUP-1",
-                    "CustomerCode": "ReqNo-001",
-                    "LocationCode": "LOC-91",
-                    "POIssueDate": "2018-12-12T08:34:48",
-                    "RFQNo": "RFQ0089",
-                    "BuyerCode": "BC-0012",
-                    "PaymentTermCode": "NET-60",
-                    "ShipVia": "FED",
-                    "Status": "1",
-                    "BuyerComments": "Urgent",
-                    "AmendmentNo": "0",
-                    "ShipToCode": "SHIP-001",
-                    "AlternateRequestor": "",
-                    "OrderComments": "Urgent",
-                    "ShowPOComments": "0",
-                    "RequestorCode": "REQ-002",
-                    "BillToCode": "BILL-90",
-                    "DivisionCode": "",
-                    "ProgramCode": "",
-                    "Capex": "",
-                    "Budgeted": "",
-                    "RequestorName": "Rupesh",
-                    "RequestorEmail": "Rupesh@xeeva.com",
-                    "CurrencyCode": "USD",
-                    "OrderDescription": "Test Order",
-                    "RequestorCurrency": "USD",
-                    "BillToAddress": "Address line 1",
-                    "ShowLineCommentsOnPO": "",
-                    "Consignment": "",
-                    "BPOHeaderId": "",
-                    "BPOCurrentReleaseNo": "",
-                    "BPORequestorCode": "",
-                    "UserOnBehalfCode": "",
-                    "IsUrgentPO": "",
-                    "IsServicePO": "",
-                    "AmendmentDate": "",
-                    "POReleaseRejectDate": "",
-                    "FOBCode": "",
-                    "IsApplyTaxOnHeader": "",
-                    "POSource": "",
-                    "PCardNo": "",
-                    "ShipToName": "ShipToName",
-                    "ShipToAddress": "ShipToAddress",
-                    "ShipToAddress2": "ShipToAddress2",
-                    "ShipToCity": "ShipToCity",
-                    "ShipToState": "ShipToState",
-                    "ShipToCountry": "ShipToCountry",
-                    "ShipToZip": "ShipToZip",
-                    "ShipToLocationCode": "ShipToLocationCode",
-                    "VendorName": "VendorName",
-                    "VendorAddress": "VendorAddress",
-                    "VendorCity": "VendorCity",
-                    "VendorState": "VendorState",
-                    "VendorZip": "VendorZip",
-                    "VendorCountry": "VendorCountry",
-                    "BuyerContactNumber": "8001-778787",
-                    "BuyerEmail": "BuyerEmail@xeeva.com",
-                    "BuyerName": "Test Buyer",
-                    "BuyerAddress": "BuyerAddress",
-                    "BuyerCity": "BuyerCity1",
-                    "BuyerSate": "BuyerSate1",
-                    "BuyerZip": "BuyerZip",
-                    "PSALocation": "PC-001",
-                    },
-                    "PODetails": [
-                    {
-                    "POId": "1011",
-                    "PODetailId": "8001",
-                    "ProductCode": "PC-001",
-                    "SupplierPartNumber": "1",
-                        "ProductDescription": "ProductDescription",
-                        "PromiseDate": "2018-12-12T08:34:48",
-                        "OrderQuantity": "2",
-                        "ReceivedQuantity": "1",
-                        "RejectReasonCode": "",
-                        "Comments": "Urgent",
-                        "CustomerRequiredDate": "2018-12-12T08:34:48",
-                        "StatusCode": "1",
-                        "LineItemNumber": "1",
-                        "Active": "1",
-                        "ShippedDate": "2018-12-12T08:34:48",
-                        "ShippedQuantity": "1",
-                        "UnitPrice": "100",
-                        "RemainingOrderQuantity": "1",
-                        "UnitOfMeasure": "EACH",
-                        "ExtendedPrice": "100",
-                        "Tax": "1",
-                        "Manufacturer": "Manufacturer",
-                        "PaymentTermCode": "PC-001",
-                        "BuyerComments": "Urgent",
-                        "FreightTermCode": "FED",
-                        "CommodityCode": "COM1",
-                        "RequestorComments": "",
-                        "LeadTime": "2",
-                        "IsVirtualPedimento": "",
-                        "BPOLineDetailId": "",
-                        "RFQLineItemId": "1",
-                        "ProjectCode": "",
-                        "AmendmentNo": "",
-                        "InvoicedQuantity": "0",
-                        "LegacyPartNumber": "",
-                        "LineReleaseNumber": "",
-                        "CategoryId": "1",
-                        "SupplierPartAuxuliaryId": "8001",
-                        "GLAccountCode": "PC-001",
-                        "CostCenterCode": "1",
-                        "SubAccountCode": "8001",
-                        "WorkOrderCode": "1",
-                    },{
-                    "POId": "1011",
-                    "PODetailId": "8001",
-                    "ProductCode": "PC-001",
-                    "SupplierPartNumber": "1",
-                        "ProductDescription": "ProductDescription",
-                        "PromiseDate": "2018-12-12T08:34:48",
-                        "OrderQuantity": "2",
-                        "ReceivedQuantity": "1",
-                        "RejectReasonCode": "",
-                        "Comments": "Urgent",
-                        "CustomerRequiredDate": "2018-12-12T08:34:48",
-                        "StatusCode": "1",
-                        "LineItemNumber": "2",
-                        "Active": "1",
-                        "ShippedDate": "2018-12-12T08:34:48",
-                        "ShippedQuantity": "1",
-                        "UnitPrice": "100",
-                        "RemainingOrderQuantity": "1",
-                        "UnitOfMeasure": "EACH",
-                        "ExtendedPrice": "100",
-                        "Tax": "1",
-                        "Manufacturer": "Manufacturer",
-                        "PaymentTermCode": "PC-001",
-                        "BuyerComments": "Urgent",
-                        "FreightTermCode": "FED",
-                        "CommodityCode": "COM1",
-                        "RequestorComments": "",
-                        "LeadTime": "2",
-                        "IsVirtualPedimento": "",
-                        "BPOLineDetailId": "",
-                        "RFQLineItemId": "1",
-                        "ProjectCode": "",
-                        "AmendmentNo": "",
-                        "InvoicedQuantity": "0",
-                        "LegacyPartNumber": "",
-                        "LineReleaseNumber": "",
-                        "CategoryId": "1",
-                        "SupplierPartAuxuliaryId": "8001",
-                        "GLAccountCode": "PC-001",
-                        "CostCenterCode": "1",
-                        "SubAccountCode": "8001",
-                        "WorkOrderCode": "1",
-                    }
-                    ]
-                    
-                },{
-                    "POHeader": {
-                    "POId": "1012",
-                    "ReqNo": "ReqNo-001",
-                    "SupplierCode": "SUP-1",
-                    "CustomerCode": "ReqNo-001",
-                    "LocationCode": "LOC-91",
-                    "POIssueDate": "2018-12-12T08:34:48",
-                    "RFQNo": "RFQ0089",
-                    "BuyerCode": "BC-0012",
-                    "PaymentTermCode": "NET-60",
-                    "ShipVia": "FED",
-                    "Status": "1",
-                    "BuyerComments": "Urgent",
-                    "AmendmentNo": "0",
-                    "ShipToCode": "SHIP-001",
-                    "AlternateRequestor": "",
-                    "OrderComments": "Urgent",
-                    "ShowPOComments": "0",
-                    "RequestorCode": "REQ-002",
-                    "BillToCode": "BILL-90",
-                    "DivisionCode": "",
-                    "ProgramCode": "",
-                    "Capex": "",
-                    "Budgeted": "",
-                    "RequestorName": "Rupesh",
-                    "RequestorEmail": "Rupesh@xeeva.com",
-                    "CurrencyCode": "USD",
-                    "OrderDescription": "Test Order",
-                    "RequestorCurrency": "USD",
-                    "BillToAddress": "Address line 1",
-                    "ShowLineCommentsOnPO": "",
-                    "Consignment": "",
-                    "BPOHeaderId": "",
-                    "BPOCurrentReleaseNo": "",
-                    "BPORequestorCode": "",
-                    "UserOnBehalfCode": "",
-                    "IsUrgentPO": "",
-                    "IsServicePO": "",
-                    "POPDFPath": "",
-                    "AmendmentDate": "",
-                    "POReleaseRejectDate": "",
-                    "FOBCode": "",
-                    "IsApplyTaxOnHeader": "",
-                    "POSource": "",
-                    "PCardNo": "",
-                    "ShipToName": "ShipToName",
-                    "ShipToAddress": "ShipToAddress",
-                    "ShipToAddress2": "ShipToAddress2",
-                    "ShipToCity": "ShipToCity",
-                    "ShipToState": "ShipToState",
-                    "ShipToCountry": "ShipToCountry",
-                    "ShipToZip": "ShipToZip",
-                    "ShipToLocationCode": "ShipToLocationCode",
-                    "VendorName": "VendorName",
-                    "VendorAddress": "VendorAddress",
-                    "VendorCity": "VendorCity",
-                    "VendorState": "VendorState",
-                    "VendorZip": "VendorZip",
-                    "VendorCountry": "VendorCountry",
-                    "BuyerContactNumber": "8001-778787",
-                    "BuyerEmail": "BuyerEmail@xeeva.com",
-                    "BuyerName": "Test Buyer",
-                    "BuyerAddress": "BuyerAddress",
-                    "BuyerCity": "BuyerCity1",
-                    "BuyerSate": "BuyerSate1",
-                    "BuyerZip": "BuyerZip",
-                    "PSALocation": "PC-001",
-                    },
-                    "PODetails": [
-                    {
-                    "POId": "1012",
-                    "PODetailId": "8001",
-                    "ProductCode": "PC-001",
-                    "SupplierPartNumber": "1",
-                        "ProductDescription": "ProductDescription",
-                        "PromiseDate": "2018-12-12T08:34:48",
-                        "OrderQuantity": "2",
-                        "ReceivedQuantity": "1",
-                        "RejectReasonCode": "",
-                        "Comments": "Urgent",
-                        "CustomerRequiredDate": "2018-12-12T08:34:48",
-                        "StatusCode": "1",
-                        "LineItemNumber": "1",
-                        "Active": "1",
-                        "ShippedDate": "2018-12-12T08:34:48",
-                        "ShippedQuantity": "1",
-                        "UnitPrice": "100",
-                        "RemainingOrderQuantity": "1",
-                        "UnitOfMeasure": "EACH",
-                        "ExtendedPrice": "100",
-                        "Tax": "1",
-                        "Manufacturer": "Manufacturer",
-                        "PaymentTermCode": "PC-001",
-                        "BuyerComments": "Urgent",
-                        "FreightTermCode": "FED",
-                        "CommodityCode": "COM1",
-                        "RequestorComments": "",
-                        "LeadTime": "2",
-                        "IsVirtualPedimento": "",
-                        "BPOLineDetailId": "",
-                        "RFQLineItemId": "1",
-                        "RemainingInvoiceQuantity": "1011",
-                        "ProjectCode": "",
-                        "AmendmentNo": "",
-                        "InvoicedQuantity": "0",
-                        "LegacyPartNumber": "",
-                        "LineReleaseNumber": "",
-                        "CategoryId": "1",
-                        "SupplierPartAuxuliaryId": "8001",
-                        "GLAccountCode": "PC-001",
-                        "CostCenterCode": "1",
-                        "SubAccountCode": "8001",
-                        "SupplierCurrencyCode": "USD",
-                        "WorkOrderCode": "1",
-                        "Price": "100",
-                        "ExtendedAmount": "100",
-                        "UOM": "EACH",
-                        "Requisition": "991",
-                    },{
-                    "POId": "1012",
-                    "PODetailId": "8001",
-                    "ProductCode": "PC-001",
-                    "SupplierPartNumber": "1",
-                        "ProductDescription": "ProductDescription",
-                        "PromiseDate": "2018-12-12T08:34:48",
-                        "OrderQuantity": "2",
-                        "ReceivedQuantity": "1",
-                        "RejectReasonCode": "",
-                        "Comments": "Urgent",
-                        "CustomerRequiredDate": "2018-12-12T08:34:48",
-                        "StatusCode": "1",
-                        "LineItemNumber": "2",
-                        "Active": "1",
-                        "ShippedDate": "2018-12-12T08:34:48",
-                        "ShippedQuantity": "1",
-                        "UnitPrice": "100",
-                        "RemainingOrderQuantity": "1",
-                        "UnitOfMeasure": "EACH",
-                        "ExtendedPrice": "100",
-                        "Tax": "1",
-                        "Manufacturer": "Manufacturer",
-                        "PaymentTermCode": "PC-001",
-                        "BuyerComments": "Urgent",
-                        "FreightTermCode": "FED",
-                        "CommodityCode": "COM1",
-                        "RequestorComments": "",
-                        "LeadTime": "2",
-                        "IsVirtualPedimento": "",
-                        "BPOLineDetailId": "",
-                        "RFQLineItemId": "1",
-                        "RemainingInvoiceQuantity": "1011",
-                        "ProjectCode": "",
-                        "AmendmentNo": "",
-                        "InvoicedQuantity": "0",
-                        "LegacyPartNumber": "",
-                        "LineReleaseNumber": "",
-                        "CategoryId": "1",
-                        "SupplierPartAuxuliaryId": "8001",
-                        "GLAccountCode": "PC-001",
-                        "CostCenterCode": "1",
-                        "SubAccountCode": "8001",
-                        "SupplierCurrencyCode": "USD",
-                        "WorkOrderCode": "1",
-                        "Price": "100",
-                        "ExtendedAmount": "100",
-                        "UOM": "EACH",
-                        "Requisition": "991",
-                    }
-                    ]
-                    
-                }
-            ]
+            <ArrayOfPurchaseOrder>
+              <PurchaseOrder>
+                <POHeader>
+                  <POId>1011</POId>
+                  <ReqNo>ReqNo-001</ReqNo>
+                  <SupplierCode>SUP-1</SupplierCode>
+                  <CustomerCode>ReqNo-001</CustomerCode>
+                  <LocationCode>LOC-91</LocationCode>
+                  <POIssueDate>2018-12-12T08:34:48</POIssueDate>
+                  <RFQNo>RFQ0089</RFQNo>
+                  <BuyerCode>BC-0012</BuyerCode>
+                  <PaymentTermCode>NET-60</PaymentTermCode>
+                  <ShipVia>FED</ShipVia>
+                  <Status>1</Status>
+                  <BuyerComments>Urgent</BuyerComments>
+                  <AmendmentNo>0</AmendmentNo>
+                  <ShipToCode>SHIP-001</ShipToCode>
+                  <AlternateRequestor></AlternateRequestor>
+                  <OrderComments>Urgent</OrderComments>
+                  <ShowPOComments>0</ShowPOComments>
+                  <RequestorCode>REQ-002</RequestorCode>
+                  <BillToCode>BILL-90</BillToCode>
+                  <DivisionCode></DivisionCode>
+                  <ProgramCode></ProgramCode>
+                  <Capex></Capex>
+                  <Budgeted></Budgeted>
+                  <RequestorName>Rupesh</RequestorName>
+                  <RequestorEmail>Rupesh@xeeva.com</RequestorEmail>
+                  <CurrencyCode>USD</CurrencyCode>
+                  <OrderDescription>Test Order</OrderDescription>
+                  <RequestorCurrency>USD</RequestorCurrency>
+                  <BillToAddress>Address line 1</BillToAddress>
+                  <ShowLineCommentsOnPO></ShowLineCommentsOnPO>
+                  <Consignment></Consignment>
+                  <BPOHeaderId></BPOHeaderId>
+                  <BPOCurrentReleaseNo></BPOCurrentReleaseNo>
+                  <BPORequestorCode></BPORequestorCode>
+                  <UserOnBehalfCode></UserOnBehalfCode>
+                  <IsUrgentPO></IsUrgentPO>
+                  <IsServicePO></IsServicePO>
+                  <AmendmentDate></AmendmentDate>
+                  <POReleaseRejectDate></POReleaseRejectDate>
+                  <FOBCode></FOBCode>
+                  <IsApplyTaxOnHeader></IsApplyTaxOnHeader>
+                  <POSource></POSource>
+                  <PCardNo></PCardNo>
+                  <ShipToName>ShipToName</ShipToName>
+                  <ShipToAddress>ShipToAddress</ShipToAddress>
+                  <ShipToAddress2>ShipToAddress2</ShipToAddress2>
+                  <ShipToCity>ShipToCity</ShipToCity>
+                  <ShipToState>ShipToState</ShipToState>
+                  <ShipToCountry>ShipToCountry</ShipToCountry>
+                  <ShipToZip>ShipToZip</ShipToZip>
+                  <ShipToLocationCode>ShipToLocationCode</ShipToLocationCode>
+                  <VendorName>VendorName</VendorName>
+                  <VendorAddress>VendorAddress</VendorAddress>
+                  <VendorCity>VendorCity</VendorCity>
+                  <VendorState>VendorState</VendorState>
+                  <VendorZip>VendorZip</VendorZip>
+                  <VendorCountry>VendorCountry</VendorCountry>
+                  <BuyerContactNumber>8001-778787</BuyerContactNumber>
+                  <BuyerEmail>BuyerEmail@xeeva.com</BuyerEmail>
+                  <BuyerName>Test Buyer</BuyerName>
+                  <BuyerAddress>BuyerAddress</BuyerAddress>
+                  <BuyerCity>BuyerCity1</BuyerCity>
+                  <BuyerSate>BuyerSate1</BuyerSate>
+                  <BuyerZip>BuyerZip</BuyerZip>
+                  <PSALocation>PC-001</PSALocation>
+                </POHeader>
+                <PODetails>
+                  <POId>1011</POId>
+                  <PODetailId>8001</PODetailId>
+                  <ProductCode>PC-001</ProductCode>
+                  <SupplierPartNumber>1</SupplierPartNumber>
+                  <ProductDescription>ProductDescription</ProductDescription>
+                  <PromiseDate>2018-12-12T08:34:48</PromiseDate>
+                  <OrderQuantity>2</OrderQuantity>
+                  <ReceivedQuantity>1</ReceivedQuantity>
+                  <RejectReasonCode></RejectReasonCode>
+                  <Comments>Urgent</Comments>
+                  <CustomerRequiredDate>2018-12-12T08:34:48</CustomerRequiredDate>
+                  <StatusCode>1</StatusCode>
+                  <LineItemNumber>1</LineItemNumber>
+                  <Active>1</Active>
+                  <ShippedDate>2018-12-12T08:34:48</ShippedDate>
+                  <ShippedQuantity>1</ShippedQuantity>
+                  <UnitPrice>100</UnitPrice>
+                  <RemainingOrderQuantity>1</RemainingOrderQuantity>
+                  <UnitOfMeasure>EACH</UnitOfMeasure>
+                  <ExtendedPrice>100</ExtendedPrice>
+                  <Tax>1</Tax>
+                  <Manufacturer>Manufacturer</Manufacturer>
+                  <PaymentTermCode>PC-001</PaymentTermCode>
+                  <BuyerComments>Urgent</BuyerComments>
+                  <FreightTermCode>FED</FreightTermCode>
+                  <CommodityCode>COM1</CommodityCode>
+                  <RequestorComments></RequestorComments>
+                  <LeadTime>2</LeadTime>
+                  <IsVirtualPedimento></IsVirtualPedimento>
+                  <BPOLineDetailId></BPOLineDetailId>
+                  <RFQLineItemId>1</RFQLineItemId>
+                  <ProjectCode></ProjectCode>
+                  <AmendmentNo></AmendmentNo>
+                  <InvoicedQuantity>0</InvoicedQuantity>
+                  <LegacyPartNumber></LegacyPartNumber>
+                  <LineReleaseNumber></LineReleaseNumber>
+                  <CategoryId>1</CategoryId>
+                  <SupplierPartAuxuliaryId>8001</SupplierPartAuxuliaryId>
+                  <GLAccountCode>PC-001</GLAccountCode>
+                  <CostCenterCode>1</CostCenterCode>
+                  <SubAccountCode>8001</SubAccountCode>
+                  <WorkOrderCode>1</WorkOrderCode>
+                </PODetails>
+                <PODetails>
+                  <POId>1011</POId>
+                  <PODetailId>8001</PODetailId>
+                  <ProductCode>PC-001</ProductCode>
+                  <SupplierPartNumber>1</SupplierPartNumber>
+                  <ProductDescription>ProductDescription</ProductDescription>
+                  <PromiseDate>2018-12-12T08:34:48</PromiseDate>
+                  <OrderQuantity>2</OrderQuantity>
+                  <ReceivedQuantity>1</ReceivedQuantity>
+                  <RejectReasonCode></RejectReasonCode>
+                  <Comments>Urgent</Comments>
+                  <CustomerRequiredDate>2018-12-12T08:34:48</CustomerRequiredDate>
+                  <StatusCode>1</StatusCode>
+                  <LineItemNumber>2</LineItemNumber>
+                  <Active>1</Active>
+                  <ShippedDate>2018-12-12T08:34:48</ShippedDate>
+                  <ShippedQuantity>1</ShippedQuantity>
+                  <UnitPrice>100</UnitPrice>
+                  <RemainingOrderQuantity>1</RemainingOrderQuantity>
+                  <UnitOfMeasure>EACH</UnitOfMeasure>
+                  <ExtendedPrice>100</ExtendedPrice>
+                  <Tax>1</Tax>
+                  <Manufacturer>Manufacturer</Manufacturer>
+                  <PaymentTermCode>PC-001</PaymentTermCode>
+                  <BuyerComments>Urgent</BuyerComments>
+                  <FreightTermCode>FED</FreightTermCode>
+                  <CommodityCode>COM1</CommodityCode>
+                  <RequestorComments></RequestorComments>
+                  <LeadTime>2</LeadTime>
+                  <IsVirtualPedimento></IsVirtualPedimento>
+                  <BPOLineDetailId></BPOLineDetailId>
+                  <RFQLineItemId>1</RFQLineItemId>
+                  <ProjectCode></ProjectCode>
+                  <AmendmentNo></AmendmentNo>
+                  <InvoicedQuantity>0</InvoicedQuantity>
+                  <LegacyPartNumber></LegacyPartNumber>
+                  <LineReleaseNumber></LineReleaseNumber>
+                  <CategoryId>1</CategoryId>
+                  <SupplierPartAuxuliaryId>8001</SupplierPartAuxuliaryId>
+                  <GLAccountCode>PC-001</GLAccountCode>
+                  <CostCenterCode>1</CostCenterCode>
+                  <SubAccountCode>8001</SubAccountCode>
+                  <WorkOrderCode>1</WorkOrderCode>
+                </PODetails>
+              </PurchaseOrder>
+              <PurchaseOrder>
+                <POHeader>
+                  <POId>1012</POId>
+                  <ReqNo>ReqNo-001</ReqNo>
+                  <SupplierCode>SUP-1</SupplierCode>
+                  <CustomerCode>ReqNo-001</CustomerCode>
+                  <LocationCode>LOC-91</LocationCode>
+                  <POIssueDate>2018-12-12T08:34:48</POIssueDate>
+                  <RFQNo>RFQ0089</RFQNo>
+                  <BuyerCode>BC-0012</BuyerCode>
+                  <PaymentTermCode>NET-60</PaymentTermCode>
+                  <ShipVia>FED</ShipVia>
+                  <Status>1</Status>
+                  <BuyerComments>Urgent</BuyerComments>
+                  <AmendmentNo>0</AmendmentNo>
+                  <ShipToCode>SHIP-001</ShipToCode>
+                  <AlternateRequestor></AlternateRequestor>
+                  <OrderComments>Urgent</OrderComments>
+                  <ShowPOComments>0</ShowPOComments>
+                  <RequestorCode>REQ-002</RequestorCode>
+                  <BillToCode>BILL-90</BillToCode>
+                  <DivisionCode></DivisionCode>
+                  <ProgramCode></ProgramCode>
+                  <Capex></Capex>
+                  <Budgeted></Budgeted>
+                  <RequestorName>Rupesh</RequestorName>
+                  <RequestorEmail>Rupesh@xeeva.com</RequestorEmail>
+                  <CurrencyCode>USD</CurrencyCode>
+                  <OrderDescription>Test Order</OrderDescription>
+                  <RequestorCurrency>USD</RequestorCurrency>
+                  <BillToAddress>Address line 1</BillToAddress>
+                  <ShowLineCommentsOnPO></ShowLineCommentsOnPO>
+                  <Consignment></Consignment>
+                  <BPOHeaderId></BPOHeaderId>
+                  <BPOCurrentReleaseNo></BPOCurrentReleaseNo>
+                  <BPORequestorCode></BPORequestorCode>
+                  <UserOnBehalfCode></UserOnBehalfCode>
+                  <IsUrgentPO></IsUrgentPO>
+                  <IsServicePO></IsServicePO>
+                  <POPDFPath></POPDFPath>
+                  <AmendmentDate></AmendmentDate>
+                  <POReleaseRejectDate></POReleaseRejectDate>
+                  <FOBCode></FOBCode>
+                  <IsApplyTaxOnHeader></IsApplyTaxOnHeader>
+                  <POSource></POSource>
+                  <PCardNo></PCardNo>
+                  <ShipToName>ShipToName</ShipToName>
+                  <ShipToAddress>ShipToAddress</ShipToAddress>
+                  <ShipToAddress2>ShipToAddress2</ShipToAddress2>
+                  <ShipToCity>ShipToCity</ShipToCity>
+                  <ShipToState>ShipToState</ShipToState>
+                  <ShipToCountry>ShipToCountry</ShipToCountry>
+                  <ShipToZip>ShipToZip</ShipToZip>
+                  <ShipToLocationCode>ShipToLocationCode</ShipToLocationCode>
+                  <VendorName>VendorName</VendorName>
+                  <VendorAddress>VendorAddress</VendorAddress>
+                  <VendorCity>VendorCity</VendorCity>
+                  <VendorState>VendorState</VendorState>
+                  <VendorZip>VendorZip</VendorZip>
+                  <VendorCountry>VendorCountry</VendorCountry>
+                  <BuyerContactNumber>8001-778787</BuyerContactNumber>
+                  <BuyerEmail>BuyerEmail@xeeva.com</BuyerEmail>
+                  <BuyerName>Test Buyer</BuyerName>
+                  <BuyerAddress>BuyerAddress</BuyerAddress>
+                  <BuyerCity>BuyerCity1</BuyerCity>
+                  <BuyerSate>BuyerSate1</BuyerSate>
+                  <BuyerZip>BuyerZip</BuyerZip>
+                  <PSALocation>PC-001</PSALocation>
+                </POHeader>
+                <PODetails>
+                  <POId>1012</POId>
+                  <PODetailId>8001</PODetailId>
+                  <ProductCode>PC-001</ProductCode>
+                  <SupplierPartNumber>1</SupplierPartNumber>
+                  <ProductDescription>ProductDescription</ProductDescription>
+                  <PromiseDate>2018-12-12T08:34:48</PromiseDate>
+                  <OrderQuantity>2</OrderQuantity>
+                  <ReceivedQuantity>1</ReceivedQuantity>
+                  <RejectReasonCode></RejectReasonCode>
+                  <Comments>Urgent</Comments>
+                  <CustomerRequiredDate>2018-12-12T08:34:48</CustomerRequiredDate>
+                  <StatusCode>1</StatusCode>
+                  <LineItemNumber>1</LineItemNumber>
+                  <Active>1</Active>
+                  <ShippedDate>2018-12-12T08:34:48</ShippedDate>
+                  <ShippedQuantity>1</ShippedQuantity>
+                  <UnitPrice>100</UnitPrice>
+                  <RemainingOrderQuantity>1</RemainingOrderQuantity>
+                  <UnitOfMeasure>EACH</UnitOfMeasure>
+                  <ExtendedPrice>100</ExtendedPrice>
+                  <Tax>1</Tax>
+                  <Manufacturer>Manufacturer</Manufacturer>
+                  <PaymentTermCode>PC-001</PaymentTermCode>
+                  <BuyerComments>Urgent</BuyerComments>
+                  <FreightTermCode>FED</FreightTermCode>
+                  <CommodityCode>COM1</CommodityCode>
+                  <RequestorComments></RequestorComments>
+                  <LeadTime>2</LeadTime>
+                  <IsVirtualPedimento></IsVirtualPedimento>
+                  <BPOLineDetailId></BPOLineDetailId>
+                  <RFQLineItemId>1</RFQLineItemId>
+                  <RemainingInvoiceQuantity>1011</RemainingInvoiceQuantity>
+                  <ProjectCode></ProjectCode>
+                  <AmendmentNo></AmendmentNo>
+                  <InvoicedQuantity>0</InvoicedQuantity>
+                  <LegacyPartNumber></LegacyPartNumber>
+                  <LineReleaseNumber></LineReleaseNumber>
+                  <CategoryId>1</CategoryId>
+                  <SupplierPartAuxuliaryId>8001</SupplierPartAuxuliaryId>
+                  <GLAccountCode>PC-001</GLAccountCode>
+                  <CostCenterCode>1</CostCenterCode>
+                  <SubAccountCode>8001</SubAccountCode>
+                  <SupplierCurrencyCode>USD</SupplierCurrencyCode>
+                  <WorkOrderCode>1</WorkOrderCode>
+                  <Price>100</Price>
+                  <ExtendedAmount>100</ExtendedAmount>
+                  <UOM>EACH</UOM>
+                  <Requisition>991</Requisition>
+                </PODetails>
+                <PODetails>
+                  <POId>1012</POId>
+                  <PODetailId>8001</PODetailId>
+                  <ProductCode>PC-001</ProductCode>
+                  <SupplierPartNumber>1</SupplierPartNumber>
+                  <ProductDescription>ProductDescription</ProductDescription>
+                  <PromiseDate>2018-12-12T08:34:48</PromiseDate>
+                  <OrderQuantity>2</OrderQuantity>
+                  <ReceivedQuantity>1</ReceivedQuantity>
+                  <RejectReasonCode></RejectReasonCode>
+                  <Comments>Urgent</Comments>
+                  <CustomerRequiredDate>2018-12-12T08:34:48</CustomerRequiredDate>
+                  <StatusCode>1</StatusCode>
+                  <LineItemNumber>2</LineItemNumber>
+                  <Active>1</Active>
+                  <ShippedDate>2018-12-12T08:34:48</ShippedDate>
+                  <ShippedQuantity>1</ShippedQuantity>
+                  <UnitPrice>100</UnitPrice>
+                  <RemainingOrderQuantity>1</RemainingOrderQuantity>
+                  <UnitOfMeasure>EACH</UnitOfMeasure>
+                  <ExtendedPrice>100</ExtendedPrice>
+                  <Tax>1</Tax>
+                  <Manufacturer>Manufacturer</Manufacturer>
+                  <PaymentTermCode>PC-001</PaymentTermCode>
+                  <BuyerComments>Urgent</BuyerComments>
+                  <FreightTermCode>FED</FreightTermCode>
+                  <CommodityCode>COM1</CommodityCode>
+                  <RequestorComments></RequestorComments>
+                  <LeadTime>2</LeadTime>
+                  <IsVirtualPedimento></IsVirtualPedimento>
+                  <BPOLineDetailId></BPOLineDetailId>
+                  <RFQLineItemId>1</RFQLineItemId>
+                  <RemainingInvoiceQuantity>1011</RemainingInvoiceQuantity>
+                  <ProjectCode></ProjectCode>
+                  <AmendmentNo></AmendmentNo>
+                  <InvoicedQuantity>0</InvoicedQuantity>
+                  <LegacyPartNumber></LegacyPartNumber>
+                  <LineReleaseNumber></LineReleaseNumber>
+                  <CategoryId>1</CategoryId>
+                  <SupplierPartAuxuliaryId>8001</SupplierPartAuxuliaryId>
+                  <GLAccountCode>PC-001</GLAccountCode>
+                  <CostCenterCode>1</CostCenterCode>
+                  <SubAccountCode>8001</SubAccountCode>
+                  <SupplierCurrencyCode>USD</SupplierCurrencyCode>
+                  <WorkOrderCode>1</WorkOrderCode>
+                  <Price>100</Price>
+                  <ExtendedAmount>100</ExtendedAmount>
+                  <UOM>EACH</UOM>
+                  <Requisition>991</Requisition>
+                </PODetails>
+              </PurchaseOrder>
+            </ArrayOfPurchaseOrder>
             
 
 ## Group Item
