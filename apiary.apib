@@ -5924,7 +5924,7 @@ A Item object has the following attributes:
         <td>Yes</td>
     </tr>    
     <tr>
-        <td>CustomField1</td>
+        <td>CustomField5</td>
         <td>22</td>
         <td>Yes</td>
     </tr>    
@@ -5936,55 +5936,68 @@ Items entity integration is supported through web and Flat file methods. Custome
 
 ### Get Items Payload (Try Now)[POST]
 
-+ Request For Getting Items (application/json)
++ Request For Getting Items (application/xml)
 
-            {
-                "NumberOfRecords": 1,
-                "SupplierCode": "",
-                "LocationCode": "",
-            }
+            <ItemSearchRequest>
+                <PageSize>20</PageSize>
+                <TransactionID>execution-0f25b4a5-28fe-402a-b735-6bfb83f44404-2019.01.30</TransactionID>
+                <LastChanges>All</LastChanges>
+                <ItemCreatedStartDate>2017-01-01T09:08:48.396Z    </ItemCreatedStartDate>
+                <ItemCreatedEndDate>2017-12-01T09:08:48.396Z</ItemCreatedEndDate>
+                <SupplierList>
+                <SupplierCode></SupplierCode>
+                </SupplierList>
+                <LocationList>
+                <LocationCode>L0987</LocationCode>
+                </LocationList>
+                <ItemCodeList>
+                <ItemCode></ItemCode>
+                </ItemCodeList>
+                <PageNumber>1</PageNumber>
+            </ItemSearchRequest>
             
-+ Response 200 (application/json)
++ Response 200 (application/xml)
 
-        [
-            {
-            "LocationCode": "LOC-1",
-            "ItemCode": "ITEM-001",
-            "ItemDescription": "ItemDescription-1",
-            "MasterCategoryCode": "MA001",
-            "CategoryCode": "01",
-            "SubCategoryCode": "001",
-            "LegacyItemNumber": "LegacyItemNumber",
-            "ManufacturerName": "ManufacturerName",
-            "ManufacturerPartNumber": "ManufacturerPartNumber",
-            "UnitofMeasure": "UOM",
-            "PackSize": "EACH",
-            "UnitPrice": "121",
-            "SupplierCode": "BC-0012",
-            "PartDescription": "ItemDescription",
-            "CreatedDate": "2018-12-12T08:34:48",
-            "ModifiedDate": "2018-12-12T08:34:48",
-            "SupplierPartNumber": "SupplierPartNumber",                  
-            },{
-            "LocationCode": "LOC-1",
-            "ItemCode": "ITEM-002",
-            "ItemDescription": "ItemDescription-2",
-            "MasterCategoryCode": "MA001",
-            "CategoryCode": "01",
-            "SubCategoryCode": "001",
-            "LegacyItemNumber": "LegacyItemNumber",
-            "ManufacturerName": "ManufacturerName",
-            "ManufacturerPartNumber": "ManufacturerPartNumber",
-            "UnitofMeasure": "UOM",
-            "PackSize": "EACH",
-            "UnitPrice": "121",
-            "SupplierCode": "BC-0012",
-            "PartDescription": "ItemDescription",
-            "CreatedDate": "2018-12-12T08:34:48",
-            "ModifiedDate": "2018-12-12T08:34:48",
-            "SupplierPartNumber": "SupplierPartNumber",                    
-            }
-        ]
+        <ArrayOfItem>
+          <Item>
+            <LocationCode>LOC-1</LocationCode>
+            <ItemCode>ITEM-001</ItemCode>
+            <ItemDescription>ItemDescription-1</ItemDescription>
+            <MasterCategoryCode>MA001</MasterCategoryCode>
+            <CategoryCode>01</CategoryCode>
+            <SubCategoryCode>001</SubCategoryCode>
+            <LegacyItemNumber>LegacyItemNumber</LegacyItemNumber>
+            <ManufacturerName>ManufacturerName</ManufacturerName>
+            <ManufacturerPartNumber>ManufacturerPartNumber</ManufacturerPartNumber>
+            <UnitofMeasure>UOM</UnitofMeasure>
+            <PackSize>EACH</PackSize>
+            <UnitPrice>121</UnitPrice>
+            <SupplierCode>BC-0012</SupplierCode>
+            <PartDescription>ItemDescription</PartDescription>
+            <CreatedDate>2018-12-12T08:34:48</CreatedDate>
+            <ModifiedDate>2018-12-12T08:34:48</ModifiedDate>
+            <SupplierPartNumber>SupplierPartNumber</SupplierPartNumber>
+          </Item>
+          <Item>
+            <LocationCode>LOC-1</LocationCode>
+            <ItemCode>ITEM-002</ItemCode>
+            <ItemDescription>ItemDescription-2</ItemDescription>
+            <MasterCategoryCode>MA001</MasterCategoryCode>
+            <CategoryCode>01</CategoryCode>
+            <SubCategoryCode>001</SubCategoryCode>
+            <LegacyItemNumber>LegacyItemNumber</LegacyItemNumber>
+            <ManufacturerName>ManufacturerName</ManufacturerName>
+            <ManufacturerPartNumber>ManufacturerPartNumber</ManufacturerPartNumber>
+            <UnitofMeasure>UOM</UnitofMeasure>
+            <PackSize>EACH</PackSize>
+            <UnitPrice>121</UnitPrice>
+            <SupplierCode>BC-0012</SupplierCode>
+            <PartDescription>ItemDescription</PartDescription>
+            <CreatedDate>2018-12-12T08:34:48</CreatedDate>
+            <ModifiedDate>2018-12-12T08:34:48</ModifiedDate>
+            <SupplierPartNumber>SupplierPartNumber</SupplierPartNumber>
+          </Item>
+        </ArrayOfItem>
     
 ## Group Receiving
 
